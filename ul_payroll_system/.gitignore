@@ -1,4 +1,14 @@
+# IntelliJ
 /.idea
-.vscode
-out
+/ul_payroll_system/.idea
 
+# VSCode
+.vscode/
+/ul_payroll_system/.vscode
+
+# Output dir
+/out
+/ul_payroll_system/out
+
+# Log files
+*.log
