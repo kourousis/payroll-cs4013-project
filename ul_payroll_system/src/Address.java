@@ -1,37 +1,79 @@
 public class Address {
     private String street;
     private String city;
-    private String state;
+    private String county;
     private String postcode;
     private String country;
 
-    public Address(String street, String city, String state, String postcode, String country) {
+    /**
+     * Param constructor to create an Address object
+     * 
+     * @param street
+     * @param city
+     * @param county
+     * @param postcode
+     * @param country
+     */
+    public Address(String street, String city, String county, String postcode, String country) {
         this.street = street;
         this.city = city;
-        this.state = state;
+        this.county = county;
         this.postcode = postcode;
         this.country = country;
     }
 
-    // Accessor methods
+    /**
+     * Accessor method to get the street name
+     * 
+     * @return Returns street name
+     */
     public String getStreet() {
         return street;
     }
+
+    /**
+     * Accessor method to get the city name
+     * 
+     * @return Returns the city name
+     */
     public String getCity() {
         return city;
     }
-    public String getState() {
-        return state;
+
+    /**
+     * Accessor method to get the country name
+     * 
+     * @return Returns the country name
+     */
+    public String getCounty() {
+        return county;
     }
+
+    /**
+     * Accessor method to get the postcode
+     * 
+     * @return Returns teh postcode
+     */
     public String getPostcode() {
         return postcode;
     }
+
+    /**
+     * Acessor method to get the country name
+     * 
+     * @return Returns the country name
+     */
     public String getCountry() {
         return country;
     }
 
-    // toString
+    /**
+     * Accessor method to get the Address object as a string in a readable format
+     * 
+     * @return Concatenates the street, city county, postcode and country into a
+     *         readable address
+     */
     public String toString() {
-        return street + ", " + city + ", " + state + ", " + postcode + ", " + country;
+        return street + ", " + city + ", " + county + ", " + postcode + ", " + country;
     }
 }
