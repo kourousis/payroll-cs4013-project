@@ -15,6 +15,6 @@ public class Admin extends Staff{
 
     // toString
     public String toString() {
-        return super.toString() + "\nSalary: " + salary;
+        return "Role: Admin\n" + super.toString() + "\nSalary: " + salary;
     }
 }

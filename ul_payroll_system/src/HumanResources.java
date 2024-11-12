@@ -15,6 +15,6 @@ public class HumanResources extends Staff {
 
     // toString
     public String toString() {
-        return super.toString() + "\nSalary: " + salary;
+        return "Role: Human Resources\n" + super.toString() + "\nSalary: " + salary;
     }
 }

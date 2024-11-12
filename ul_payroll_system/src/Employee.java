@@ -20,6 +20,6 @@ public class Employee extends Staff {
 
     // toString
     public String toString() {
-        return super.toString() + "\nDepartment: " + department + "\nSalary: " + salary;
+        return "Role: Employee\n" + super.toString() + "\nDepartment: " + department + "\nSalary: " + salary;
     }
 }
