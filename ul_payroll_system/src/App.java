@@ -26,8 +26,20 @@ public class App {
                 new Address("45 Jane St", "Springfield", "IL", "54326", "USA"),
                 10000);
 
+        calendar.set(2022, Calendar.NOVEMBER, 14);
+        hireDate = calendar.getTime();
+
+        HumanResources humanResources = new HumanResources(hireDate,
+                "Lucy Smith",
+                "223-432-3845",
+                "lucy.smith@ul.ie",
+                new Address("234 Jane St", "Springfield", "IL", "548456", "USA"),
+                46500.0f);
+
         System.out.println(employee);
         System.out.println();
         System.out.println(admin);
+        System.out.println();
+        System.out.println(humanResources);
     }
 }
