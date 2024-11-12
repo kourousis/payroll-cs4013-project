@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class Admin extends Staff{
+public class Admin extends Staff {
     private float salary;
 
     public Admin(Date hireDate, String name, String phone, String email, Address address, float salary) {
@@ -15,6 +15,6 @@ public class Admin extends Staff{
 
     // toString
     public String toString() {
-        return "Role: Admin\n" + super.toString() + "\nSalary: " + salary;
+        return "Role: Admin" + super.toString() + "\nSalary: " + salary;
     }
 }

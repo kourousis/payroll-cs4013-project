@@ -14,7 +14,7 @@ public class Staff {
      * @param name
      * @param phone
      * @param email
-     * @param address The address of the staff member represented as an object
+     * @param address  The address of the staff member represented as an object
      */
     public Staff(Date hireDate, String name, String phone, String email, Address address) {
         this.hireDate = hireDate;
@@ -31,6 +31,7 @@ public class Staff {
      *         readable address
      */
     public String toString() {
-        return "Hire Date: " + hireDate.toString() + "\nName: " + name + "\nPhone: " + phone + "\nEmail: " + email + "\nAddress: " + address;
+        return "Hire Date: " + hireDate.toString() + "\nName: " + name + "\nPhone: " + phone + "\nEmail: " + email
+                + "\nAddress: " + address;
     }
 }
