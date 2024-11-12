@@ -1,3 +1,4 @@
 public class PayClaims extends Payslips {
-    public PayClaims() {}
+    public PayClaims() {
+    }
 }

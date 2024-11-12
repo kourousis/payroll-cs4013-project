@@ -1,3 +1,4 @@
 public class Payslips {
-    public Payslips(){}
+    public Payslips() {
+    }
 }
