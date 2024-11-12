@@ -1,4 +1,7 @@
+import java.util.Date;
+
 public class Staff {
+    protected Date hireDate;
     protected String name;
     protected String phone;
     protected String email;
@@ -7,12 +10,14 @@ public class Staff {
     /**
      * Param constructor to create a Staff object
      * 
+     * @param hireDate
      * @param name
      * @param phone
      * @param email
      * @param address The address of the staff member represented as an object
      */
-    public Staff(String name, String phone, String email, Address address) {
+    public Staff(Date hireDate, String name, String phone, String email, Address address) {
+        this.hireDate = hireDate;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -26,6 +31,6 @@ public class Staff {
      *         readable address
      */
     public String toString() {
-        return "Name: " + name + "\nPhone: " + phone + "\nEmail: " + email + "\nAddress: " + address;
+        return "Hire Date: " + hireDate.toString() + "\nName: " + name + "\nPhone: " + phone + "\nEmail: " + email + "\nAddress: " + address;
     }
 }

@@ -1,8 +1,10 @@
+import java.util.Date;
+
 public class Admin extends Staff{
     private float salary;
 
-    public Admin(String name, String phone, String email, Address address, float salary) {
-        super(name, phone, email, address);
+    public Admin(Date hireDate, String name, String phone, String email, Address address, float salary) {
+        super(hireDate, name, phone, email, address);
         this.salary = salary;
     }
 

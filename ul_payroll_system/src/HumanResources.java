@@ -1,8 +1,10 @@
-public class HumanResources extends Staff{
+import java.util.Date;
+
+public class HumanResources extends Staff {
     private float salary;
 
-    public HumanResources(String name, String phone, String email, Address address, float salary) {
-        super(name, phone, email, address);
+    public HumanResources(Date hireDate, String name, String phone, String email, Address address, float salary) {
+        super(hireDate, name, phone, email, address);
         this.salary = salary;
     }
 
