@@ -108,7 +108,17 @@ public class SalaryScale {
                 associateProfB.put(9, 99471f);
                 return associateProfB;
             case "ASSISTANT_PROFESSOR":
-                Map<Integer, Float> assistantProf = getIntegerFloatMap();
+                Map<Integer, Float> assistantProf = new HashMap<>();
+                assistantProf.put(1, 46955f);
+                assistantProf.put(2, 49543f);
+                assistantProf.put(3, 51676f);
+                assistantProf.put(4, 53644f);
+                assistantProf.put(5, 55689f);
+                assistantProf.put(6, 57323f);
+                assistantProf.put(7, 58990f);
+                assistantProf.put(8, 60654f);
+                assistantProf.put(9, 62314f);
+                assistantProf.put(10, 63965f);
                 return assistantProf;
             case "TEACHING_ASSISTANT":
                 Map<Integer, Float> teachingAssistant = new HashMap<>();
@@ -119,21 +129,6 @@ public class SalaryScale {
                 System.out.println("Invalid job title");
                 return null;
         }
-    }
-
-    private static Map<Integer, Float> getIntegerFloatMap() {
-        Map<Integer, Float> assistantProf = new HashMap<>();
-        assistantProf.put(1, 46955f);
-        assistantProf.put(2, 49543f);
-        assistantProf.put(3, 51676f);
-        assistantProf.put(4, 53644f);
-        assistantProf.put(5, 55689f);
-        assistantProf.put(6, 57323f);
-        assistantProf.put(7, 58990f);
-        assistantProf.put(8, 60654f);
-        assistantProf.put(9, 62314f);
-        assistantProf.put(10, 63965f);
-        return assistantProf;
     }
 
     private Map<Integer, Float> getEPSSalary() {
