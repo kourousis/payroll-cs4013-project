@@ -29,7 +29,8 @@ public class App {
         calendar.set(2022, Calendar.NOVEMBER, 14);
         hireDate = calendar.getTime();
 
-        HumanResources humanResources = new HumanResources(hireDate,
+        HumanResources humanResources = new HumanResources(
+                hireDate,
                 "Lucy Smith",
                 "223-432-3845",
                 "lucy.smith@ul.ie",
