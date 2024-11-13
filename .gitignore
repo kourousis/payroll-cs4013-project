@@ -1,6 +1,7 @@
 # IntelliJ
 /.idea
 /ul_payroll_system/.idea
+*.iml
 
 # VSCode
 .vscode/
