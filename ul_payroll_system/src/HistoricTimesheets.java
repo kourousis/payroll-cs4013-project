@@ -1,4 +1,4 @@
-public class HistoricTimesheets extends PayClaims {
+public class HistoricTimesheets extends Payslips {
     public HistoricTimesheets() {
     }
 }
