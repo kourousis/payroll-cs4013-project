@@ -1,33 +1,49 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CSVWriter {
-    private Map<String, Map<Integer, Float>> salaryData = new HashMap<>();
+    private String CSV_FILE_PATH = "./db/";
 
-    public void parse(Map<String, Map<Integer, Float>> input) {
-        salaryData = input;
-        String line;
-        String csvSplitBy = ",";
+    public boolean updateEmployeeSalary(int employeeId, float newSalary, String filename) {
+        this.CSV_FILE_PATH = CSV_FILE_PATH + filename;
+        List<String> lines = new ArrayList<>();
+        boolean found = false;
 
-        try (BufferedReader br = new BufferedReader(new FileReader("salary.csv"))) {
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(csvSplitBy);
-                String name = data[0];
-                int year = Integer.parseInt(data[1]);
-                float salary = Float.parseFloat(data[2]);
-                if (salaryData.containsKey(name)) {
-                    salaryData.get(name).put(year, salary);
-                } else {
-                    Map<Integer, Float> newMap = new HashMap<>();
-                    newMap.put(year, salary);
-                    salaryData.put(name, newMap);
+        try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE_PATH))) {
+            String header = reader.readLine(); // Header line
+            lines.add(header);
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(","); // Split by comma
+                // Finds the employee by id
+                if (Integer.parseInt(data[0]) == employeeId) {
+                    data[10] = String.valueOf(newSalary);
+                    line = String.join(",", data); // csv format
+                    found = true;
+                }
+                lines.add(line);
+            }
+
+            // Write lines to file
+            if (found) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE_PATH))) {
+                    for (String updatedLine : lines) {
+                        writer.write(updatedLine);
+                        writer.newLine();
+                    }
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 }

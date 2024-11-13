@@ -42,5 +42,13 @@ public class App {
         System.out.println(admin);
         System.out.println();
         System.out.println(humanResources);
+
+        CSVWriter csvWriter = new CSVWriter();
+        boolean success = csvWriter.updateEmployeeSalary(1, 81000.0f, "employees.csv"); // Updates Jane Smith's salary to 80000
+        if (success) {
+            System.out.println("Salary updated successfully");
+        } else {
+            System.out.println("Failed to update salary");
+        }
     }
 }
