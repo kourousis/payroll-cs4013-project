@@ -1,46 +1,6 @@
-//import java.util.Calendar;
-//import java.util.Date;
 
 public class App {
     public static void main(String[] args) {
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(2023, Calendar.FEBRUARY, 1);
-//        Date hireDate = calendar.getTime();
-//
-//        Employee employee = new Employee(
-//                hireDate,
-//                "Jane Smith",
-//                "217-555-5678",
-//                "jane.smith@ul.ie",
-//                new Address("5678 Oak St", "Springfield", "IL", "62702", "USA"),
-//                75000.0f, "Computer Science");
-//
-//        calendar.set(2024, Calendar.JANUARY, 2);
-//        hireDate = calendar.getTime();
-//
-//        Admin admin = new Admin(
-//                hireDate,
-//                "John Doe",
-//                "217-553-4534",
-//                "john.doe@ul.ie",
-//                new Address("45 Jane St", "Springfield", "IL", "54326", "USA"),
-//                10000);
-//
-//        calendar.set(2022, Calendar.NOVEMBER, 14);
-//        hireDate = calendar.getTime();
-//
-//        HumanResources humanResources = new HumanResources(
-//                hireDate,
-//                "Lucy Smith",
-//                "223-432-3845",
-//                "lucy.smith@ul.ie",
-//                new Address("234 Jane St", "Springfield", "IL", "548456", "USA"),
-//                46500.0f);
-
-//        System.out.println(employee + "\n");
-//        System.out.println(admin + "\n");
-//        System.out.println(humanResources + "\n");
-
         // DB tester
         DBController db = new DBController("HR");
 
@@ -52,5 +12,9 @@ public class App {
 
         System.out.println("GETALL:\n" + db.GET_ALL("employees", 1)); // Get all data for id=1
         System.out.println("GETCSV:\n" + db.GET_CSV("payclaim")); // Get whole table
+
+        // EmployeeID,Name,Phone,Email,Password,Address,City,County,Postcode,Country,Salary,Department,HireDate
+        System.out.println(db.ADD("employees", new String[]
+                {"5", "2023-02-01", "Liam Cleary", "217-555-5678", "liam.cleary@ul.ie", "password456", "City"}));
     }
 }

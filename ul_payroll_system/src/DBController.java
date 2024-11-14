@@ -179,4 +179,25 @@ public class DBController {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean ADD(String table, String[] data) {
+        //  Put auth check for specific tables here later
+
+        if (!table.equals("employees") && !table.equals("payclaim")) {
+            System.out.println("No table found");
+            return false;
+        }
+
+        String path = CSV_FILE_PATH + table + ".csv";
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+            writer.newLine();
+            writer.write(String.join(",", data));
+            writer.close();
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
