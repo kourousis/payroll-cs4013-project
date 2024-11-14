@@ -4,3 +4,4 @@ EmployeeID,Name,Phone,Email,Password,Address,City,County,Postcode,Country,Salary
 3,Lucy Smith,223-432-3845,lucy.smith@ul.ie,hrsecure,234 Jane St,Springfield,IL,548456,USA,46500.0,Human Resources,2022-11-14
 5,2023-02-01,Liam Cleary,217-555-5678,liam.cleary@ul.ie,password456,City
 5,2023-02-01,Liam Cleary,217-555-5678,liam.cleary@ul.ie,password456,City
+5,2023-02-01,Liam Cleary,217-555-5678,liam.cleary@ul.ie,password456,City

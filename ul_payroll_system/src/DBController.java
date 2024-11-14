@@ -19,7 +19,6 @@ public class DBController {
 
         String path = CSV_FILE_PATH + table + ".csv";
 
-
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             // Get header line
             String header = reader.readLine();
@@ -115,7 +114,7 @@ public class DBController {
         }
     }
 
-    public HashMap<String, String> GET_ALL(String table, int id) {
+    public HashMap<String, String> GET_ROW(String table, int id) {
         if (!table.equals("employees") && !table.equals("payclaim")) {
             System.out.println("No table found");
             return null;
@@ -181,7 +180,10 @@ public class DBController {
     }
 
     public boolean ADD(String table, String[] data) {
-        //  Put auth check for specific tables here later
+        if (table.equals("historic_timesheets") && isAuth) {
+            System.out.println("Permission denied");
+            return false;
+        }
 
         if (!table.equals("employees") && !table.equals("payclaim")) {
             System.out.println("No table found");

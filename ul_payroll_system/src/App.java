@@ -10,7 +10,7 @@ public class App {
         String update = db.UPDATE("employees", 2, "Email", "john.doe2@ul.ie");
         System.out.println("UPDATE:"+ update);
 
-        System.out.println("GETALL:\n" + db.GET_ALL("employees", 1)); // Get all data for id=1
+        System.out.println("GETALL:\n" + db.GET_ROW("employees", 1)); // Get all data for id=1
         System.out.println("GETCSV:\n" + db.GET_CSV("payclaim")); // Get whole table
 
         // EmployeeID,Name,Phone,Email,Password,Address,City,County,Postcode,Country,Salary,Department,HireDate
