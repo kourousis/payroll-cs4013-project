@@ -1,5 +1,5 @@
 
-public class App {
+public class DBTest {
     public static void main(String[] args) {
         // DB tester
         DBController db = new DBController("HR");
