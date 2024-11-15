@@ -2,13 +2,17 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DBController {
     private static final String CSV_FILE_PATH = new File("").getAbsolutePath() + "/ul_payroll_system/db/";
     private boolean isAuth = false;
+    private Map<String, Integer> tableFields = new HashMap<>();
 
     public DBController(String department) {
         if (department.equals("HR") || department.equals("Admin")) isAuth = true;
+        tableFields.put("employees", 13);
+        tableFields.put("payclaim", 1);
     }
 
     public String GET(String table, int id, String data) {
@@ -73,6 +77,7 @@ public class DBController {
             int fieldIndex = fields.indexOf(field);
             if (fieldIndex == -1) {
                 System.out.println("Field not found");
+                reader.close();
                 return null;
             }
 
@@ -148,6 +153,37 @@ public class DBController {
         }
     }
 
+    public ArrayList<String> GET_COL(String table, String column) {
+        if (!tableFields.containsKey(table)) {
+            System.out.println("No table found");
+            return null;
+        }
+
+        String path = CSV_FILE_PATH + table + ".csv";
+        ArrayList<String> data = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            ArrayList<String> fields = new ArrayList<>(Arrays.asList(reader.readLine().split(",")));
+
+            int index = fields.indexOf(column);
+            if (index == -1) {
+                System.out.println("Data column not found");
+                return null;
+            }
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                data.add(line.split(",")[index]);
+            }
+            reader.close();
+
+            if (!data.isEmpty()) return data;
+            return null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ArrayList<HashMap<String, String>> GET_CSV(String table) {
         if (!table.equals("employees") && !table.equals("payclaim")) {
             System.out.println("No table found");
@@ -184,9 +220,12 @@ public class DBController {
             System.out.println("Permission denied");
             return false;
         }
-
         if (!table.equals("employees") && !table.equals("payclaim")) {
             System.out.println("No table found");
+            return false;
+        }
+        if (data.length != tableFields.get(table)) {
+            System.out.println("Incorrect number of fields");
             return false;
         }
 
