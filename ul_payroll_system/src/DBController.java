@@ -73,6 +73,7 @@ public class DBController {
             int fieldIndex = fields.indexOf(field);
             if (fieldIndex == -1) {
                 System.out.println("Field not found");
+                reader.close();
                 return null;
             }
 
