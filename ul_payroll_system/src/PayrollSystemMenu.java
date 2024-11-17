@@ -34,8 +34,26 @@ public class PayrollSystemMenu {
                 System.out.print("Last Name: ");
                 lastName = in.nextLine();
 
+                boolean choosingDepartment = true;
                 System.out.print("Department: ");
-                department = in.nextLine().toUpperCase();
+                System.out.println("E)mployee  A)dmin  H)uman Resources");
+
+                while (choosingDepartment) {
+                    department = in.nextLine().toUpperCase();
+
+                    if (department.equals("E")) {
+                        department = "EMPLOYEE";
+                        choosingDepartment = false;
+                    } else if (department.equals("A")) {
+                        department = "ADMIN";
+                        choosingDepartment = false;
+                    } else if (department.equals("H")) {
+                        department = "HR";
+                        choosingDepartment = false;
+                    } else {
+                        System.out.print("\nPlease pick one of the above departments: ");
+                    }
+                }
 
                 // Input detection to prevent commas - breaks CSV
                 if (detectCommas(firstName) || detectCommas(lastName) || detectCommas(department)) {
@@ -45,6 +63,54 @@ public class PayrollSystemMenu {
                     System.out.println("--------------------------------------------------");
                 } else {
                     loggedIn = true;
+                }
+            }
+
+            if (loggedIn && department.equals("EMPLOYEE")) {
+                System.out.println("--------------------------------------------------");
+                System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+                System.out.println("--------------------------------------------------");
+                System.out.println("E)Log-Out");
+
+                String command = in.nextLine().toUpperCase();
+
+                while (loggedIn && running) {
+                    if (command.equals("A")) {
+
+                    } else if (command.equals("B")) {
+
+                    } else if (command.equals("C")) {
+
+                    } else if (command.equals("D")) {
+
+                    } else if (command.equals("E")) {
+                        loggedIn = false;
+                        System.out.println("--------------------------------------------------");
+                    }
+                }
+            }
+
+            if (loggedIn && department.equals("ADMIN")) {
+                System.out.println("--------------------------------------------------");
+                System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+                System.out.println("--------------------------------------------------");
+                System.out.println("E)Log-Out");
+
+                String command = in.nextLine().toUpperCase();
+
+                while (loggedIn && running) {
+                    if (command.equals("A")) {
+
+                    } else if (command.equals("B")) {
+
+                    } else if (command.equals("C")) {
+
+                    } else if (command.equals("D")) {
+
+                    } else if (command.equals("E")) {
+                        loggedIn = false;
+                        System.out.println("--------------------------------------------------");
+                    }
                 }
             }
 
