@@ -66,6 +66,7 @@ public class PayrollSystemMenu {
                 }
             }
 
+            // Actions a user can perform if they log in as an Employee
             if (loggedIn && department.equals("EMPLOYEE")) {
                 System.out.println("--------------------------------------------------");
                 System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
@@ -90,6 +91,7 @@ public class PayrollSystemMenu {
                 }
             }
 
+            // Actions a user can perform if they log in as an Admin
             if (loggedIn && department.equals("ADMIN")) {
                 System.out.println("--------------------------------------------------");
                 System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
@@ -114,6 +116,7 @@ public class PayrollSystemMenu {
                 }
             }
 
+            // Actions a user can perform if they log in as Human Resources
             if (loggedIn && department.equals("HR")) {
                 System.out.println("--------------------------------------------------");
                 System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
