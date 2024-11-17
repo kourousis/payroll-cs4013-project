@@ -51,7 +51,7 @@ public class PayrollSystemMenu {
                         department = "HR";
                         choosingDepartment = false;
                     } else {
-                        System.out.print("\nPlease pick one of the above departments: ");
+                        System.out.print("Please pick one of the above departments: ");
                     }
                 }
 
