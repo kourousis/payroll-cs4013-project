@@ -52,7 +52,7 @@ public class PayrollSystemMenu {
                 System.out.println("--------------------------------------------------");
                 System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
                 System.out.println("--------------------------------------------------");
-                System.out.println("A)Update  B)Get Employee  C)Add Employee  D)Get Timesheet  E)Log-Out");
+                System.out.println("A)Update Employee  B)Get Employee  C)Add Employee  D)Get Timesheet  E)Log-Out");
 
                 String command = in.nextLine().toUpperCase();
 
