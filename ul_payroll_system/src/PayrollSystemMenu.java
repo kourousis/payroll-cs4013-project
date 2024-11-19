@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class PayrollSystemMenu {
@@ -103,6 +104,7 @@ public class PayrollSystemMenu {
                 // Get timesheet
             } else if (command.equals("C")) {
                 viewProfile(department, 1);
+                break;
             } else if (command.equals("L")) {
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
@@ -125,6 +127,7 @@ public class PayrollSystemMenu {
                 // Get timesheet
             } else if (command.equals("C")) {
                 viewProfile(department, 1);
+                break;
             } else if (command.equals("L")) {
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
@@ -145,6 +148,7 @@ public class PayrollSystemMenu {
                 // Accept Promotion
             } else if (command.equals("B")) {
                 viewProfile(department, 1);
+                break;
             } else if (command.equals("C")){
                 // Historic Timesheets
             } else if (command.equals("L")) {
@@ -167,6 +171,7 @@ public class PayrollSystemMenu {
                 // Make payclaim
             } else if (command.equals("B")) {
                 viewProfile(department, 1);
+                break;
             } else if (command.equals("C")) {
                 // Historic Timesheets
             } else if (command.equals("L")) {
@@ -176,8 +181,38 @@ public class PayrollSystemMenu {
         }
     }
 
-    public HashMap<String, String> viewProfile(String department, int id) {
+    public void viewProfile(String department, int id) {
         DBController db = new DBController(department);
-        return db.GET_ROW("employees", id);
+        Map<String, String> row;
+        try {
+            row = db.GET_ROW("employees", id);
+            System.out.println("--------------------------------------------------");
+            System.out.println("Name: " + row.get("Name"));
+            System.out.println("Phone: " + row.get("Phone"));
+            System.out.println("Email: " + row.get("Email"));
+            System.out.println("Address: " + row.get("Address"));
+            System.out.println("City: " + row.get("City"));
+            System.out.println("County: " + row.get("County"));
+            System.out.println("Postcode: " + row.get("Postcode"));
+            System.out.println("Country: " + row.get("Country"));
+            System.out.println("Department: " + row.get("Department"));
+            System.out.println("Salary: " + row.get("Salary"));
+            System.out.println("Hire Date: " + row.get("HireDate"));
+            System.out.println("--------------------------------------------------");
+            boolean viewing = true;
+            while (viewing) {
+                System.out.println("G)Go-Back");
+                String input = in.nextLine().toUpperCase();
+                if(input.equals("G")) {
+                    viewing = false;
+                    break;
+                } else {
+                    continue;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return;
+        }
     }
 }
