@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class PayrollSystemMenu {
@@ -101,7 +102,7 @@ public class PayrollSystemMenu {
             } else if (command.equals("B")) {
                 // Get timesheet
             } else if (command.equals("C")) {
-                // Get user data
+                viewProfile(department, 1);
             } else if (command.equals("L")) {
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
@@ -123,7 +124,7 @@ public class PayrollSystemMenu {
             } else if (command.equals("B")) {
                 // Get timesheet
             } else if (command.equals("C")) {
-                // Get user data
+                viewProfile(department, 1);
             } else if (command.equals("L")) {
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
@@ -143,7 +144,7 @@ public class PayrollSystemMenu {
             if (command.equals("A")) {
                 // Accept Promotion
             } else if (command.equals("B")) {
-                // Get user data
+                viewProfile(department, 1);
             } else if (command.equals("C")){
                 // Historic Timesheets
             } else if (command.equals("L")) {
@@ -165,7 +166,7 @@ public class PayrollSystemMenu {
             if (command.equals("A")) {
                 // Make payclaim
             } else if (command.equals("B")) {
-                // Get user data
+                viewProfile(department, 1);
             } else if (command.equals("C")) {
                 // Historic Timesheets
             } else if (command.equals("L")) {
@@ -173,5 +174,10 @@ public class PayrollSystemMenu {
                 System.out.println("--------------------------------------------------");
             }
         }
+    }
+
+    public HashMap<String, String> viewProfile(String department, int id) {
+        DBController db = new DBController(department);
+        return db.GET_ROW("employees", id);
     }
 }
