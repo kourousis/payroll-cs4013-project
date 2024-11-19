@@ -16,7 +16,7 @@ public class TaxCalc {
         return total;
     }
 
-    public float gettotal(float gross){
+    public float getUSC(float gross){
         float total = 0.0f;
 
         if (gross <= 12012) {
@@ -48,14 +48,19 @@ public class TaxCalc {
         return total;
     }
 
-    public float getOtherDeducts(float gross){
-        float insure;
+    public float getUnion(float gross){
         float union = 50;
+        float total = union * 12;
+        
+        return total;
+    }
+
+    public float getInsure(float gross){
+        float insure;
         float monthly = gross/12;
 
         insure = monthly * 0.05f;
-
-        float total = (union + insure) * 12;
+        float total =insure * 12;
         
         return total;
     }
