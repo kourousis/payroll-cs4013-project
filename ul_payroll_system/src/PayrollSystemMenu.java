@@ -36,22 +36,31 @@ public class PayrollSystemMenu {
 
                 boolean choosingDepartment = true;
                 System.out.print("Department: ");
-                System.out.println("E)mployee  A)dmin  H)uman Resources");
+                System.out.println("F)ull-Time P)art-Time  A)dmin  H)uman Resources");
 
                 while (choosingDepartment) {
                     department = in.nextLine().toUpperCase();
 
-                    if (department.equals("E")) {
-                        department = "EMPLOYEE";
-                        choosingDepartment = false;
-                    } else if (department.equals("A")) {
-                        department = "ADMIN";
-                        choosingDepartment = false;
-                    } else if (department.equals("H")) {
-                        department = "HR";
-                        choosingDepartment = false;
-                    } else {
-                        System.out.print("Please pick one of the above departments: ");
+                    switch (department) {
+                        case "P":
+                            department = "PART-TIME";
+                            choosingDepartment = false;
+                            break;
+                        case "F":
+                            department = "FULL-TIME";
+                            choosingDepartment = false;
+                            break;
+                        case "A":
+                            department = "ADMIN";
+                            choosingDepartment = false;
+                            break;
+                        case "H":
+                            department = "HR";
+                            choosingDepartment = false;
+                            break;
+                        default:
+                            System.out.print("Please pick one of the above departments: ");
+                            break;
                     }
                 }
 
@@ -66,79 +75,100 @@ public class PayrollSystemMenu {
                 }
             }
 
-            // Actions a user can perform if they log in as an Employee
-            if (loggedIn && department.equals("EMPLOYEE")) {
-                System.out.println("--------------------------------------------------");
-                System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
-                System.out.println("--------------------------------------------------");
-                System.out.println("E)Log-Out");
-
-                String command = in.nextLine().toUpperCase();
-
-                while (loggedIn && running) {
-                    if (command.equals("A")) {
-
-                    } else if (command.equals("B")) {
-
-                    } else if (command.equals("C")) {
-
-                    } else if (command.equals("D")) {
-
-                    } else if (command.equals("E")) {
-                        loggedIn = false;
-                        System.out.println("--------------------------------------------------");
-                    }
-                }
-            }
-
-            // Actions a user can perform if they log in as an Admin
-            if (loggedIn && department.equals("ADMIN")) {
-                System.out.println("--------------------------------------------------");
-                System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
-                System.out.println("--------------------------------------------------");
-                System.out.println("E)Log-Out");
-
-                String command = in.nextLine().toUpperCase();
-
-                while (loggedIn && running) {
-                    if (command.equals("A")) {
-
-                    } else if (command.equals("B")) {
-
-                    } else if (command.equals("C")) {
-
-                    } else if (command.equals("D")) {
-
-                    } else if (command.equals("E")) {
-                        loggedIn = false;
-                        System.out.println("--------------------------------------------------");
-                    }
-                }
-            }
+            // Actions a user can perform if they log in as an X employee
+            if (loggedIn && department.equals("PART-TIME")) partTime();
+            if (loggedIn && department.equals("FULL-TIME")) fullTime();
+            if (loggedIn && department.equals("ADMIN")) Admin();
 
             // Actions a user can perform if they log in as Human Resources
-            if (loggedIn && department.equals("HR")) {
+            else if (loggedIn && department.equals("HR")) {
+                HR();
+            }
+        }
+    }
+
+    public void HR() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("--------------------------------------------------");
+        System.out.println("A)Update Employee  B)Get Employee  C)Add Employee  D)Get Timesheet  E)Log-Out");
+
+        String command = in.nextLine().toUpperCase();
+
+        while (loggedIn && running) {
+            if (command.equals("A")) {
+
+            } else if (command.equals("B")) {
+
+            } else if (command.equals("C")) {
+
+            } else if (command.equals("D")) {
+
+            } else if (command.equals("E")) {
+                loggedIn = false;
                 System.out.println("--------------------------------------------------");
-                System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+            }
+        }
+    }
+
+    public void Admin() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("--------------------------------------------------");
+        System.out.println("E)Log-Out");
+
+        String command = in.nextLine().toUpperCase();
+
+        while (loggedIn && running) {
+            if (command.equals("A")) {
+
+            } else if (command.equals("B")) {
+
+            } else if (command.equals("C")) {
+
+            } else if (command.equals("D")) {
+
+            } else if (command.equals("E")) {
+                loggedIn = false;
                 System.out.println("--------------------------------------------------");
-                System.out.println("A)Update Employee  B)Get Employee  C)Add Employee  D)Get Timesheet  E)Log-Out");
+            }
+        }
+    }
 
-                String command = in.nextLine().toUpperCase();
+    public void fullTime() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("--------------------------------------------------");
+        System.out.println("A)User-Profile B)Log-Out");
 
-                while (loggedIn && running) {
-                    if (command.equals("A")) {
+        String command = in.nextLine().toUpperCase();
 
-                    } else if (command.equals("B")) {
+        while (loggedIn && running) {
+            if (command.equals("A")) {
+                // Get user data
+            } else if (command.equals("B")) {
+                loggedIn = false;
+                System.out.println("--------------------------------------------------");
+            }
+        }
+    }
 
-                    } else if (command.equals("C")) {
+    public void partTime() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("--------------------------------------------------");
+        System.out.println("A)Make-Payclaim B)ser-Profile C)Log-Out");
 
-                    } else if (command.equals("D")) {
+        String command = in.nextLine().toUpperCase();
 
-                    } else if (command.equals("E")) {
-                        loggedIn = false;
-                        System.out.println("--------------------------------------------------");
-                    }
-                }
+        while (loggedIn && running) {
+            if (command.equals("A")) {
+                // Make payclaim
+            } else if (command.equals("B")) {
+                // Get user data
+            } else if (command.equals("C")) {
+                loggedIn = false;
+                System.out.println("--------------------------------------------------");
             }
         }
     }
