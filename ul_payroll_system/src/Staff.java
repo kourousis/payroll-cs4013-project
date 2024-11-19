@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class Staff {
+public abstract class Staff {
     protected Date hireDate;
     protected String name;
     protected String phone;

@@ -1,5 +1,5 @@
 
-public class App {
+public class DBTest {
     public static void main(String[] args) {
         // DB tester
         DBController db = new DBController("HR");
@@ -17,3 +17,4 @@ public class App {
                 {"5", "2023-02-01", "Liam Cleary", "217-555-5678", "liam.cleary@ul.ie", "password456", "City"}));
     }
 }
+
