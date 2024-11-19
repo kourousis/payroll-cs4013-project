@@ -91,20 +91,18 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Update Employee  B)Get Employee  C)Add Employee  D)Get Timesheet  E)Log-Out");
+        System.out.println("A)Promote-Staff B)Get Timesheet C)User-Profile L)Log-Out");
 
         String command = in.nextLine().toUpperCase();
 
         while (loggedIn && running) {
             if (command.equals("A")) {
-
+                // Call promote method
             } else if (command.equals("B")) {
-
+                // Get timesheet
             } else if (command.equals("C")) {
-
-            } else if (command.equals("D")) {
-
-            } else if (command.equals("E")) {
+                // Get user data
+            } else if (command.equals("L")) {
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
             }
@@ -115,20 +113,18 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("E)Log-Out");
+        System.out.println("A)Add User B)View-Timesheet C)User-Profile L)Log-Out");
 
         String command = in.nextLine().toUpperCase();
 
         while (loggedIn && running) {
             if (command.equals("A")) {
-
+                // Add user
             } else if (command.equals("B")) {
-
+                // Get timesheet
             } else if (command.equals("C")) {
-
-            } else if (command.equals("D")) {
-
-            } else if (command.equals("E")) {
+                // Get user data
+            } else if (command.equals("L")) {
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
             }
@@ -139,14 +135,18 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)User-Profile B)Log-Out");
+        System.out.println("A)Accept Promotion B)User-Profile C)View-Timesheet L)Log-Out");
 
         String command = in.nextLine().toUpperCase();
 
         while (loggedIn && running) {
             if (command.equals("A")) {
-                // Get user data
+                // Accept Promotion
             } else if (command.equals("B")) {
+                // Get user data
+            } else if (command.equals("C")){
+                // Historic Timesheets
+            } else if (command.equals("L")) {
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
             }
@@ -157,7 +157,7 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Make-Payclaim B)ser-Profile C)Log-Out");
+        System.out.println("A)Make-Payclaim B)User-Profile C)View-Timesheet L)Log-Out");
 
         String command = in.nextLine().toUpperCase();
 
@@ -167,6 +167,8 @@ public class PayrollSystemMenu {
             } else if (command.equals("B")) {
                 // Get user data
             } else if (command.equals("C")) {
+                // Historic Timesheets
+            } else if (command.equals("L")) {
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
             }
