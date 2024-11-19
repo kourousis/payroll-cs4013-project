@@ -5,7 +5,7 @@ public class SalaryScale {
     private Map<Integer, Float> salaryData = new HashMap<>();
     private String jobTitle;
 
-    public Object getSalaryData(String inDepartment, String inJobTitle) {
+    public Map<Integer, Float> getSalaryData(String inDepartment, String inJobTitle) {
         this.jobTitle = inJobTitle;
         switch (inDepartment) {
             case "HR":
@@ -41,15 +41,6 @@ public class SalaryScale {
             case "ULAC":
                 salaryData = getULACSalary();
                 break;
-            case "President":
-                if (jobTitle.equals("PRESIDENT")) {
-                    return 240716f;
-                } else if (jobTitle.equals("VICE-PRESIDENT")) {
-                    return 184171f;
-                } else {
-                    System.out.println("Invalid job title");
-                    return null;
-                }
             default:
                 System.out.println("Invalid department");
         }
