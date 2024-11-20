@@ -67,6 +67,7 @@ public class PayrollSystemMenu {
                             System.out.print("Please pick one of the above departments: ");
                             break;
                     }
+                    loggedIn = true;
                 }
             }
 
