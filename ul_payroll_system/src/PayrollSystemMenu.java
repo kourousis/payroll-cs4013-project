@@ -207,8 +207,6 @@ public class PayrollSystemMenu {
                 String input = in.nextLine().toUpperCase();
                 if (input.equals("G")) {
                     break;
-                } else {
-                    continue;
                 }
             }
         } catch (Exception e) {
