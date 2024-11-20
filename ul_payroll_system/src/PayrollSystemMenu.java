@@ -3,15 +3,19 @@ import java.util.Scanner;
 
 public class PayrollSystemMenu {
     private Scanner in;
-    String firstName;
-    String lastName;
-    String department;
+    private String firstName;
+    private String lastName;
+    private String department;
 
-    boolean running = true;
-    boolean loggedIn = false;
+    private boolean running = true;
+    private boolean loggedIn = false;
 
     public PayrollSystemMenu() {
         in = new Scanner(System.in);
+    }
+
+    public String getDepartment() {
+        return department;
     }
 
     private boolean detectCommas(String string) {
@@ -205,6 +209,7 @@ public class PayrollSystemMenu {
             while (true) {
                 System.out.println("G)Go-Back");
                 String input = in.nextLine().toUpperCase();
+
                 if (input.equals("G")) {
                     break;
                 }
