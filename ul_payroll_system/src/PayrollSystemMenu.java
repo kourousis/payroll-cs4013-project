@@ -193,7 +193,7 @@ public class PayrollSystemMenu {
     private void viewProfile(String department, int id) {
         Map<String, String> row;
         try {
-            row = db.GET_ROW("employees", id);
+            row = db.GET_ROW("employees", id, "");
             System.out.println("--------------------------------------------------");
             System.out.println("Name: " + row.get("Name"));
             System.out.println("Phone: " + row.get("Phone"));

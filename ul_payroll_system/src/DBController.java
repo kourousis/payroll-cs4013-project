@@ -10,11 +10,11 @@ public class DBController {
 
     public DBController() {
         tableFields.put("employees", 13);
-        tableFields.put("payslip", 8);
+        tableFields.put("payslips", 8);
     }
 
     public String GET(String table, int id, String data) {
-        if (!table.equals("employees") && !table.equals("payclaim")) {
+        if (!table.equals("employees")) {
             System.out.println("No table found");
             return null;
         }
@@ -111,13 +111,16 @@ public class DBController {
         }
     }
 
-    public HashMap<String, String> GET_ROW(String table, int id) {
-        if (!table.equals("employees") && !table.equals("payclaim")) {
+    public HashMap<String, String> GET_ROW(String table, int id, String date) {
+        String path;
+        if (table.equals("employees")) {
+            path = CSV_FILE_PATH + table + ".csv";
+        } else if (table.equals("payslips")) {
+            path = CSV_FILE_PATH + "/payslips/" + "payslip_" + id + ".csv";
+        } else {
             System.out.println("No table found");
             return null;
         }
-
-        String path = CSV_FILE_PATH + table + ".csv";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             // Get header + col names
@@ -128,17 +131,31 @@ public class DBController {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
+                if (values[0].isEmpty()) {
+                    continue; // Skip lines with empty ID field
+                }
                 int currentId = Integer.parseInt(values[0]); // EmployeeID is always first column
 
-                if (currentId == id) {
-                    HashMap<String, String> row = new HashMap<>();
-                    for (int i = 0; i < columns.length; i++) {
-                        row.put(columns[i], values[i]);
+                if (table.equals("employees")) {
+                    if (currentId == id) {
+                        HashMap<String, String> row = new HashMap<>();
+                        for (int i = 0; i < columns.length; i++) {
+                            row.put(columns[i], values[i]);
+                        }
+                        return row;
                     }
-                    return row;
+                } else if (table.equals("payslips")) {
+                    String currentDate = values[1];
+                    if (currentId == id && currentDate.equals(date)) {
+                        HashMap<String, String> row = new HashMap<>();
+                        for (int i = 0; i < columns.length; i++) {
+                            row.put(columns[i], values[i]);
+                        }
+                        return row;
+                    }
                 }
             }
-            System.out.println("Employee ID not found");
+            System.out.println("Record not found");
             return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
