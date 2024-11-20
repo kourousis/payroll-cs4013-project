@@ -30,7 +30,7 @@ public class DBController {
             // Find the index of the requested data column
             int index = fields.indexOf(data);
             if (index == -1) {
-                return null;
+                return "";
             }
 
             // Read through the file to find the matching ID
@@ -43,8 +43,7 @@ public class DBController {
                     return values[index];
                 }
             }
-            System.out.println("Employee ID not found");
-            return null;
+            return "";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
