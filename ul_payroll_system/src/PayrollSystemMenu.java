@@ -68,29 +68,19 @@ public class PayrollSystemMenu {
                             break;
                     }
                 }
-
-                // Input detection to prevent commas - breaks CSV
-                if (detectCommas(firstName) || detectCommas(lastName) || detectCommas(department)) {
-                    System.out.println("--------------------------------------------------");
-                    System.out.println("One of your inputs contained a comma");
-                    System.out.println("Please log in again and refrain from using commas");
-                    System.out.println("--------------------------------------------------");
-                } else {
-                    loggedIn = true;
-                }
             }
 
             // Actions a user can perform if they log in as an X employee
-            if (loggedIn && department.equals("PART-TIME"))
-                partTime();
-            if (loggedIn && department.equals("FULL-TIME"))
-                fullTime();
-            if (loggedIn && department.equals("ADMIN"))
-                Admin();
-
-            // Actions a user can perform if they log in as Human Resources
-            else if (loggedIn && department.equals("HR")) {
-                HR();
+            if (loggedIn) {
+                if (department.equals("PART-TIME"))
+                    partTime();
+                if (department.equals("FULL-TIME"))
+                    fullTime();
+                if (department.equals("ADMIN"))
+                    Admin();
+                else if (department.equals("HR")) {
+                    HR();
+                }
             }
         }
     }
@@ -99,7 +89,7 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Promote-Staff  B)Get Timeshee  C)User-Profile  L)og-Out");
+        System.out.println("A)Promote-Staff  B)Get Timesheet  C)User-Profile  L)og-Out");
 
         String command = in.nextLine().toUpperCase();
 
