@@ -1,4 +1,5 @@
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class PayrollSystemMenu {
@@ -161,35 +162,30 @@ public class PayrollSystemMenu {
     }
 
     private int authenticateAndReturnID(String email, String password) {
-        boolean executing = false;
         boolean emailFound = false;
+        department = null;
 
         int id = 1;
-        while (!executing) {
+        while (true) {
+            if (Objects.equals(db.GET("employees", id, "Email"), "")
+                    || db.GET("employees", id, "Email") == null) break;
             if (db.GET("employees", id, "Email").equals(email)) {
                 emailFound = true;
 
-                // loop has no way of finishing if the right email does not exist because
-                // it does not know when to stop querying the database for emails
-
                 if (db.GET("employees", id, "Password").equals(password)) {
-                    executing = true;
-
                     department = db.GET("employees", id, "Department");
                 } else {
                     System.out.print("Invalid Password, please try again\n");
                     return 0;
                 }
             }
-
             id++;
         }
 
-        if (!emailFound) {
+        if (!emailFound && department == null) {
             System.out.println("Invalid Email, please try again");
             return 0;
         }
-
         return id;
     }
 
