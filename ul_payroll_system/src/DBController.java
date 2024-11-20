@@ -10,7 +10,7 @@ public class DBController {
 
     public DBController() {
         tableFields.put("employees", 13);
-        tableFields.put("payclaim", 1);
+        tableFields.put("payslip", 8);
     }
 
     public String GET(String table, int id, String data) {
@@ -208,20 +208,25 @@ public class DBController {
     }
 
     public boolean ADD(String table, String[] data) {
-        if (!table.equals("employees") && !table.equals("payclaim")) {
-            System.out.println("No table found");
-            return false;
-        }
         if (data.length != tableFields.get(table)) {
             System.out.println("Incorrect number of fields");
             return false;
         }
 
-        String path = CSV_FILE_PATH + table + ".csv";
+        String path = "";
+        if (table.equals("employees")) {
+            path = CSV_FILE_PATH + table + ".csv";
+        } else if (table.equals("payslip")) {
+            path = CSV_FILE_PATH + "/payslips/" + "payslip_" + data[0] + ".csv";
+        } else {
+            System.out.println("No table found");
+            return false;
+        }
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.newLine();
+            if (table.equals("payslip")) writer.newLine();
             writer.write(String.join(",", data));
             writer.close();
             return true;
@@ -230,13 +235,15 @@ public class DBController {
         }
     }
 
-    public boolean NEW_TIMESHEET(int id, Timesheet ts) {
-        String path = CSV_FILE_PATH + "historic_timesheets" + id + ".csv";
-        String[] data = {""};
-        // Write formatter later
+    public boolean NEW_PAYSLIP(Payslip ps) {
+        String path = CSV_FILE_PATH + "/payslips/" +  "payslip_" + ps.getId() + ".csv";
+        String header = "ID,Date,EmployeeName,GrossPay,USC,PRSI,IncomeTax,NetPay";
+        String[] data = {Integer.toString(ps.getId()), ps.getDate().toString(), ps.getEmployeeName(), Float.toString(ps.getGrossPay()),
+                Float.toString(ps.getUSC()), Float.toString(ps.getPRSI()), Float.toString(ps.getIncomeTax()), Float.toString(ps.getNetPay())};
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+            writer.write(header);
             writer.newLine();
             writer.write(String.join(",", data));
             writer.close();
