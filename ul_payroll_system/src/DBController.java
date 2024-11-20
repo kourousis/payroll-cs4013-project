@@ -241,4 +241,25 @@ public class DBController {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean NEW_TIMESHEET(int id, Timesheet ts) {
+        if (!isAuth) {
+            System.out.println("Permission denied");
+            return false;
+        }
+
+        String path = CSV_FILE_PATH + "historic_timesheets" + id + ".csv";
+        String[] data = {""};
+        // Write formatter later
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+            writer.newLine();
+            writer.write(String.join(",", data));
+            writer.close();
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
