@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -38,7 +37,7 @@ public class PayrollSystemMenu {
 
                 boolean choosingDepartment = true;
                 System.out.print("Department: ");
-                System.out.println("F)ull-Time P)art-Time  A)dmin  H)uman Resources");
+                System.out.println("F)ull-Time  P)art-Time  A)dmin  H)uman Resources");
 
                 while (choosingDepartment) {
                     department = in.nextLine().toUpperCase();
@@ -93,7 +92,7 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Promote-Staff B)Get Timesheet C)User-Profile L)Log-Out");
+        System.out.println("A)Promote-Staff  B)Get Timeshee  C)User-Profile  L)og-Out");
 
         String command = in.nextLine().toUpperCase();
 
@@ -116,7 +115,7 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Add User B)View-Timesheet C)User-Profile L)Log-Out");
+        System.out.println("A)Add User  B)View-Timesheet  C)User-Profile  L)og-Out");
 
         String command = in.nextLine().toUpperCase();
 
@@ -139,7 +138,7 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Accept Promotion B)User-Profile C)View-Timesheet L)Log-Out");
+        System.out.println("A)Accept Promotion  B)User-Profile  C)View-Timesheet  L)og-Out");
 
         String command = in.nextLine().toUpperCase();
 
@@ -162,7 +161,7 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Make-Payclaim B)User-Profile C)View-Timesheet L)Log-Out");
+        System.out.println("A)Make-Payclaim  B)User-Profile  C)View-Timesheet  L)og-Out");
 
         String command = in.nextLine().toUpperCase();
 
