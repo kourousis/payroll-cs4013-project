@@ -55,16 +55,14 @@ public class PayrollSystemMenu {
             }
 
             // Actions a user can perform if they log in as an X employee
-            if (loggedIn) {
-                if (department.equals("Part Time"))
-                    partTime();
-                if (department.equals("Full Time"))
-                    fullTime();
-                if (department.equals("Admin"))
-                    Admin();
-                else if (department.equals("Human Resources")) {
-                    HR();
-                }
+            if (department.equals("PartTime"))
+                partTime();
+             else if (department.equals("Admin"))
+                Admin();
+            else if (department.equals("HumanResources")) {
+                HR();
+            } else {
+                fullTime();
             }
         }
     }
@@ -174,6 +172,9 @@ public class PayrollSystemMenu {
 
                 if (db.GET("employees", id, "Password").equals(password)) {
                     department = db.GET("employees", id, "Department");
+                    String name = db.GET("employees", id, "Name");
+                    firstName = name.split(" ")[0];
+                    lastName = name.split(" ")[1];
                 } else {
                     System.out.print("Invalid Password, please try again\n");
                     return 0;
@@ -182,7 +183,7 @@ public class PayrollSystemMenu {
             id++;
         }
 
-        if (!emailFound && department == null) {
+        if (!emailFound && department == null && firstName == null && lastName == null) {
             System.out.println("Invalid Email, please try again");
             return 0;
         }
