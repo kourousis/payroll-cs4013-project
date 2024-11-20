@@ -11,10 +11,11 @@ public class DBController {
     public DBController() {
         tableFields.put("employees", 13);
         tableFields.put("payslips", 8);
+        tableFields.put("control_data", 3);
     }
 
     public String GET(String table, int id, String data) {
-        if (!table.equals("employees")) {
+        if (!table.equals("employees") && !table.equals("control_data")) {
             System.out.println("No table found");
             return null;
         }
@@ -50,7 +51,7 @@ public class DBController {
     }
 
     public String UPDATE(String table, int id, String field, String newValue) {
-        if (!table.equals("employees") && !table.equals("payclaim")) {
+        if (!table.equals("employees") && !table.equals("control_data")) {
             System.out.println("No table found");
             return null;
         }

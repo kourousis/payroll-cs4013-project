@@ -21,6 +21,13 @@ public class DBTest {
         HashMap<String, String> row;
         row = db.GET_ROW("payslips", 1, "2024-11-20");
         System.out.println(row);
+
+        System.out.println(db.GET("control_data", 1, "Data"));
+        if (db.UPDATE("control_data", 1, "Data", "2024-11-21") != null ) {
+            System.out.println("Updated");
+        } else {
+            System.out.println("Not updated");
+        }
     }
 }
 
