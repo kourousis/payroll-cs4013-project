@@ -1,4 +1,5 @@
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class PayrollSystemMenu {
@@ -6,12 +7,19 @@ public class PayrollSystemMenu {
     private String firstName;
     private String lastName;
     private String department;
+    private String email;
+    private String password;
+
+    private int employeeId;
 
     private boolean running = true;
     private boolean loggedIn = false;
 
+    DBController db;
+
     public PayrollSystemMenu() {
         in = new Scanner(System.in);
+        db = new DBController();
     }
 
     public String getDepartment() {
@@ -33,55 +41,28 @@ public class PayrollSystemMenu {
 
         while (running) {
             while (!loggedIn) {
-                System.out.print("First Name: ");
-                firstName = in.nextLine();
+                System.out.print("Email: ");
+                email = in.nextLine();
 
-                System.out.print("Last Name: ");
-                lastName = in.nextLine();
+                System.out.print("Password: ");
+                password = in.nextLine();
 
-                boolean choosingDepartment = true;
-                System.out.print("Department: ");
-                System.out.println("F)ull-Time  P)art-Time  A)dmin  H)uman Resources");
-
-                while (choosingDepartment) {
-                    department = in.nextLine().toUpperCase();
-
-                    switch (department) {
-                        case "P":
-                            department = "PART-TIME";
-                            choosingDepartment = false;
-                            break;
-                        case "F":
-                            department = "FULL-TIME";
-                            choosingDepartment = false;
-                            break;
-                        case "A":
-                            department = "ADMIN";
-                            choosingDepartment = false;
-                            break;
-                        case "H":
-                            department = "HR";
-                            choosingDepartment = false;
-                            break;
-                        default:
-                            System.out.print("Please pick one of the above departments: ");
-                            break;
-                    }
+                employeeId = authenticateAndReturnID(email, password);
+                if (employeeId > 0) {
                     loggedIn = true;
+                    System.out.println(department);
                 }
             }
 
             // Actions a user can perform if they log in as an X employee
-            if (loggedIn) {
-                if (department.equals("PART-TIME"))
-                    partTime();
-                if (department.equals("FULL-TIME"))
-                    fullTime();
-                if (department.equals("ADMIN"))
-                    Admin();
-                else if (department.equals("HR")) {
-                    HR();
-                }
+            if (department.equals("PartTime"))
+                partTime();
+             else if (department.equals("Admin"))
+                Admin();
+            else if (department.equals("HumanResources")) {
+                HR();
+            } else {
+                fullTime();
             }
         }
     }
@@ -178,8 +159,38 @@ public class PayrollSystemMenu {
         }
     }
 
+    private int authenticateAndReturnID(String email, String password) {
+        boolean emailFound = false;
+        department = null;
+
+        int id = 1;
+        while (true) {
+            if (Objects.equals(db.GET("employees", id, "Email"), "")
+                    || db.GET("employees", id, "Email") == null) break;
+            if (db.GET("employees", id, "Email").equals(email)) {
+                emailFound = true;
+
+                if (db.GET("employees", id, "Password").equals(password)) {
+                    department = db.GET("employees", id, "Department");
+                    String name = db.GET("employees", id, "Name");
+                    firstName = name.split(" ")[0];
+                    lastName = name.split(" ")[1];
+                } else {
+                    System.out.print("Invalid Password, please try again\n");
+                    return 0;
+                }
+            }
+            id++;
+        }
+
+        if (!emailFound && department == null && firstName == null && lastName == null) {
+            System.out.println("Invalid Email, please try again");
+            return 0;
+        }
+        return id;
+    }
+
     private void viewProfile(String department, int id) {
-        DBController db = new DBController(department);
         Map<String, String> row;
         try {
             row = db.GET_ROW("employees", id);
