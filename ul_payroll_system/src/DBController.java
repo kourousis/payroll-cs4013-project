@@ -32,7 +32,6 @@ public class DBController {
             // Find the index of the requested data column
             int index = fields.indexOf(data);
             if (index == -1) {
-                System.out.println("Data column not found");
                 return null;
             }
 
