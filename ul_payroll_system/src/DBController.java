@@ -6,11 +6,9 @@ import java.util.Map;
 
 public class DBController {
     private static final String CSV_FILE_PATH = new File("").getAbsolutePath() + "/ul_payroll_system/db/";
-    private boolean isAuth = false;
     private Map<String, Integer> tableFields = new HashMap<>();
 
-    public DBController(String department) {
-        if (department.equals("HR") || department.equals("Admin")) isAuth = true;
+    public DBController() {
         tableFields.put("employees", 13);
         tableFields.put("payclaim", 1);
     }
@@ -53,10 +51,6 @@ public class DBController {
     }
 
     public String UPDATE(String table, int id, String field, String newValue) {
-        if (!isAuth) {
-            System.out.println("Permission denied");
-            return null;
-        }
         if (!table.equals("employees") && !table.equals("payclaim")) {
             System.out.println("No table found");
             return null;
@@ -215,10 +209,6 @@ public class DBController {
     }
 
     public boolean ADD(String table, String[] data) {
-        if (table.equals("historic_timesheets") && isAuth) {
-            System.out.println("Permission denied");
-            return false;
-        }
         if (!table.equals("employees") && !table.equals("payclaim")) {
             System.out.println("No table found");
             return false;
@@ -242,11 +232,6 @@ public class DBController {
     }
 
     public boolean NEW_TIMESHEET(int id, Timesheet ts) {
-        if (!isAuth) {
-            System.out.println("Permission denied");
-            return false;
-        }
-
         String path = CSV_FILE_PATH + "historic_timesheets" + id + ".csv";
         String[] data = {""};
         // Write formatter later
