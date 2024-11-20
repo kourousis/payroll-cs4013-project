@@ -1,5 +1,3 @@
-import java.util.Map;
-
 public class GrossCalc {
     private int years;
 
@@ -9,11 +7,12 @@ public class GrossCalc {
     }
 
     //calculate gross based on years worked and job title
-    public void calculateGrossIncome(String department,String jobTitle)
+    public void calculateGrossIncome(String department, String jobTitle)
     {
-        SalaryScale salaryScale = new SalaryScale();
+        FullScale salaryScale = new FullScale();
 
         // Gets salary map for department and job title
+        years = 1;
         float salary = 0;
         if (department.equals("President")) {
                 if (jobTitle.equals("PRESIDENT")) {
@@ -24,12 +23,7 @@ public class GrossCalc {
                     System.out.println("Invalid Title");
                 }
         } else {
-            Map<Integer, Float> salaryData = salaryScale.getSalaryData(department,jobTitle);
-            if (salaryData != null && salaryData.containsKey(years)) {
-                salary = salaryData.get(years);
-            } else {;
-                System.out.println("Invalid Title");
-            }
+            salary = salaryScale.getSalaryData(department, jobTitle, years);
         }
         if (salary == 0) {
             System.out.println("Invalid Title");

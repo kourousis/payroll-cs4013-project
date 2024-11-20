@@ -2,11 +2,11 @@ import java.time.LocalDate;
 
 public class Timesheet {
     private LocalDate date;
-    private double hoursWorked;
-    private double hourlyRate;
-    private double totalPay;
+    private float hoursWorked;
+    private float hourlyRate;
+    private float totalPay;
 
-    public Timesheet(LocalDate date, double hoursWorked, double hourlyRate) {
+    public Timesheet(LocalDate date, float hoursWorked, float hourlyRate) {
         this.date = date;
         this.hoursWorked = hoursWorked;
         this.hourlyRate = hourlyRate;
@@ -17,13 +17,13 @@ public class Timesheet {
     public LocalDate getDate() {
         return date;
     }
-    public double getHoursWorked() {
+    public float getHoursWorked() {
         return hoursWorked;
     }
-    public double getHourlyRate() {
+    public float getHourlyRate() {
         return hourlyRate;
     }
-    public double getTotalPay() {
+    public float getTotalPay() {
         return totalPay;
     }
 

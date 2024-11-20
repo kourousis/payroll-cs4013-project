@@ -1,4 +1,4 @@
-public class PayClaims extends Payslips {
+public class PayClaims extends Payslip {
     public PayClaims() {
     }
 }
