@@ -2,7 +2,7 @@
 public class DBTest {
     public static void main(String[] args) {
         // DB tester
-        DBController db = new DBController("HR");
+        DBController db = new DBController();
 
         String name = db.GET("employees", 2, "Name"); // Get id=2's name(John Doe)
         System.out.println("GET:" + name);
