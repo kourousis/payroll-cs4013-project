@@ -77,9 +77,12 @@ public class PayrollSystemMenu {
             }
 
             // Actions a user can perform if they log in as an X employee
-            if (loggedIn && department.equals("PART-TIME")) partTime();
-            if (loggedIn && department.equals("FULL-TIME")) fullTime();
-            if (loggedIn && department.equals("ADMIN")) Admin();
+            if (loggedIn && department.equals("PART-TIME"))
+                partTime();
+            if (loggedIn && department.equals("FULL-TIME"))
+                fullTime();
+            if (loggedIn && department.equals("ADMIN"))
+                Admin();
 
             // Actions a user can perform if they log in as Human Resources
             else if (loggedIn && department.equals("HR")) {
@@ -88,7 +91,7 @@ public class PayrollSystemMenu {
         }
     }
 
-    public void HR() {
+    private void HR() {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
@@ -111,7 +114,7 @@ public class PayrollSystemMenu {
         }
     }
 
-    public void Admin() {
+    private void Admin() {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
@@ -134,7 +137,7 @@ public class PayrollSystemMenu {
         }
     }
 
-    public void fullTime() {
+    private void fullTime() {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
@@ -148,7 +151,7 @@ public class PayrollSystemMenu {
             } else if (command.equals("B")) {
                 viewProfile(department, 1);
                 break;
-            } else if (command.equals("C")){
+            } else if (command.equals("C")) {
                 // Historic Timesheets
             } else if (command.equals("L")) {
                 loggedIn = false;
@@ -157,7 +160,7 @@ public class PayrollSystemMenu {
         }
     }
 
-    public void partTime() {
+    private void partTime() {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
@@ -180,7 +183,7 @@ public class PayrollSystemMenu {
         }
     }
 
-    public void viewProfile(String department, int id) {
+    private void viewProfile(String department, int id) {
         DBController db = new DBController(department);
         Map<String, String> row;
         try {
@@ -198,12 +201,11 @@ public class PayrollSystemMenu {
             System.out.println("Salary: " + row.get("Salary"));
             System.out.println("Hire Date: " + row.get("HireDate"));
             System.out.println("--------------------------------------------------");
-            boolean viewing = true;
-            while (viewing) {
+
+            while (true) {
                 System.out.println("G)Go-Back");
                 String input = in.nextLine().toUpperCase();
-                if(input.equals("G")) {
-                    viewing = false;
+                if (input.equals("G")) {
                     break;
                 } else {
                     continue;
