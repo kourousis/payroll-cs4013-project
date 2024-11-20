@@ -1,6 +1,7 @@
 import java.util.Date;
 
-public class Staff {
+public abstract class Staff {
+    protected int id;
     protected Date hireDate;
     protected String name;
     protected String phone;
@@ -33,5 +34,13 @@ public class Staff {
     public String toString() {
         return "Hire Date: " + hireDate.toString() + "\nName: " + name + "\nPhone: " + phone + "\nEmail: " + email
                 + "\nAddress: " + address;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }
