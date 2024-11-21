@@ -113,6 +113,7 @@ public class PayrollSystemMenu {
             switch (command) {
                 case "A":
                     // Add user
+                    addUser();
                     break;
                 case "B":
                     viewPayslip();
