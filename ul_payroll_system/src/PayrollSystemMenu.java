@@ -1,6 +1,8 @@
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class PayrollSystemMenu {
     private Scanner in;
@@ -49,7 +51,7 @@ public class PayrollSystemMenu {
             // Actions a user can perform if they log in as an X employee
             if (department.equals("PartTime"))
                 partTime();
-             else if (department.equals("Admin"))
+            else if (department.equals("Admin"))
                 Admin();
             else if (department.equals("HumanResources")) {
                 HR();
@@ -93,6 +95,7 @@ public class PayrollSystemMenu {
         while (loggedIn && running) {
             if (command.equals("A")) {
                 addUser();
+                break;
             } else if (command.equals("B")) {
                 // Get timesheet
             } else if (command.equals("C")) {
@@ -158,7 +161,8 @@ public class PayrollSystemMenu {
         int id = 1;
         while (true) {
             if (Objects.equals(db.GET("employees", id, "Email"), "")
-                    || db.GET("employees", id, "Email") == null) break;
+                    || db.GET("employees", id, "Email") == null)
+                break;
             if (db.GET("employees", id, "Email").equals(email)) {
                 emailFound = true;
 
@@ -190,26 +194,161 @@ public class PayrollSystemMenu {
     }
 
     private boolean sanitiseEmployeeInputData(String[] data) {
-        // big if statemnt to validate each input
+        String firstNameString = data[0];
+        String lastNameString = data[1];
+        String phoneNumberString = data[2];
+        String emailString = data[3];
+        String passwordString = data[4];
+        String streetString = data[5];
+        String countyString = data[6];
+        String cityString = data[7];
+        String postcodeString = data[8];
+        String countryString = data[9];
+        String salaryString = data[10];
+        String departmentString = data[11];
 
-        return false;
+        // Employee Personal Information Validation
+
+        // Validate first name and last name (only letters)
+        if (!firstNameString.matches("[A-Za-z]+") || !lastNameString.matches("[A-Za-z]+")) {
+            System.out.println();
+            System.out.println("ERROR First and last names must contain only letters.");
+            return false;
+        }
+
+        // Validate phone number (digits only, 9-15 characters)
+        if (!phoneNumberString.matches("\\d{9,15}")) {
+            System.out.println();
+            System.out.println("ERROR Phone number must be 10 to 15 digits. ERROR");
+            return false;
+        }
+
+        // Validate email format
+        if (!emailString.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")) {
+            System.out.println();
+            System.out.println("ERROR Invalid email format. ERROR");
+            return false;
+        }
+
+        if (passwordString.length() < 6) {
+            System.out.println("ERROR Password must be at least 6 characters long. ERROR");
+            return false;
+        }
+
+        // Employee Address Validation
+
+        if (streetString.isEmpty() || cityString.isEmpty() || postcodeString.isEmpty() || countryString.isEmpty() || countyString.isEmpty()) {
+            System.out.println();
+            System.out.println("ERROR Address fields cannot be empty. ERROR");
+            return false;
+        }
+
+        // Employee Work Details Validation
+
+        try {
+            Float.parseFloat(salaryString);
+        } catch (NumberFormatException e) {
+            System.out.println();
+            System.out.println("ERROR Salary must be a valid number. ERROR");
+            return false;
+        }
+
+        // Validate department (not empty)
+        if (departmentString.isEmpty()) {
+            System.out.println();
+            System.out.println("ERROR Department cannot be empty. ERROR");
+            return false;
+        }
+
+        return true;
     }
 
     private void addUser() {
-        System.out.println("Employee's First Name ");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Adding New Employee to Payroll");
+        System.out.println("Section 1) Employee's Personal Information");
+        System.out.println("--------------------------------------------------");
+
+        System.out.print("Employee's First Name (no special characters): ");
         String firstNameString = in.nextLine();
 
-        System.out.println("Employee's Last Name: ");
+        System.out.print("Employee's Last Name (no speical characters): ");
         String lastNameString = in.nextLine();
-        // do rest of inputs
 
-        // add everything to array
+        System.out.print("Employee's Mobile Phone (10-15 digits): ");
+        String phoneNumberString = in.nextLine();
 
-        // if (sanitiseEmployeeInputData(data)) {
-        //     db.ADD()
-        // } else {
-        //     error message
-        // }
+        System.out.print("Employee's Email: ");
+        String emailString = in.nextLine();
+
+        System.out.print("Employee's Password (minimum 6 characters): ");
+        String passwordString = in.nextLine();
+
+        System.out.println("--------------------------------------------------");
+        System.out.println("Section 2) Employee's Address");
+        System.out.println("--------------------------------------------------");
+
+        System.out.print("Street: ");
+        String streetString = in.nextLine();
+
+        System.out.print("City: ");
+        String cityString = in.nextLine();
+
+        System.out.print("County: ");
+        String countyString = in.nextLine();
+
+        System.out.print("Postcode: ");
+        String postcodeString = in.nextLine();
+
+        System.out.print("Country: ");
+        String countryString = in.nextLine();
+
+        System.out.println("--------------------------------------------------");
+        System.out.println("Section 3) Employee's Work Details");
+        System.out.println("--------------------------------------------------");
+
+        System.out.print("Employee's Salary: ");
+        String salaryString = in.nextLine();
+
+        System.out.print("Employee's Department: ");
+        String departmentString = in.nextLine();
+
+        String[] employeeData = {
+                firstNameString,
+                lastNameString,
+                phoneNumberString,
+                emailString,
+                passwordString,
+                streetString,
+                cityString,
+                countyString,
+                postcodeString,
+                countryString,
+                salaryString,
+                departmentString
+        };
+
+        if (sanitiseEmployeeInputData(employeeData)) {
+            String hireDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+            String name = firstNameString + " " + lastNameString;
+
+            String[] employeeDataToAdd = {
+                    name,
+                    phoneNumberString,
+                    emailString,
+                    passwordString,
+                    streetString,
+                    cityString,
+                    countyString,
+                    postcodeString,
+                    countryString,
+                    salaryString,
+                    departmentString,
+                    hireDate,
+            };
+
+            db.ADD("employees", employeeDataToAdd);
+        }
     }
 
     private void viewProfile(String department, int id) {
