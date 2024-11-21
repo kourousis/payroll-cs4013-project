@@ -227,7 +227,7 @@ public class DBController {
 
     public boolean ADD(String table, String[] data) {
         if (data.length != tableFields.get(table)) {
-            System.out.println("Incorrect number of fields");
+            System.out.println("\nDB ERROR Incorrect number of fields DBERROR");
             return false;
         }
 
