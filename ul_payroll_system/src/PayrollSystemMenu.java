@@ -26,13 +26,6 @@ public class PayrollSystemMenu {
         return department;
     }
 
-    private boolean detectCommas(String string) {
-        if (string.contains(",")) {
-            return true;
-        }
-        return false;
-    }
-
     public void run() {
         System.out.println("--------------------------------------------------");
         System.out.println("Welcome to the UL Payroll System");
@@ -99,7 +92,7 @@ public class PayrollSystemMenu {
 
         while (loggedIn && running) {
             if (command.equals("A")) {
-                // Add user
+                addUser();
             } else if (command.equals("B")) {
                 // Get timesheet
             } else if (command.equals("C")) {
@@ -187,6 +180,36 @@ public class PayrollSystemMenu {
             return 0;
         }
         return id;
+    }
+
+    private boolean detectCommas(String string) {
+        if (string.contains(",")) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean sanitiseEmployeeInputData(String[] data) {
+        // big if statemnt to validate each input
+
+        return false;
+    }
+
+    private void addUser() {
+        System.out.println("Employee's First Name ");
+        String firstNameString = in.nextLine();
+
+        System.out.println("Employee's Last Name: ");
+        String lastNameString = in.nextLine();
+        // do rest of inputs
+
+        // add everything to array
+
+        // if (sanitiseEmployeeInputData(data)) {
+        //     db.ADD()
+        // } else {
+        //     error message
+        // }
     }
 
     private void viewProfile(String department, int id) {
