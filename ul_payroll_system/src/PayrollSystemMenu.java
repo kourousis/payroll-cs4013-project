@@ -48,6 +48,8 @@ public class PayrollSystemMenu {
                 password = in.nextLine();
 
                 employeeId = authenticateAndReturnID(email, password);
+                System.out.println("EMPLOYEE ID: " + employeeId);
+                
                 if (employeeId > 0) {
                     loggedIn = true;
                 }
@@ -80,7 +82,7 @@ public class PayrollSystemMenu {
             } else if (command.equals("B")) {
                 // Get timesheet
             } else if (command.equals("C")) {
-                viewProfile(department, 1);
+                viewProfile();
                 break;
             } else if (command.equals("L")) {
                 loggedIn = false;
@@ -103,7 +105,7 @@ public class PayrollSystemMenu {
             } else if (command.equals("B")) {
                 // Get timesheet
             } else if (command.equals("C")) {
-                viewProfile(department, 1);
+                viewProfile();
                 break;
             } else if (command.equals("L")) {
                 loggedIn = false;
@@ -124,7 +126,7 @@ public class PayrollSystemMenu {
             if (command.equals("A")) {
                 // Accept Promotion
             } else if (command.equals("B")) {
-                viewProfile(department, 1);
+                viewProfile();
                 break;
             } else if (command.equals("C")) {
                 // Historic Timesheets
@@ -147,7 +149,7 @@ public class PayrollSystemMenu {
             if (command.equals("A")) {
                 // Make payclaim
             } else if (command.equals("B")) {
-                viewProfile(department, 1);
+                viewProfile();
                 break;
             } else if (command.equals("C")) {
                 // Historic Timesheets
@@ -174,6 +176,7 @@ public class PayrollSystemMenu {
                     String name = db.GET("employees", id, "Name");
                     firstName = name.split(" ")[0];
                     lastName = name.split(" ")[1];
+                    break;
                 } else {
                     System.out.print("Invalid Password, please try again\n");
                     return 0;
@@ -189,10 +192,10 @@ public class PayrollSystemMenu {
         return id;
     }
 
-    private void viewProfile(String department, int id) {
+    private void viewProfile() {
         Map<String, String> row;
         try {
-            row = db.GET_ROW("employees", id, "");
+            row = db.GET_ROW("employees", employeeId, "");
             System.out.println("--------------------------------------------------");
             System.out.println("Name: " + row.get("Name"));
             System.out.println("Phone: " + row.get("Phone"));
@@ -208,7 +211,7 @@ public class PayrollSystemMenu {
             System.out.println("--------------------------------------------------");
 
             while (true) {
-                System.out.println("G)Go-Back");
+                System.out.println("G)o-Back");
                 String input = in.nextLine().toUpperCase();
 
                 if (input.equals("G")) {
