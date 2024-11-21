@@ -50,7 +50,6 @@ public class PayrollSystemMenu {
                 employeeId = authenticateAndReturnID(email, password);
                 if (employeeId > 0) {
                     loggedIn = true;
-                    System.out.println(department);
                 }
             }
 
