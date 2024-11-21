@@ -13,14 +13,25 @@ public class Promotion {
 
         // Creates file if it doesnt exist
         File file = new File(filePath);
+        try {
 
-        // Check if the file exists, if not, create it and write headers
-        if (!file.exists()) {
-            try {
+            // Check if the file exists, if not, create it and write headers
+            if (!file.exists()) {
                 file.createNewFile();
-            } catch (IOException e) {
-                System.out.println("Error while creating pendingPromo.csv file");
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                    writer.write("userID, newJobTitle\n"); // Adding headers to Promo csv file
+                }
             }
+
+            // Append the new promotion details
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+                writer.write(userId + ", " + newJobTitle + "\n"); // Adding the users info for csv file
+            }
+
+            System.out.println("Promotion added to pendingPromo.csv for user " + userId + " with new title " + newJobTitle);
+
+        } catch (IOException e) {
+            System.out.println("Error while writing to pendingPromo.csv");
         }
     }
 }
