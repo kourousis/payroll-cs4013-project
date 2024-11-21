@@ -10,11 +10,12 @@ public class DBController {
 
     public DBController() {
         tableFields.put("employees", 13);
-        tableFields.put("payclaim", 1);
+        tableFields.put("payslips", 8);
+        tableFields.put("control_data", 3);
     }
 
     public String GET(String table, int id, String data) {
-        if (!table.equals("employees") && !table.equals("payclaim")) {
+        if (!table.equals("employees") && !table.equals("control_data")) {
             System.out.println("No table found");
             return null;
         }
@@ -50,7 +51,7 @@ public class DBController {
     }
 
     public String UPDATE(String table, int id, String field, String newValue) {
-        if (!table.equals("employees") && !table.equals("payclaim")) {
+        if (!table.equals("employees") && !table.equals("control_data")) {
             System.out.println("No table found");
             return null;
         }
@@ -111,13 +112,16 @@ public class DBController {
         }
     }
 
-    public HashMap<String, String> GET_ROW(String table, int id) {
-        if (!table.equals("employees") && !table.equals("payclaim")) {
+    public HashMap<String, String> GET_ROW(String table, int id, String date) {
+        String path;
+        if (table.equals("employees")) {
+            path = CSV_FILE_PATH + table + ".csv";
+        } else if (table.equals("payslips")) {
+            path = CSV_FILE_PATH + "/payslips/" + "payslip_" + id + ".csv";
+        } else {
             System.out.println("No table found");
             return null;
         }
-
-        String path = CSV_FILE_PATH + table + ".csv";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             // Get header + col names
@@ -128,17 +132,31 @@ public class DBController {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
+                if (values[0].isEmpty()) {
+                    continue; // Skip lines with empty ID field
+                }
                 int currentId = Integer.parseInt(values[0]); // EmployeeID is always first column
 
-                if (currentId == id) {
-                    HashMap<String, String> row = new HashMap<>();
-                    for (int i = 0; i < columns.length; i++) {
-                        row.put(columns[i], values[i]);
+                if (table.equals("employees")) {
+                    if (currentId == id) {
+                        HashMap<String, String> row = new HashMap<>();
+                        for (int i = 0; i < columns.length; i++) {
+                            row.put(columns[i], values[i]);
+                        }
+                        return row;
                     }
-                    return row;
+                } else if (table.equals("payslips")) {
+                    String currentDate = values[1];
+                    if (currentId == id && currentDate.equals(date)) {
+                        HashMap<String, String> row = new HashMap<>();
+                        for (int i = 0; i < columns.length; i++) {
+                            row.put(columns[i], values[i]);
+                        }
+                        return row;
+                    }
                 }
             }
-            System.out.println("Employee ID not found");
+            System.out.println("Record not found");
             return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -208,19 +226,42 @@ public class DBController {
     }
 
     public boolean ADD(String table, String[] data) {
-        if (!table.equals("employees") && !table.equals("payclaim")) {
-            System.out.println("No table found");
-            return false;
-        }
         if (data.length != tableFields.get(table)) {
             System.out.println("Incorrect number of fields");
             return false;
         }
 
-        String path = CSV_FILE_PATH + table + ".csv";
+        String path = "";
+        if (table.equals("employees")) {
+            path = CSV_FILE_PATH + table + ".csv";
+        } else if (table.equals("payslip")) {
+            path = CSV_FILE_PATH + "/payslips/" + "payslip_" + data[0] + ".csv";
+        } else {
+            System.out.println("No table found");
+            return false;
+        }
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+            writer.newLine();
+            if (table.equals("payslip")) writer.newLine();
+            writer.write(String.join(",", data));
+            writer.close();
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean NEW_PAYSLIP(Payslip ps) {
+        String path = CSV_FILE_PATH + "/payslips/" +  "payslip_" + ps.getId() + ".csv";
+        String header = "ID,Date,EmployeeName,GrossPay,USC,PRSI,IncomeTax,NetPay";
+        String[] data = {Integer.toString(ps.getId()), ps.getDate().toString(), ps.getEmployeeName(), Float.toString(ps.getGrossPay()),
+                Float.toString(ps.getUSC()), Float.toString(ps.getPRSI()), Float.toString(ps.getIncomeTax()), Float.toString(ps.getNetPay())};
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+            writer.write(header);
             writer.newLine();
             writer.write(String.join(",", data));
             writer.close();
@@ -230,19 +271,59 @@ public class DBController {
         }
     }
 
-    public boolean NEW_TIMESHEET(int id, Timesheet ts) {
-        String path = CSV_FILE_PATH + "historic_timesheets" + id + ".csv";
-        String[] data = {""};
-        // Write formatter later
+    public HashMap<String, String> LATEST_ROW(String table) {
+        String path;
+        if (table.equals("employees")) {
+            path = CSV_FILE_PATH + table + ".csv";
+        } else if (table.startsWith("payslip_")) {
+            path = CSV_FILE_PATH + "/payslips/" + table + ".csv";
+        } else {
+            System.out.println("Invalid table name");
+            return null;
+        }
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
-            writer.newLine();
-            writer.write(String.join(",", data));
-            writer.close();
-            return true;
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            String header = reader.readLine();
+            String[] columns = header.split(",");
+
+            String line;
+            HashMap<String, String> latestRow = null;
+            String latestDate = "";
+
+            while ((line = reader.readLine()) != null) {
+                // Skip empty lines
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
+                String[] values = line.split(",");
+
+                if (table.startsWith("payslip_")) {
+                    String currentDate = values[1]; // Date is always second column
+                    if (latestDate.isEmpty() || currentDate.compareTo(latestDate) > 0) {
+                        latestDate = currentDate;
+                        latestRow = new HashMap<>();
+                        for (int i = 0; i < columns.length; i++) {
+                            latestRow.put(columns[i], values[i]);
+                        }
+                    }
+                } else {
+                    latestRow = new HashMap<>();
+                    for (int i = 0; i < columns.length; i++) {
+                        latestRow.put(columns[i], values[i]);
+                    }
+                }
+            }
+
+            if (latestRow == null) {
+                System.out.println("No valid rows found");
+                return null;
+            }
+            return latestRow;
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error reading file: " + e.getMessage());
+            return null;
         }
     }
 }

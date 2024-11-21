@@ -1,18 +1,22 @@
-import java.util.Map;
-
 public class GrossCalc {
     private int years;
+    private SalaryScale salaryScale;
 
-    public GrossCalc(int yearinput)
+    public GrossCalc(Staff person, int yearinput)
     {
+        if (person instanceof FullTimeStaff) {
+            salaryScale = new FullScale();
+        } else if (person instanceof PartTimeStaff) {
+            salaryScale = new PartScale();
+        } else {
+            System.out.println("Invalid Title");
+        }
         this.years = yearinput;
     }
 
     //calculate gross based on years worked and job title
-    public void calculateGrossIncome(String department,String jobTitle)
+    public void calculateGrossIncome(String department, String jobTitle)
     {
-        SalaryScale salaryScale = new SalaryScale();
-
         // Gets salary map for department and job title
         float salary = 0;
         if (department.equals("President")) {
@@ -24,12 +28,7 @@ public class GrossCalc {
                     System.out.println("Invalid Title");
                 }
         } else {
-            Map<Integer, Float> salaryData = salaryScale.getSalaryData(department,jobTitle);
-            if (salaryData != null && salaryData.containsKey(years)) {
-                salary = salaryData.get(years);
-            } else {;
-                System.out.println("Invalid Title");
-            }
+            salary = salaryScale.getSalaryData(department, jobTitle, years);
         }
         if (salary == 0) {
             System.out.println("Invalid Title");

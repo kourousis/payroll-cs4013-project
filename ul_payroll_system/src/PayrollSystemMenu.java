@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
@@ -43,12 +44,12 @@ public class PayrollSystemMenu {
                 password = in.nextLine();
 
                 employeeId = authenticateAndReturnID(email, password);
+                
                 if (employeeId > 0) {
                     loggedIn = true;
                 }
             }
 
-            // Actions a user can perform if they log in as an X employee
             if (department.equals("PartTime"))
                 partTime();
             else if (department.equals("Admin"))
@@ -62,94 +63,137 @@ public class PayrollSystemMenu {
     }
 
     private void HR() {
+    while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Promote-Staff  B)Get Timesheet  C)User-Profile  L)og-Out");
+        System.out.println("A)Promote-Staff  B)View-Payslips  C)User-Profile  L)og-Out");
 
         String command = in.nextLine().toUpperCase();
 
-        while (loggedIn && running) {
-            if (command.equals("A")) {
+        if (command == null || command.isEmpty()) {
+            System.out.println("Invalid input. Please try again.");
+            continue;
+        }
+
+        switch (command) {
+            case "A":
                 // Call promote method
-            } else if (command.equals("B")) {
-                // Get timesheet
-            } else if (command.equals("C")) {
-                viewProfile(department, 1);
                 break;
-            } else if (command.equals("L")) {
+            case "B":
+                viewPayslip();
+                break;
+            case "C":
+                viewProfile();
+                break;
+            case "L":
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
+                break;
+            default:
+                System.out.println("Invalid command. Please try again.");
             }
         }
     }
 
     private void Admin() {
-        System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
-        System.out.println("--------------------------------------------------");
-        System.out.println("A)Add User  B)View-Timesheet  C)User-Profile  L)og-Out");
-
-        String command = in.nextLine().toUpperCase();
-
         while (loggedIn && running) {
-            if (command.equals("A")) {
-                addUser();
-                break;
-            } else if (command.equals("B")) {
-                // Get timesheet
-            } else if (command.equals("C")) {
-                viewProfile(department, 1);
-                break;
-            } else if (command.equals("L")) {
-                loggedIn = false;
-                System.out.println("--------------------------------------------------");
+            System.out.println("--------------------------------------------------");
+            System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+            System.out.println("--------------------------------------------------");
+            System.out.println("A)Add User  B)View-Payslips  C)User-Profile  L)og-Out");
+
+            String command = in.nextLine().toUpperCase();
+
+            if (command == null || command.isEmpty()) {
+                System.out.println("Invalid input. Please try again.");
+                continue;
+            }
+
+            switch (command) {
+                case "A":
+                    // Add user
+                    break;
+                case "B":
+                    viewPayslip();
+                    break;
+                case "C":
+                    viewProfile();
+                    break;
+                case "L":
+                    loggedIn = false;
+                    System.out.println("--------------------------------------------------");
+                    break;
+                default:
+                    System.out.println("Invalid command. Please try again.");
             }
         }
     }
 
     private void fullTime() {
+    while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Accept Promotion  B)User-Profile  C)View-Timesheet  L)og-Out");
+        System.out.println("A)Accept Promotion  B)User-Profile  C)View-Payslips  L)og-Out");
 
         String command = in.nextLine().toUpperCase();
 
-        while (loggedIn && running) {
-            if (command.equals("A")) {
+        if (command == null || command.isEmpty()) {
+            System.out.println("Invalid input. Please try again.");
+            continue;
+        }
+
+        switch (command) {
+            case "A":
                 // Accept Promotion
-            } else if (command.equals("B")) {
-                viewProfile(department, 1);
                 break;
-            } else if (command.equals("C")) {
-                // Historic Timesheets
-            } else if (command.equals("L")) {
+            case "B":
+                viewProfile();
+                break;
+            case "C":
+                viewPayslip();
+                break;
+            case "L":
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
+                break;
+            default:
+                System.out.println("Invalid command. Please try again.");
             }
         }
     }
 
     private void partTime() {
+    while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
         System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
         System.out.println("--------------------------------------------------");
-        System.out.println("A)Make-Payclaim  B)User-Profile  C)View-Timesheet  L)og-Out");
+        System.out.println("A)Make-Payclaim  B)User-Profile  C)View-Payslips L)og-Out");
 
         String command = in.nextLine().toUpperCase();
 
-        while (loggedIn && running) {
-            if (command.equals("A")) {
+        if (command == null || command.isEmpty()) {
+            System.out.println("Invalid input. Please try again.");
+            continue;
+        }
+
+        switch (command) {
+            case "A":
                 // Make payclaim
-            } else if (command.equals("B")) {
-                viewProfile(department, 1);
                 break;
-            } else if (command.equals("C")) {
-                // Historic Timesheets
-            } else if (command.equals("L")) {
+            case "B":
+                viewProfile();
+                break;
+            case "C":
+                viewPayslip();
+                break;
+            case "L":
                 loggedIn = false;
                 System.out.println("--------------------------------------------------");
+                break;
+            default:
+                System.out.println("Invalid command. Please try again.");
             }
         }
     }
@@ -351,10 +395,10 @@ public class PayrollSystemMenu {
         }
     }
 
-    private void viewProfile(String department, int id) {
+    private void viewProfile() {
         Map<String, String> row;
         try {
-            row = db.GET_ROW("employees", id);
+            row = db.GET_ROW("employees", employeeId, "");
             System.out.println("--------------------------------------------------");
             System.out.println("Name: " + row.get("Name"));
             System.out.println("Phone: " + row.get("Phone"));
@@ -370,7 +414,7 @@ public class PayrollSystemMenu {
             System.out.println("--------------------------------------------------");
 
             while (true) {
-                System.out.println("G)Go-Back");
+                System.out.println("G)o-Back");
                 String input = in.nextLine().toUpperCase();
 
                 if (input.equals("G")) {
@@ -380,6 +424,94 @@ public class PayrollSystemMenu {
         } catch (Exception e) {
             System.out.println("Error: " + e);
             return;
+        }
+    }
+
+    private void viewPayslip() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("L)atest-Payslip  H)istoric-Payslips  G)o-Back");
+        String command = in.nextLine().toUpperCase();
+        while(true) {
+            if (command.equals("L")) {
+                String table = "payslip_" + employeeId;
+                HashMap<String, String> payslipData= db.LATEST_ROW(table);
+                if (payslipData != null && !payslipData.isEmpty()) {
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Payslip for: " + payslipData.get("EmployeeName"));
+                    System.out.println("Date: " + payslipData.get("Date"));
+                    System.out.println("--------------------------------------------------");
+                    System.out.printf("Gross Pay:   €%.2f\n", Float.parseFloat(payslipData.get("GrossPay")));
+                    System.out.printf("USC:         €%.2f\n", Float.parseFloat(payslipData.get("USC")));
+                    System.out.printf("PRSI:        €%.2f\n", Float.parseFloat(payslipData.get("PRSI")));
+                    System.out.printf("Income Tax:  €%.2f\n", Float.parseFloat(payslipData.get("IncomeTax")));
+                    System.out.println("--------------------------------------------------");
+                    System.out.printf("Net Pay:     €%.2f\n", Float.parseFloat(payslipData.get("NetPay")));
+                    System.out.println("--------------------------------------------------");
+                } else {
+                    System.out.println("No payslips found");
+                    continue;
+                }
+
+                System.out.println("G)o-Back");
+                String input = in.nextLine().toUpperCase();
+                if (input.equals("G")) {
+                    break;
+                }
+            } else if (command.equals("H")) {
+                historicPayslip();
+                break;
+            } else if (command.equals("G")) {
+                break;
+            } else {
+                System.out.println("Invalid command, please try again");
+                command = in.nextLine().toUpperCase();
+            }
+
+        }
+    }
+
+    private void historicPayslip() {
+        while(true) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("Input Date (YYYY-MM-DD) or G)o Back");
+            String input = in.nextLine().toUpperCase();
+            
+            if (input.equals("G")) {
+                break;
+            }
+
+            // Regex to check if input is in the format YYYY(d4)-MM(d2)-DD(d2)
+            if (!input.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                System.out.println("Invalid date format. Please use YYYY-MM-DD");
+                continue;
+            }
+            
+            try {
+                HashMap<String, String> payslipData = db.GET_ROW("payslips", employeeId, input);
+                if (payslipData != null && !payslipData.isEmpty()) {
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Payslip for: " + payslipData.get("EmployeeName"));
+                    System.out.println("Date: " + payslipData.get("Date"));
+                    System.out.println("--------------------------------------------------");
+                    System.out.printf("Gross Pay:   €%.2f\n", Float.parseFloat(payslipData.get("GrossPay")));
+                    System.out.printf("USC:         €%.2f\n", Float.parseFloat(payslipData.get("USC")));
+                    System.out.printf("PRSI:        €%.2f\n", Float.parseFloat(payslipData.get("PRSI")));
+                    System.out.printf("Income Tax:  €%.2f\n", Float.parseFloat(payslipData.get("IncomeTax")));
+                    System.out.println("--------------------------------------------------");
+                    System.out.printf("Net Pay:     €%.2f\n", Float.parseFloat(payslipData.get("NetPay")));
+                    System.out.println("--------------------------------------------------");
+                } else {
+                    System.out.println("No payslip found for " + input);
+                }
+                
+                System.out.println("Press G to go back");
+                String input2 = in.nextLine().toUpperCase();
+                if (input2.equals("G")) {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error processing payslip data");
+            }
         }
     }
 }

@@ -13,5 +13,6 @@
 ### Compile step:
 
 ```bash
-javac src/*.java && java -cp src App
+javac -cp "src:lib/*" src/*.java && 
+java -cp "src:lib/*" App
 ```
