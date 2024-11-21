@@ -270,4 +270,60 @@ public class DBController {
             throw new RuntimeException(e);
         }
     }
+
+    public HashMap<String, String> LATEST_ROW(String table) {
+        String path;
+        if (table.equals("employees")) {
+            path = CSV_FILE_PATH + table + ".csv";
+        } else if (table.startsWith("payslip_")) {
+            path = CSV_FILE_PATH + "/payslips/" + table + ".csv";
+        } else {
+            System.out.println("Invalid table name");
+            return null;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            String header = reader.readLine();
+            String[] columns = header.split(",");
+
+            String line;
+            HashMap<String, String> latestRow = null;
+            String latestDate = "";
+
+            while ((line = reader.readLine()) != null) {
+                // Skip empty lines
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
+                String[] values = line.split(",");
+
+                if (table.startsWith("payslip_")) {
+                    String currentDate = values[1]; // Date is always second column
+                    if (latestDate.isEmpty() || currentDate.compareTo(latestDate) > 0) {
+                        latestDate = currentDate;
+                        latestRow = new HashMap<>();
+                        for (int i = 0; i < columns.length; i++) {
+                            latestRow.put(columns[i], values[i]);
+                        }
+                    }
+                } else {
+                    latestRow = new HashMap<>();
+                    for (int i = 0; i < columns.length; i++) {
+                        latestRow.put(columns[i], values[i]);
+                    }
+                }
+            }
+
+            if (latestRow == null) {
+                System.out.println("No valid rows found");
+                return null;
+            }
+            return latestRow;
+
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+            return null;
+        }
+    }
 }

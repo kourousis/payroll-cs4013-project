@@ -291,7 +291,25 @@ public class PayrollSystemMenu {
         String command = in.nextLine().toUpperCase();
         while(true) {
             if (command.equals("L")) {
-                // Get latest payslip logic here
+                String table = "payslip_" + employeeId;
+                HashMap<String, String> payslipData= db.LATEST_ROW(table);
+                if (payslipData != null && !payslipData.isEmpty()) {
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Payslip for: " + payslipData.get("EmployeeName"));
+                    System.out.println("Date: " + payslipData.get("Date"));
+                    System.out.println("--------------------------------------------------");
+                    System.out.printf("Gross Pay:   €%.2f\n", Float.parseFloat(payslipData.get("GrossPay")));
+                    System.out.printf("USC:         €%.2f\n", Float.parseFloat(payslipData.get("USC")));
+                    System.out.printf("PRSI:        €%.2f\n", Float.parseFloat(payslipData.get("PRSI")));
+                    System.out.printf("Income Tax:  €%.2f\n", Float.parseFloat(payslipData.get("IncomeTax")));
+                    System.out.println("--------------------------------------------------");
+                    System.out.printf("Net Pay:     €%.2f\n", Float.parseFloat(payslipData.get("NetPay")));
+                    System.out.println("--------------------------------------------------");
+                } else {
+                    System.out.println("No payslips found");
+                    continue;
+                }
+
                 System.out.println("G)o-Back");
                 String input = in.nextLine().toUpperCase();
                 if (input.equals("G")) {
@@ -319,7 +337,8 @@ public class PayrollSystemMenu {
             if (input.equals("G")) {
                 break;
             }
-            
+
+            // Regex to check if input is in the format YYYY(d4)-MM(d2)-DD(d2)
             if (!input.matches("\\d{4}-\\d{2}-\\d{2}")) {
                 System.out.println("Invalid date format. Please use YYYY-MM-DD");
                 continue;
