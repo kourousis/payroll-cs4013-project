@@ -269,7 +269,7 @@ public class PayrollSystemMenu {
         }
 
         // Validate email format
-        if (!emailString.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")) {
+        if (!emailString.matches("^[\\w.-]+@ul\\.ie$")) {
             System.out.println();
             System.out.println("ERROR Invalid email format. ERROR");
             return false;
@@ -323,7 +323,7 @@ public class PayrollSystemMenu {
         System.out.print("Employee's Mobile Phone (10-15 digits): ");
         String phoneNumberString = in.nextLine();
 
-        System.out.print("Employee's Email: ");
+        System.out.print("Employee's Email (must end in @ul.ie): ");
         String emailString = in.nextLine();
 
         System.out.print("Employee's Password (minimum 6 characters): ");
