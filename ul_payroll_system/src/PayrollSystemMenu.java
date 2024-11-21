@@ -49,14 +49,12 @@ public class PayrollSystemMenu {
                 password = in.nextLine();
 
                 employeeId = authenticateAndReturnID(email, password);
-                //System.out.println("EMPLOYEE ID: " + employeeId);
                 
                 if (employeeId > 0) {
                     loggedIn = true;
                 }
             }
 
-            // Actions a user can perform if they log in as an X employee
             if (department.equals("PartTime"))
                 partTime();
              else if (department.equals("Admin"))
@@ -206,7 +204,7 @@ public class PayrollSystemMenu {
     }
 
     private int authenticateAndReturnID(String email, String password) {
-        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+        if (email == null || email.trim().isEmpty() || password == null) {
             System.out.println("Email and password cannot be empty");
             return 0;
         }
@@ -220,9 +218,9 @@ public class PayrollSystemMenu {
             while ((dbEmail = db.GET("employees", id, "Email")) != null && !dbEmail.isEmpty()) {
                 if (dbEmail.equals(email)) {
                     emailFound = true;
-                    String dbPassword = db.GET("employees", id, "Password");
-                    
-                    if (dbPassword != null && dbPassword.equals(password)) {
+                    String hashedPassword = db.GET("employees", id, "Password");
+                
+                    if (hashedPassword != null && PasswordUtil.checkPassword(password, hashedPassword)) {
                         department = db.GET("employees", id, "Department");
                         String name = db.GET("employees", id, "Name");
                         if (name != null && name.contains(" ")) {
