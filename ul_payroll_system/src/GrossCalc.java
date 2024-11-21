@@ -1,22 +1,24 @@
 import java.util.Map;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class GrossCalc {
 
     private int years;
 
 
-    public GrossCalc(int yearinput)
-    {
+    public GrossCalc(int yearinput) {
         this.years = yearinput;
     }
 
     //calculate gross based on years worked and job title
-    public void calculateGrossIncome(String department,String jobTitle)
-    {
+    public void calculateGrossIncome(String department, String jobTitle) {
         SalaryScale salaryScale2 = new SalaryScale();
 
         // Gets salary map for department and job title
-        Map<Integer, Float> salaryMap = (Map<Integer,Float>) salaryScale2.getSalaryData(department,jobTitle);
+        Map<Integer, Float> salaryMap = (Map<Integer, Float>) salaryScale2.getSalaryData(department, jobTitle);
 
         // Checks salary map for null
         if (salaryMap != null && salaryMap.containsKey(years)) {
@@ -32,3 +34,7 @@ public class GrossCalc {
         }
     }
 }
+
+
+
+
