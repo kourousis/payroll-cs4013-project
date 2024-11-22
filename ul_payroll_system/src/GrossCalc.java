@@ -1,4 +1,11 @@
+import java.util.Map;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class GrossCalc {
+
     private int years;
     private SalaryScale salaryScale;
 
@@ -15,8 +22,7 @@ public class GrossCalc {
     }
 
     //calculate gross based on years worked and job title
-    public void calculateGrossIncome(String department, String jobTitle)
-    {
+    public void calculateGrossIncome(String department, String jobTitle) {
         // Gets salary map for department and job title
         float salary = 0;
         if (department.equals("President")) {
