@@ -2,14 +2,16 @@
 public class GrossCalc {
 
     private int years;
+    private int hours;
     private SalaryScale salaryScale;
 
-    public GrossCalc(Staff person, int yearinput)
+    public GrossCalc(Staff person, int yearinput, int hours)
     {
         if (person instanceof FullTimeStaff) {
             salaryScale = new FullScale();
         } else if (person instanceof PartTimeStaff) {
             salaryScale = new PartScale();
+            this.hours = hours;
         } else {
             System.out.println("Invalid Title");
         }
@@ -30,6 +32,9 @@ public class GrossCalc {
                 }
         } else {
             salary = salaryScale.getSalaryData(department, jobTitle, years);
+            if (salaryScale instanceof PartScale) {
+                salary = salary * hours;
+            }
         }
         if (salary == 0) {
             System.out.println("Invalid Title");
