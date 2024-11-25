@@ -9,7 +9,7 @@ public class DBController {
     private Map<String, Integer> tableFields = new HashMap<>();
 
     public DBController() {
-        tableFields.put("employees", 13);
+        tableFields.put("employees", 15);
         tableFields.put("payslips", 8);
         tableFields.put("control_data", 3);
     }

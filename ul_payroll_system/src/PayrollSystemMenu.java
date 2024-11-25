@@ -242,14 +242,18 @@ public class PayrollSystemMenu {
         String countryString = data[9];
         String salaryString = data[10];
         String departmentString = data[11];
+        String jobtitle = data[12];
+        String roleType = data[13];
 
         // Employee Personal Information Validation
 
         // Validate if fields contain commas
-        if (Arrays.asList(data).contains(",")) {
-            System.out.println();
-            System.out.println("ERROR: Fields cannot contain commas. ERROR");
-            return false;
+        for(String field : data) {
+            if (field.contains(",")) {
+                System.out.println();
+                System.out.println("ERROR Fields cannot contain commas. ERROR");
+                return false;
+            }
         }
 
         // Validate first name and last name (only letters)
@@ -288,6 +292,11 @@ public class PayrollSystemMenu {
         // Employee Work Details Validation
         try {
             Float.parseFloat(salaryString);
+            if (Float.parseFloat(salaryString) < 1) {
+                System.out.println();
+                System.out.println("ERROR Salary must be a positive number. ERROR");
+                return false;
+            }
         } catch (NumberFormatException e) {
             System.out.println();
             System.out.println("ERROR Salary must be a valid number. ERROR");
@@ -300,6 +309,22 @@ public class PayrollSystemMenu {
             System.out.println("ERROR Department cannot be empty. ERROR");
             return false;
         }
+
+        // Validate job title (not empty)
+        if (jobtitle.isEmpty()) {
+            System.out.println();
+            System.out.println("ERROR Job title cannot be empty. ERROR");
+            return false;
+        }
+
+        // Validate role type (is one of the following: FULLTIME, PARTTIME, ADMIN, HR)
+        if (roleType.equals("FULLTIME") || roleType.equals("PARTTIME") ||
+                roleType.equals("ADMIN") || roleType.equals("HR")) {
+            System.out.println();
+            System.out.println("ERROR Role type cannot be empty. ERROR");
+            return false;
+        }
+
         return true;
     }
 
@@ -353,6 +378,12 @@ public class PayrollSystemMenu {
         System.out.print("Employee's Department: ");
         String departmentString = in.nextLine();
 
+        System.out.print("Employee's Job Title: ");
+        String jobtitle = in.nextLine();
+
+        System.out.print("Employee's Role Type: ");
+        String roletype = in.nextLine();
+
         String[] employeeData = {
                 firstNameString,
                 lastNameString,
@@ -365,11 +396,13 @@ public class PayrollSystemMenu {
                 postcodeString,
                 countryString,
                 salaryString,
-                departmentString
+                departmentString,
+                jobtitle,
+                roletype
         };
 
         if (sanitiseEmployeeInputData(employeeData)) {
-            String hireDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+            String roleDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
             String name = firstNameString + " " + lastNameString;
 
             String[] employeeDataToAdd = {
@@ -384,7 +417,9 @@ public class PayrollSystemMenu {
                     countryString,
                     salaryString,
                     departmentString,
-                    hireDate,
+                    jobtitle,
+                    roletype,
+                    roleDate
             };
 
             db.ADD("employees", employeeDataToAdd);
