@@ -18,6 +18,9 @@ public class DBTest {
 //            System.out.println("Payslip not added");
 //        }
 
+int id = Integer.parseInt(db.LATEST_ROW("employees").get("EmployeeID"));
+        System.out.println(id);
+
         HashMap<String, String> row;
         row = db.GET_ROW("payslips", 1, "2024-11-20");
         System.out.println(row);
