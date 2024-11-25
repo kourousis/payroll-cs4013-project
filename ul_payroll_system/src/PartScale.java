@@ -1,65 +1,58 @@
+import java.util.HashMap;
 import java.util.Map;
 
 public class PartScale extends SalaryScale{
-    private int hours;
-
     @Override
-    public float getSalaryData(String department, String jobTitle, int hours) {
+    public float getSalaryData(String department, String jobTitle, int years) {
         this.jobTitle = jobTitle;
-        this.hours = hours;
+        this.years = years;
         // Minimum wage: €12.70
-//        switch (jobTitle) {
-//            case ("Lecture"):
-//                return Map.of(
-//                        1, 100.0f,
-//                        2, 200.0f,
-//                        3, 300.0f,
-//                        4, 400.0f,
-//                        5, 500.0f
-//                );
-//            case ("Tutorial"):
-//                return Map.of(
-//                        1, 100.0f,
-//                        2, 200.0f,
-//                        3, 300.0f,
-//                        4, 400.0f,
-//                        5, 500.0f
-//                );
-//            case ("Lab"):
-//                return Map.of(
-//                        1, 100.0f,
-//                        2, 200.0f,
-//                        3, 300.0f,
-//                        4, 400.0f,
-//                        5, 500.0f
-//                );
-//            case ("Demo"):
-//                return Map.of(
-//                        1, 100.0f,
-//                        2, 200.0f,
-//                        3, 300.0f,
-//                        4, 400.0f,
-//                        5, 500.0f
-//                );
-//            case ("Exam-Invigilator"):
-//                return Map.of(
-//                        1, 100.0f,
-//                        2, 200.0f,
-//                        3, 300.0f,
-//                        4, 400.0f,
-//                        5, 500.0f
-//                );
-//            case ("Exam-Supervisor"):
-//                return Map.of(
-//                        1, 100.0f,
-//                        2, 200.0f,
-//                        3, 300.0f,
-//                        4, 400.0f,
-//                        5, 500.0f
-//                );
-//            default:
-//                break;
-//        }
+        switch (jobTitle) {
+            case ("Lecture"):
+                Map<Integer, Float> lecture = new HashMap<>();
+                lecture.put(1, 12.70f);
+                lecture.put(2, 15.40f);
+                lecture.put(3, 25.10f);
+                lecture.put(4, 30.80f);
+                return lecture.get(years);
+            case ("Tutorial"):
+                Map<Integer, Float> tutorial = new HashMap<>();
+                tutorial.put(1, 12.70f);
+                tutorial.put(2, 15.40f);
+                tutorial.put(3, 25.10f);
+                tutorial.put(4, 30.80f);
+                return tutorial.get(years);
+            case ("Lab"):
+                Map<Integer, Float> lab = new HashMap<>();
+                lab.put(1, 12.70f);
+                lab.put(2, 15.40f);
+                lab.put(3, 25.10f);
+                lab.put(4, 30.80f);
+                return lab.get(years);
+            case ("Demo"):
+                Map<Integer, Float> demo = new HashMap<>();
+                demo.put(1, 12.70f);
+                demo.put(2, 15.40f);
+                demo.put(3, 25.10f);
+                demo.put(4, 30.80f);
+                return demo.get(years);
+            case ("Exam-Invigilator"):
+                Map<Integer, Float> invigilator = new HashMap<>();
+                invigilator.put(1, 12.70f);
+                invigilator.put(2, 15.40f);
+                invigilator.put(3, 25.10f);
+                invigilator.put(4, 30.80f);
+                return invigilator.get(years);
+            case ("Exam-Supervisor"):
+                Map<Integer, Float> supervisor = new HashMap<>();
+                supervisor.put(1, 12.70f);
+                supervisor.put(2, 15.40f);
+                supervisor.put(3, 25.10f);
+                supervisor.put(4, 30.80f);
+                return supervisor.get(years);
+            default:
+                break;
+        }
         return 0;
     }
 }

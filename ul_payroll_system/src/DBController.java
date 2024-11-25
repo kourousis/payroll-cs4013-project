@@ -226,6 +226,7 @@ public class DBController {
     }
 
     public boolean ADD(String table, String[] data) {
+        int id;
         if (data.length + 1 != tableFields.get(table)) {
             System.out.println("\nDB ERROR Incorrect number of fields DB ERROR");
             return false;
@@ -242,10 +243,18 @@ public class DBController {
         }
 
         try {
+            id = Integer.parseInt(LATEST_ROW(table).get("EmployeeID")) + 1;
+            String[] newData = new String[tableFields.get(table)];
+
+            newData[0] = String.valueOf(id);
+            for (int i = 1; i < data.length; i++) {
+                newData[i] = data[i-1];
+            }
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.newLine();
             if (table.equals("payslip")) writer.newLine();
-            writer.write(String.join(",", data));
+            writer.write(String.join(",", newData));
             writer.close();
             return true;
         } catch (IOException e) {
