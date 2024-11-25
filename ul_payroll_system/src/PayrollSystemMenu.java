@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -10,6 +7,7 @@ public class PayrollSystemMenu {
     private String firstName;
     private String lastName;
     private String department;
+    private String jobTitle;
     private String email;
     private String password;
 
@@ -181,7 +179,7 @@ public class PayrollSystemMenu {
 
         switch (command) {
             case "A":
-                // Make payclaim
+                createPayclaim();
                 break;
             case "B":
                 viewProfile();
@@ -231,13 +229,6 @@ public class PayrollSystemMenu {
         return id;
     }
 
-    private boolean detectCommas(String string) {
-        if (string.contains(",")) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean sanitiseEmployeeInputData(String[] data) {
         String firstNameString = data[0];
         String lastNameString = data[1];
@@ -253,6 +244,13 @@ public class PayrollSystemMenu {
         String departmentString = data[11];
 
         // Employee Personal Information Validation
+
+        // Validate if fields contain commas
+        if (Arrays.asList(data).contains(",")) {
+            System.out.println();
+            System.out.println("ERROR: Fields cannot contain commas. ERROR");
+            return false;
+        }
 
         // Validate first name and last name (only letters)
         if (!firstNameString.matches("[A-Za-z]+") || !lastNameString.matches("[A-Za-z]+")) {
@@ -281,7 +279,6 @@ public class PayrollSystemMenu {
         }
 
         // Employee Address Validation
-
         if (streetString.isEmpty() || cityString.isEmpty() || postcodeString.isEmpty() || countryString.isEmpty() || countyString.isEmpty()) {
             System.out.println();
             System.out.println("ERROR Address fields cannot be empty. ERROR");
@@ -289,7 +286,6 @@ public class PayrollSystemMenu {
         }
 
         // Employee Work Details Validation
-
         try {
             Float.parseFloat(salaryString);
         } catch (NumberFormatException e) {
@@ -304,7 +300,6 @@ public class PayrollSystemMenu {
             System.out.println("ERROR Department cannot be empty. ERROR");
             return false;
         }
-
         return true;
     }
 
@@ -317,7 +312,7 @@ public class PayrollSystemMenu {
         System.out.print("Employee's First Name (no special characters): ");
         String firstNameString = in.nextLine();
 
-        System.out.print("Employee's Last Name (no speical characters): ");
+        System.out.print("Employee's Last Name (no special characters): ");
         String lastNameString = in.nextLine();
 
         System.out.print("Employee's Mobile Phone (10-15 digits): ");
@@ -425,6 +420,39 @@ public class PayrollSystemMenu {
         } catch (Exception e) {
             System.out.println("Error: " + e);
             return;
+        }
+    }
+
+    private void createPayclaim() {
+        String[] data = new String[3];
+        data[0] = Integer.toString(employeeId);
+        data[2] = jobTitle;
+
+        System.out.println("--------------------------------------------------");
+        System.out.println("Input hours worked:");
+        int input = in.nextInt();
+        in.nextLine(); // Consume the newline char
+
+        if (input > 0 && input <= 24) {
+            data[1] = Integer.toString(input);
+
+            System.out.println("--------------------------------------------------");
+            System.out.println("Are these details correct? Y)es N)o");
+            System.out.println("Employee ID: " + data[0] + ", Hours Worked: " + data[1] + ", Job Title: " + data[2]);
+            System.out.println("--------------------------------------------------");
+            String command = in.nextLine().toUpperCase();
+
+            if (command.equals("Y")) {
+                String table = "payclaim_" + employeeId;
+                db.ADD(table, data);
+                System.out.println("Payclaim submitted successfully");
+            } else if (command.equals("N")) {
+                System.out.println("Payclaim cancelled");
+            } else {
+                System.out.println("Invalid command, payclaim not submitted");
+            }
+        } else {
+            System.out.println("Invalid input, please try again");
         }
     }
 
