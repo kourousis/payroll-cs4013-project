@@ -2,3 +2,5 @@ EmployeeID,Name,Phone,Email,Password,Address,City,County,Postcode,Country,Salary
 1,Jane Smith,217-555-5678,jane.smith@ul.ie,password123,5678 Oak St,Springfield,IL,62702,USA,81000.0,ComputerScience,2023-02-01
 2,John Doe,217-553-4534,john.doe2@ul.ie,adminpass,45 Jane St,Springfield,IL,54326,USA,10000.0,Admin,2024-01-02
 3,Lucy Smith,223-432-3845,lucy.smith@ul.ie,hrsecure,234 Jane St,Springfield,IL,548456,USA,46500.0,HumanResources,2022-11-14
+4,James SMith,843863484,james.smith@ul.ie,jamessmith,7 Connolly Street,Limerick,Limerick,E79H533,Ireland,37543,Admin,2024-11-23
+5,Johnathan Doe,843459956,johnathan.doe@ul.ie,hrpassword,78 Smith Street,Limerick,Limerick,E50345,Ireland,65000,HumanResources,2024-11-25
