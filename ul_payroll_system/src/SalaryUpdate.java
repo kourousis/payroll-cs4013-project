@@ -3,30 +3,37 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class SalaryUpdate {
+
     public static void main(String[] args) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); //Changes String from CSV to LocalDate for use
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  //Changes String from CSV to LocalDate for use
         DBController db = new DBController();
-        LocalDate date = LocalDate.parse(db.GET("employees", 2, "HireDate"), formatter);
+        // int i = 1;
+        // while(db.GET("employees", i, "HireDate") != null){       **Loop for checking every employee**
+        //     i++;
+        // }
 
-        LocalDate payBump = LocalDate.parse(db.GET("control_data", 2, "Data"), formatter);
-        //if(payBump )
+        //getSalaryData(String department, String jobTitle, int years)
 
+        LocalDate hireDate = LocalDate.parse(db.GET("employees", 2, "HireDate"), formatter);
+
+        LocalDate payBump = LocalDate.parse(db.GET("control_data", 1, "Data"), formatter);
+        
         LocalDate today = LocalDate.now();
-        LocalDate date2 = LocalDate.of(2024, 5, 20);
-        System.out.println("Date: " + today);
-        System.out.println("Date: " + date2);
-        System.out.println("Date: " + date);
-        System.out.println("Pay increase date: " + payBump);
-
-        if (today.isBefore(date2)) {
-            System.out.println("Date1 is before Date2");
-        } else if (today.isAfter(date2)) {
-            System.out.println("Date1 is after Date2");
-        } else {
-            System.out.println("Date1 is equal to Date2");
+        System.out.println("Today is: " + today);
+        
+        System.out.println("hireDate/rollStartDate: " + hireDate);
+        System.out.println("Next Pay increase date: " + payBump);
+        String dateString = payBump.format(formatter);
+        
+        if(payBump.isBefore(today) || payBump.isEqual(today)){
+            payBump = payBump.plusYears(1);
+            dateString = payBump.format(formatter);
+            db.UPDATE("control_data", 1, "Data", dateString);
+            System.out.println("payBump date updated to " + payBump);
+        }
+        else{
+            System.out.println("payBump not updated");
         }
 
-        long daysBetween = ChronoUnit.DAYS.between(date, today);
-        System.out.println("Days since HireDate: " + daysBetween);
     }
 }
