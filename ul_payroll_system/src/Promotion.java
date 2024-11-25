@@ -7,7 +7,8 @@ public class Promotion {
 
 
     // Promotion method for an employee and adds to pendingPromo.csv
-    public void promoteEmployee(String userId, String newJobTitle) {
+    public void promoteEmployee(String hrUserId, String EmployeeId)
+    {
         // Gives path for csv file
         String filePath = "db/pendingPromo.csv";
 
@@ -19,16 +20,16 @@ public class Promotion {
             if (!file.exists()) {
                 file.createNewFile();
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                    writer.write("userID, newJobTitle\n"); // Adding headers to Promo csv file
+                    writer.write("EmployeeId, newJobTitle\n"); // Adding headers to Promo csv file
                 }
             }
 
             // Append the new promotion details
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-                writer.write(userId + ", " + newJobTitle + "\n"); // Adding the users info for csv file
+                writer.write(EmployeeId + ", " + newJobTitle + "\n"); // Adding the users info for csv file
             }
 
-            System.out.println("Promotion added to pendingPromo.csv for user " + userId + " with new title " + newJobTitle);
+            System.out.println("Promotion added to pendingPromo.csv for user " + EmployeeId + " with new title " + newJobTitle);
 
         } catch (IOException e) {
             System.out.println("Error while writing to pendingPromo.csv");
