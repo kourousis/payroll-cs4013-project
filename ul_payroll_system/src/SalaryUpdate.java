@@ -4,15 +4,15 @@ import java.time.temporal.ChronoUnit;
 
 public class SalaryUpdate {
 
+
     public static void main(String[] args) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  //Changes String from CSV to LocalDate for use
         DBController db = new DBController();
         // int i = 1;
-        // while(db.GET("employees", i, "HireDate") != null){       **Loop for checking every employee**
+        // while(db.GET("employees", i, "EmployeeID") != null){       **Loop for checking every employee**
         //     i++;
         // }
-
-        //getSalaryData(String department, String jobTitle, int years)
+        
 
         LocalDate hireDate = LocalDate.parse(db.GET("employees", 2, "HireDate"), formatter);
 
