@@ -54,7 +54,7 @@ public class FullScale extends SalaryScale{
     }
 
     private Map<Integer, Float> getHRSalary() {
-        return null;
+        return Map.of(1, 64409f);
     }
 
     private Map<Integer, Float> getAdminSalary() {

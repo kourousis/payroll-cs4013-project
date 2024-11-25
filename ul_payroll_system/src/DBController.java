@@ -247,8 +247,8 @@ public class DBController {
             String[] newData = new String[tableFields.get(table)];
 
             newData[0] = String.valueOf(id);
-            for (int i = 1; i < data.length; i++) {
-                newData[i] = data[i-1];
+            for (int i = 0; i < data.length; i++) {
+                newData[i+1] = data[i];
             }
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));

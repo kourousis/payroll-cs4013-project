@@ -26,10 +26,10 @@ public class Promotion {
 
             // Append the new promotion details
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-                writer.write(EmployeeId + ", " + newJobTitle + "\n"); // Adding the users info for csv file
+                //writer.write(EmployeeId + ", " + newJobTitle + "\n"); // Adding the users info for csv file
             }
 
-            System.out.println("Promotion added to pendingPromo.csv for user " + EmployeeId + " with new title " + newJobTitle);
+            //System.out.println("Promotion added to pendingPromo.csv for user " + EmployeeId + " with new title " + newJobTitle);
 
         } catch (IOException e) {
             System.out.println("Error while writing to pendingPromo.csv");

@@ -48,11 +48,11 @@ public class PayrollSystemMenu {
                 }
             }
 
-            if (department.equals("PartTime"))
+            if (department.equals("LECTURE"))
                 partTime();
-            else if (department.equals("Admin"))
+            else if (department.equals("ADMIN"))
                 Admin();
-            else if (department.equals("HumanResources")) {
+            else if (department.equals("HR")) {
                 HR();
             } else {
                 fullTime();
@@ -209,7 +209,7 @@ public class PayrollSystemMenu {
             if (db.GET("employees", id, "Email").equals(email)) {
                 emailFound = true;
 
-                if (db.GET("employees", id, "Password").equals(password)) {
+                if (PasswordUtil.checkPassword(password, db.GET("employees", id, "Password"))) {
                     department = db.GET("employees", id, "Department");
                     String name = db.GET("employees", id, "Name");
                     firstName = name.split(" ")[0];
@@ -243,7 +243,7 @@ public class PayrollSystemMenu {
         String salaryString = data[10];
         String departmentString = data[11];
         String jobtitle = data[12];
-        String roleType = data[13];
+        String roleType = data[13].toUpperCase();
 
         // Employee Personal Information Validation
 
@@ -303,6 +303,13 @@ public class PayrollSystemMenu {
             return false;
         }
 
+        // Validate postcode (only letters and numbers, 5-7 characters)
+        if (!postcodeString.matches("[A-Za-z0-9]+") || postcodeString.length() < 5 || postcodeString.length() > 7) {
+            System.out.println();
+            System.out.println("ERROR Postcode must contain only letters and numbers. ERROR");
+            return false;
+        }
+
         // Validate department (not empty)
         if (departmentString.isEmpty()) {
             System.out.println();
@@ -318,8 +325,8 @@ public class PayrollSystemMenu {
         }
 
         // Validate role type (is one of the following: FULLTIME, PARTTIME, ADMIN, HR)
-        if (roleType.equals("FULLTIME") || roleType.equals("PARTTIME") ||
-                roleType.equals("ADMIN") || roleType.equals("HR")) {
+        if (!roleType.equals("FULLTIME") && !roleType.equals("PARTTIME") &&
+                !roleType.equals("ADMIN") && !roleType.equals("HR")) {
             System.out.println();
             System.out.println("ERROR Role type cannot be empty. ERROR");
             return false;
@@ -402,14 +409,17 @@ public class PayrollSystemMenu {
         };
 
         if (sanitiseEmployeeInputData(employeeData)) {
-            String roleDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.now();
+            String roleDate = date.format(dtf);
             String name = firstNameString + " " + lastNameString;
+            String hashedPassword = PasswordUtil.hashPassword(passwordString);
 
             String[] employeeDataToAdd = {
                     name,
                     phoneNumberString,
                     emailString,
-                    passwordString,
+                    hashedPassword,
                     streetString,
                     cityString,
                     countyString,
@@ -419,10 +429,14 @@ public class PayrollSystemMenu {
                     departmentString,
                     jobtitle,
                     roletype,
-                    roleDate
+                    roleDate,
             };
 
-            db.ADD("employees", employeeDataToAdd);
+            if (db.ADD("employees", employeeDataToAdd)) {
+                System.out.println("Employee added successfully");
+            } else {
+                System.out.println("Error adding employee");
+            }
         }
     }
 
