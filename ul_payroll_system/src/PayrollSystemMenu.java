@@ -442,6 +442,12 @@ public class PayrollSystemMenu {
             String name = firstNameString + " " + lastNameString;
             String hashedPassword = PasswordUtil.hashPassword(passwordString);
 
+            ArrayList<String> existingEmails = db.GET_COL("employees", "Email");
+            if (existingEmails != null && existingEmails.contains(emailString)) {
+                System.out.println("Email already exists in the database");
+                return;
+            }
+
             String[] employeeDataToAdd = {
                     name,
                     phoneNumberString,
@@ -461,9 +467,9 @@ public class PayrollSystemMenu {
 
             try {
                 if (db.ADD("employees", employeeDataToAdd)) {
-                    System.out.println("Employee added successfully");
-                    db.ADD("payslip");
-
+                    if (db.ADD("payslip", new String[Integer.parseInt(Integer.toString(employeeId))])) {
+                        System.out.println("Employee added successfully");
+                    }
                 } else {
                     System.out.println("Error adding employee");
                 }

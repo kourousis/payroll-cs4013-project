@@ -10,13 +10,13 @@ public class FullScale extends SalaryScale{
             case "HR":
                 salaryData = getHRSalary();
                 break;
-            case "Admin":
+            case "ADMIN":
                 salaryData = getAdminSalary();
                 break;
-            case "Library":
+            case "LIBRARY":
                 salaryData = getLibrarySalary();
                 break;
-            case "Academic":
+            case "ACADEMIC":
                 salaryData = getAcademicSalary();
                 break;
             case "EPS":
@@ -25,22 +25,22 @@ public class FullScale extends SalaryScale{
             case "IT":
                 salaryData = getITSalary();
                 break;
-            case "Technical":
+            case "TECHNICAL":
                 salaryData = getTechnicalSalary();
                 break;
-            case "Service":
+            case "SERVICE":
                 salaryData = getServiceSalary();
                 break;
-            case "Teachers":
+            case "TEACHERS":
                 salaryData = getTeachersSalary();
                 break;
-            case "Clinical":
+            case "CLINICAL":
                 salaryData = getClinicalSalary();
                 break;
             case "ULAC":
                 salaryData = getULACSalary();
                 break;
-            case "Research":
+            case "RESEARCH":
                 salaryData = getResearchSalary();
                 break;
             default:
