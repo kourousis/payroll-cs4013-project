@@ -47,6 +47,12 @@ public class FullScale extends SalaryScale{
                 System.out.println("Invalid department");
         }
         if (salaryData != null) {
+            while (years > 0) {
+                if (salaryData.get(years) != null) {
+                    return salaryData.get(years);
+                }
+                years--;
+            }
             return salaryData.get(years);
         }
         System.out.println("No salary data found for " + inDepartment);
