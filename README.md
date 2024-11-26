@@ -10,6 +10,12 @@
 
 **23376457**: Daniel Kirwan
 
+### Passwords:
+FULL-TIME: password
+HR: hrpassword
+ADMIN: adminpassword
+PART-TIME: partpassword
+
 ### Compile step:
 
 ```bash

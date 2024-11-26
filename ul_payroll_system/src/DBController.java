@@ -9,7 +9,7 @@ public class DBController {
     private Map<String, Integer> tableFields = new HashMap<>();
 
     public DBController() {
-        tableFields.put("employees", 13);
+        tableFields.put("employees", 15);
         tableFields.put("payslips", 8);
         tableFields.put("control_data", 3);
     }
@@ -247,8 +247,8 @@ public class DBController {
             String[] newData = new String[tableFields.get(table)];
 
             newData[0] = String.valueOf(id);
-            for (int i = 1; i < data.length; i++) {
-                newData[i] = data[i-1];
+            for (int i = 0; i < data.length; i++) {
+                newData[i+1] = data[i];
             }
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));

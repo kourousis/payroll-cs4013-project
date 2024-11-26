@@ -1,7 +1,5 @@
-EmployeeID,Name,Phone,Email,Password,Address,City,County,Postcode,Country,Salary,Department,HireDate
-1,Jane Smith,217-555-5678,jane.smith@ul.ie,password123,5678 Oak St,Springfield,IL,62702,USA,81000.0,ComputerScience,2023-02-01
-2,John Doe,217-553-4534,john.doe2@ul.ie,adminpass,45 Jane St,Springfield,IL,54326,USA,10000.0,Admin,2024-01-02
-3,Lucy Smith,223-432-3845,lucy.smith@ul.ie,hrsecure,234 Jane St,Springfield,IL,548456,USA,46500.0,HumanResources,2022-11-14
-4,James SMith,843863484,james.smith@ul.ie,jamessmith,7 Connolly Street,Limerick,Limerick,E79H533,Ireland,37543,Admin,2024-11-23
-5,Johnathan Doe,843459956,johnathan.doe@ul.ie,hrpassword,78 Smith Street,Limerick,Limerick,E50345,Ireland,65000,HumanResources,2024-11-25
-6,Johny Cage,214-762-5893,Johny.Cage@ul.ie,murderhornets,71 Jane St,Springfield,IL,646756,USA,46500.0,PROFESSOR,2023-10-16
+EmployeeID,Name,Phone,Email,Password,Address,City,County,Postcode,Country,Salary,Department,Jobtitle,RoleType,RoleDate
+1,John Smith,085-555-5678,john.smith@ul.ie,59b8145a9674e827e4f335bad0d220a322510c78272917d6a9bed4e256d95cc1,15 Gort Rd,Ennis,Clare,V94K58U,Ireland,140068,ACADEMIC,PROFESSOR,FULLTIME,2023-02-01
+2,Jane Smith,085-555-5679,jane.smith@ul.ie,1e95086a0789748c78cececa5d531adfcd89c05346156987c6c8b3c7554f39c9,16 Gort Rd,Ennis,Clare,V94L58U,Ireland,64409,HR,HR,HR,2023-02-01
+3,John Doe,085-555-5680,john.doe@ul.ie,2b47372405e5089fa523104efd06bbf1f7f53e36274e29fc2474ffb658eee93a,20 Gort Rd,Ennis,Clare,V94R58U,Ireland,64409,ADMIN,EXECUTIVE_ADMINISTRATOR,ADMIN,2023-02-01
+4,Jane Doe,085-555-5681,jane.doe@ul.ie,a7c8d88fca1989caf251e36848e89170e3afb6f1373213011beae5c2fa6d852e,21 Gort Rd,Ennis,Clare,V94S58U,Ireland,12.70,LECTURE,LECTURE,PARTTIME,2023-02-01

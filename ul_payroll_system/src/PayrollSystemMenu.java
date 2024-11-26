@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -10,6 +7,8 @@ public class PayrollSystemMenu {
     private String firstName;
     private String lastName;
     private String department;
+    private String jobTitle;
+    private String roleType;
     private String email;
     private String password;
 
@@ -50,14 +49,17 @@ public class PayrollSystemMenu {
                 }
             }
 
-            if (department.equals("PartTime"))
+            if (roleType.equals("PARTTIME"))
                 partTime();
-            else if (department.equals("Admin"))
+            else if (roleType.equals("ADMIN"))
                 Admin();
-            else if (department.equals("HumanResources")) {
+            else if (roleType.equals("HR")) {
                 HR();
-            } else {
+            } else if (roleType.equals("FULLTIME")) {
                 fullTime();
+            } else {
+                System.out.println("Invalid role type. Please contact the system administrator.");
+                loggedIn = false;
             }
         }
     }
@@ -65,7 +67,7 @@ public class PayrollSystemMenu {
     private void HR() {
     while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
         System.out.println("--------------------------------------------------");
         System.out.println("A)Promote-Staff  B)View-Payslips  C)User-Profile  L)og-Out");
 
@@ -99,7 +101,7 @@ public class PayrollSystemMenu {
     private void Admin() {
         while (loggedIn && running) {
             System.out.println("--------------------------------------------------");
-            System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+            System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
             System.out.println("--------------------------------------------------");
             System.out.println("A)Add User  B)View-Payslips  C)User-Profile  L)og-Out");
 
@@ -134,7 +136,7 @@ public class PayrollSystemMenu {
     private void fullTime() {
     while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
         System.out.println("--------------------------------------------------");
         System.out.println("A)Accept Promotion  B)User-Profile  C)View-Payslips  L)og-Out");
 
@@ -168,7 +170,7 @@ public class PayrollSystemMenu {
     private void partTime() {
     while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
         System.out.println("--------------------------------------------------");
         System.out.println("A)Make-Payclaim  B)User-Profile  C)View-Payslips L)og-Out");
 
@@ -181,7 +183,7 @@ public class PayrollSystemMenu {
 
         switch (command) {
             case "A":
-                // Make payclaim
+                createPayclaim();
                 break;
             case "B":
                 viewProfile();
@@ -202,40 +204,42 @@ public class PayrollSystemMenu {
     private int authenticateAndReturnID(String email, String password) {
         boolean emailFound = false;
         department = null;
-
         int id = 1;
-        while (true) {
-            if (Objects.equals(db.GET("employees", id, "Email"), "")
-                    || db.GET("employees", id, "Email") == null)
-                break;
-            if (db.GET("employees", id, "Email").equals(email)) {
-                emailFound = true;
 
-                if (db.GET("employees", id, "Password").equals(password)) {
+        while (true) {
+            String employeeEmail = db.GET("employees", id, "Email");
+            
+            // Break if we've reached the end of employees
+            if (employeeEmail == null || employeeEmail.equals("")) {
+                break;
+            }
+
+            // Check if this is the matching email
+            if (employeeEmail.equals(email)) {
+                emailFound = true;
+                
+                // Verify password and get user details
+                if (PasswordUtil.checkPassword(password, db.GET("employees", id, "Password"))) {
                     department = db.GET("employees", id, "Department");
                     String name = db.GET("employees", id, "Name");
                     firstName = name.split(" ")[0];
                     lastName = name.split(" ")[1];
+                    roleType = db.GET("employees", id, "RoleType");
+                    return id; // Return the correct ID immediately when found
                 } else {
-                    System.out.print("Invalid Password, please try again\n");
+                    System.out.println("Invalid Password, please try again");
                     return 0;
                 }
             }
             id++;
         }
 
-        if (!emailFound && department == null && firstName == null && lastName == null) {
+        if (!emailFound) {
             System.out.println("Invalid Email, please try again");
             return 0;
         }
-        return id;
-    }
-
-    private boolean detectCommas(String string) {
-        if (string.contains(",")) {
-            return true;
-        }
-        return false;
+        
+        return 0;
     }
 
     private boolean sanitiseEmployeeInputData(String[] data) {
@@ -251,8 +255,19 @@ public class PayrollSystemMenu {
         String countryString = data[9];
         String salaryString = data[10];
         String departmentString = data[11];
+        String jobtitle = data[12];
+        String roleType = data[13].toUpperCase();
 
         // Employee Personal Information Validation
+
+        // Validate if fields contain commas
+        for(String field : data) {
+            if (field.contains(",")) {
+                System.out.println();
+                System.out.println("ERROR Fields cannot contain commas. ERROR");
+                return false;
+            }
+        }
 
         // Validate first name and last name (only letters)
         if (!firstNameString.matches("[A-Za-z]+") || !lastNameString.matches("[A-Za-z]+")) {
@@ -281,7 +296,6 @@ public class PayrollSystemMenu {
         }
 
         // Employee Address Validation
-
         if (streetString.isEmpty() || cityString.isEmpty() || postcodeString.isEmpty() || countryString.isEmpty() || countyString.isEmpty()) {
             System.out.println();
             System.out.println("ERROR Address fields cannot be empty. ERROR");
@@ -289,12 +303,23 @@ public class PayrollSystemMenu {
         }
 
         // Employee Work Details Validation
-
         try {
             Float.parseFloat(salaryString);
+            if (Float.parseFloat(salaryString) < 1) {
+                System.out.println();
+                System.out.println("ERROR Salary must be a positive number. ERROR");
+                return false;
+            }
         } catch (NumberFormatException e) {
             System.out.println();
             System.out.println("ERROR Salary must be a valid number. ERROR");
+            return false;
+        }
+
+        // Validate postcode (only letters and numbers, 5-7 characters)
+        if (!postcodeString.matches("[A-Za-z0-9]+") || postcodeString.length() < 5 || postcodeString.length() > 7) {
+            System.out.println();
+            System.out.println("ERROR Postcode must contain only letters and numbers. ERROR");
             return false;
         }
 
@@ -302,6 +327,21 @@ public class PayrollSystemMenu {
         if (departmentString.isEmpty()) {
             System.out.println();
             System.out.println("ERROR Department cannot be empty. ERROR");
+            return false;
+        }
+
+        // Validate job title (not empty)
+        if (jobtitle.isEmpty()) {
+            System.out.println();
+            System.out.println("ERROR Job title cannot be empty. ERROR");
+            return false;
+        }
+
+        // Validate role type (is one of the following: FULLTIME, PARTTIME, ADMIN, HR)
+        if (!roleType.equals("FULLTIME") && !roleType.equals("PARTTIME") &&
+                !roleType.equals("ADMIN") && !roleType.equals("HR")) {
+            System.out.println();
+            System.out.println("ERROR Role type cannot be empty. ERROR");
             return false;
         }
 
@@ -317,7 +357,7 @@ public class PayrollSystemMenu {
         System.out.print("Employee's First Name (no special characters): ");
         String firstNameString = in.nextLine();
 
-        System.out.print("Employee's Last Name (no speical characters): ");
+        System.out.print("Employee's Last Name (no special characters): ");
         String lastNameString = in.nextLine();
 
         System.out.print("Employee's Mobile Phone (10-15 digits): ");
@@ -358,6 +398,12 @@ public class PayrollSystemMenu {
         System.out.print("Employee's Department: ");
         String departmentString = in.nextLine();
 
+        System.out.print("Employee's Job Title: ");
+        String jobtitle = in.nextLine();
+
+        System.out.print("Employee's Role Type: ");
+        String roletype = in.nextLine();
+
         String[] employeeData = {
                 firstNameString,
                 lastNameString,
@@ -370,18 +416,36 @@ public class PayrollSystemMenu {
                 postcodeString,
                 countryString,
                 salaryString,
-                departmentString
+                departmentString,
+                jobtitle,
+                roletype
         };
 
         if (sanitiseEmployeeInputData(employeeData)) {
-            String hireDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.now();
+            String roleDate = date.format(dtf);
+
+            // Format fields that need capitalization
+            firstNameString = capitalizeFirstLetter(firstNameString);
+            lastNameString = capitalizeFirstLetter(lastNameString);
+            cityString = capitalizeFirstLetter(cityString);
+            countyString = capitalizeFirstLetter(countyString);
+            countryString = capitalizeFirstLetter(countryString);
+            departmentString = departmentString.toUpperCase();
+            postcodeString = postcodeString.toUpperCase();
+            jobtitle = jobtitle.toUpperCase();
+            roletype = roletype.toUpperCase();
+            streetString = formatStreetAddress(streetString);
+
             String name = firstNameString + " " + lastNameString;
+            String hashedPassword = PasswordUtil.hashPassword(passwordString);
 
             String[] employeeDataToAdd = {
                     name,
                     phoneNumberString,
                     emailString,
-                    passwordString,
+                    hashedPassword,
                     streetString,
                     cityString,
                     countyString,
@@ -389,10 +453,46 @@ public class PayrollSystemMenu {
                     countryString,
                     salaryString,
                     departmentString,
-                    hireDate,
+                    jobtitle,
+                    roletype,
+                    roleDate,
             };
 
-            db.ADD("employees", employeeDataToAdd);
+            if (db.ADD("employees", employeeDataToAdd)) {
+                System.out.println("Employee added successfully");
+            } else {
+                System.out.println("Error adding employee");
+            }
+        }
+    }
+
+    private String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.toLowerCase().substring(1);
+    }
+
+    private String formatStreetAddress(String street) {
+        try {
+            // Split into parts by spaces
+            String[] parts = street.split(" ");
+            if (parts.length == 1) {
+                return capitalizeFirstLetter(street);
+            }
+            
+            // Keep house number as is
+            StringBuilder formatted = new StringBuilder(parts[0]);
+            
+            // Capitalize each remaining word
+            for (int i = 1; i < parts.length; i++) {
+                formatted.append(" ").append(capitalizeFirstLetter(parts[i]));
+            }
+            
+            return formatted.toString();
+            
+        } catch (Exception e) {
+            return capitalizeFirstLetter(street);
         }
     }
 
@@ -425,6 +525,39 @@ public class PayrollSystemMenu {
         } catch (Exception e) {
             System.out.println("Error: " + e);
             return;
+        }
+    }
+
+    private void createPayclaim() {
+        String[] data = new String[3];
+        data[0] = Integer.toString(employeeId);
+        data[2] = jobTitle;
+
+        System.out.println("--------------------------------------------------");
+        System.out.println("Input hours worked:");
+        int input = in.nextInt();
+        in.nextLine(); // Consume the newline char
+
+        if (input > 0 && input <= 24) {
+            data[1] = Integer.toString(input);
+
+            System.out.println("--------------------------------------------------");
+            System.out.println("Are these details correct? Y)es N)o");
+            System.out.println("Employee ID: " + data[0] + ", Hours Worked: " + data[1] + ", Job Title: " + data[2]);
+            System.out.println("--------------------------------------------------");
+            String command = in.nextLine().toUpperCase();
+
+            if (command.equals("Y")) {
+                String table = "payclaim_" + employeeId;
+                db.ADD(table, data);
+                System.out.println("Payclaim submitted successfully");
+            } else if (command.equals("N")) {
+                System.out.println("Payclaim cancelled");
+            } else {
+                System.out.println("Invalid command, payclaim not submitted");
+            }
+        } else {
+            System.out.println("Invalid input, please try again");
         }
     }
 
