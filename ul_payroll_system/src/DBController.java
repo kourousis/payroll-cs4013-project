@@ -10,7 +10,7 @@ public class DBController {
 
     public DBController() {
         tableFields.put("employees", 15);
-        tableFields.put("payslips", 8);
+        tableFields.put("payslips", 10);
         tableFields.put("control_data", 3);
     }
 
@@ -269,7 +269,7 @@ public class DBController {
 
     private boolean NEW_PAYSLIP(int id) {
         String path = CSV_FILE_PATH + "/payslips/" + "payslip_" + id + ".csv";
-        String header = "ID,Date,EmployeeName,GrossPay,USC,PRSI,IncomeTax,NetPay";
+        String header = "ID,Date,EmployeeName,GrossPay,USC,PRSI,IncomeTax,Health,Union,NetPay";
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
