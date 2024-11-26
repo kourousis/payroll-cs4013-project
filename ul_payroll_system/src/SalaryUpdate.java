@@ -23,7 +23,7 @@ public class SalaryUpdate {
         if(payBump.isBefore(today) || payBump.isEqual(today)){
 
             int i = 1;
-            int staff = Integer.parseInt(db.GET("employees", i, "EmployeeID"));
+            int staff = Integer.parseInt(db.GET("employees", i, "Salary"));
             
             while(db.GET("employees", i, "EmployeeID") != null){       //**Loop for checking every employee**
                 i++;
