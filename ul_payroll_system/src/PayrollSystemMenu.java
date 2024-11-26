@@ -8,6 +8,7 @@ public class PayrollSystemMenu {
     private String lastName;
     private String department;
     private String jobTitle;
+    private String roleType;
     private String email;
     private String password;
 
@@ -49,14 +50,17 @@ public class PayrollSystemMenu {
                 }
             }
 
-            if (department.equals("LECTURE"))
+            if (roleType.equals("PARTTIME"))
                 partTime();
-            else if (department.equals("ADMIN"))
+            else if (roleType.equals("ADMIN"))
                 Admin();
-            else if (department.equals("HR")) {
+            else if (roleType.equals("HR")) {
                 HR();
-            } else {
+            } else if (roleType.equals("FULLTIME")) {
                 fullTime();
+            } else {
+                System.out.println("Invalid role type. Please contact the system administrator.");
+                loggedIn = false;
             }
         }
     }
@@ -64,7 +68,7 @@ public class PayrollSystemMenu {
     private void HR() {
     while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
         System.out.println("--------------------------------------------------");
         System.out.println("A)Promote-Staff  B)View-Payslips  C)User-Profile  L)og-Out");
 
@@ -98,7 +102,7 @@ public class PayrollSystemMenu {
     private void Admin() {
         while (loggedIn && running) {
             System.out.println("--------------------------------------------------");
-            System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+            System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
             System.out.println("--------------------------------------------------");
             System.out.println("A)Add User  B)View-Payslips  C)User-Profile  L)og-Out");
 
@@ -133,7 +137,7 @@ public class PayrollSystemMenu {
     private void fullTime() {
     while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
         System.out.println("--------------------------------------------------");
         System.out.println("A)Accept Promotion  B)User-Profile  C)View-Payslips  L)og-Out");
 
@@ -167,7 +171,7 @@ public class PayrollSystemMenu {
     private void partTime() {
     while (loggedIn && running) {
         System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + department + ")");
+        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
         System.out.println("--------------------------------------------------");
         System.out.println("A)Make-Payclaim  B)User-Profile  C)View-Payslips L)og-Out");
 
@@ -221,6 +225,7 @@ public class PayrollSystemMenu {
                     String name = db.GET("employees", id, "Name");
                     firstName = name.split(" ")[0];
                     lastName = name.split(" ")[1];
+                    roleType = db.GET("employees", id, "RoleType");
                     return id; // Return the correct ID immediately when found
                 } else {
                     System.out.println("Invalid Password, please try again");
