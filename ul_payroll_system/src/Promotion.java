@@ -7,7 +7,7 @@ public class Promotion {
 
 
     // Promotion method for an employee and adds to pendingPromo.csv
-    public void promoteEmployee(String hrUserId, String EmployeeId)
+    public void promoteEmployee(String EmployeeId, String newJobTitle)
     {
         // Gives path for csv file
         String filePath = "db/pendingPromo.csv";
