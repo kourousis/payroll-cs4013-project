@@ -43,7 +43,7 @@ public class PayrollSystemMenu {
                 password = in.nextLine();
 
                 employeeId = authenticateAndReturnID(email, password);
-                
+
                 if (employeeId > 0) {
                     loggedIn = true;
                 }
@@ -65,35 +65,35 @@ public class PayrollSystemMenu {
     }
 
     private void HR() {
-    while (loggedIn && running) {
-        System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
-        System.out.println("--------------------------------------------------");
-        System.out.println("A)Promote-Staff  B)View-Payslips  C)User-Profile  L)og-Out");
+        while (loggedIn && running) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
+            System.out.println("--------------------------------------------------");
+            System.out.println("A)Promote-Staff  B)View-Payslips  C)User-Profile  L)og-Out");
 
-        String command = in.nextLine().toUpperCase();
+            String command = in.nextLine().toUpperCase();
 
-        if (command == null || command.isEmpty()) {
-            System.out.println("Invalid input. Please try again.");
-            continue;
-        }
+            if (command == null || command.isEmpty()) {
+                System.out.println("Invalid input. Please try again.");
+                continue;
+            }
 
-        switch (command) {
-            case "A":
-                // Call promote method
-                break;
-            case "B":
-                viewPayslip();
-                break;
-            case "C":
-                viewProfile();
-                break;
-            case "L":
-                loggedIn = false;
-                System.out.println("--------------------------------------------------");
-                break;
-            default:
-                System.out.println("Invalid command. Please try again.");
+            switch (command) {
+                case "A":
+                    // Call promote method
+                    break;
+                case "B":
+                    viewPayslip();
+                    break;
+                case "C":
+                    viewProfile();
+                    break;
+                case "L":
+                    loggedIn = false;
+                    System.out.println("--------------------------------------------------");
+                    break;
+                default:
+                    System.out.println("Invalid command. Please try again.");
             }
         }
     }
@@ -134,69 +134,69 @@ public class PayrollSystemMenu {
     }
 
     private void fullTime() {
-    while (loggedIn && running) {
-        System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
-        System.out.println("--------------------------------------------------");
-        System.out.println("A)Accept Promotion  B)User-Profile  C)View-Payslips  L)og-Out");
+        while (loggedIn && running) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
+            System.out.println("--------------------------------------------------");
+            System.out.println("A)Accept Promotion  B)User-Profile  C)View-Payslips  L)og-Out");
 
-        String command = in.nextLine().toUpperCase();
+            String command = in.nextLine().toUpperCase();
 
-        if (command == null || command.isEmpty()) {
-            System.out.println("Invalid input. Please try again.");
-            continue;
-        }
+            if (command == null || command.isEmpty()) {
+                System.out.println("Invalid input. Please try again.");
+                continue;
+            }
 
-        switch (command) {
-            case "A":
-                // Accept Promotion
-                break;
-            case "B":
-                viewProfile();
-                break;
-            case "C":
-                viewPayslip();
-                break;
-            case "L":
-                loggedIn = false;
-                System.out.println("--------------------------------------------------");
-                break;
-            default:
-                System.out.println("Invalid command. Please try again.");
+            switch (command) {
+                case "A":
+                    // Accept Promotion
+                    break;
+                case "B":
+                    viewProfile();
+                    break;
+                case "C":
+                    viewPayslip();
+                    break;
+                case "L":
+                    loggedIn = false;
+                    System.out.println("--------------------------------------------------");
+                    break;
+                default:
+                    System.out.println("Invalid command. Please try again.");
             }
         }
     }
 
     private void partTime() {
-    while (loggedIn && running) {
-        System.out.println("--------------------------------------------------");
-        System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
-        System.out.println("--------------------------------------------------");
-        System.out.println("A)Make-Payclaim  B)User-Profile  C)View-Payslips L)og-Out");
+        while (loggedIn && running) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
+            System.out.println("--------------------------------------------------");
+            System.out.println("A)Make-Payclaim  B)User-Profile  C)View-Payslips L)og-Out");
 
-        String command = in.nextLine().toUpperCase();
+            String command = in.nextLine().toUpperCase();
 
-        if (command == null || command.isEmpty()) {
-            System.out.println("Invalid input. Please try again.");
-            continue;
-        }
+            if (command == null || command.isEmpty()) {
+                System.out.println("Invalid input. Please try again.");
+                continue;
+            }
 
-        switch (command) {
-            case "A":
-                createPayclaim();
-                break;
-            case "B":
-                viewProfile();
-                break;
-            case "C":
-                viewPayslip();
-                break;
-            case "L":
-                loggedIn = false;
-                System.out.println("--------------------------------------------------");
-                break;
-            default:
-                System.out.println("Invalid command. Please try again.");
+            switch (command) {
+                case "A":
+                    createPayclaim();
+                    break;
+                case "B":
+                    viewProfile();
+                    break;
+                case "C":
+                    viewPayslip();
+                    break;
+                case "L":
+                    loggedIn = false;
+                    System.out.println("--------------------------------------------------");
+                    break;
+                default:
+                    System.out.println("Invalid command. Please try again.");
             }
         }
     }
@@ -208,7 +208,7 @@ public class PayrollSystemMenu {
 
         while (true) {
             String employeeEmail = db.GET("employees", id, "Email");
-            
+
             // Break if we've reached the end of employees
             if (employeeEmail == null || employeeEmail.equals("")) {
                 break;
@@ -217,7 +217,7 @@ public class PayrollSystemMenu {
             // Check if this is the matching email
             if (employeeEmail.equals(email)) {
                 emailFound = true;
-                
+
                 // Verify password and get user details
                 if (PasswordUtil.checkPassword(password, db.GET("employees", id, "Password"))) {
                     department = db.GET("employees", id, "Department");
@@ -238,7 +238,7 @@ public class PayrollSystemMenu {
             System.out.println("Invalid Email, please try again");
             return 0;
         }
-        
+
         return 0;
     }
 
@@ -261,7 +261,7 @@ public class PayrollSystemMenu {
         // Employee Personal Information Validation
 
         // Validate if fields contain commas
-        for(String field : data) {
+        for (String field : data) {
             if (field.contains(",")) {
                 System.out.println();
                 System.out.println("ERROR Fields cannot contain commas. ERROR");
@@ -296,7 +296,8 @@ public class PayrollSystemMenu {
         }
 
         // Employee Address Validation
-        if (streetString.isEmpty() || cityString.isEmpty() || postcodeString.isEmpty() || countryString.isEmpty() || countyString.isEmpty()) {
+        if (streetString.isEmpty() || cityString.isEmpty() || postcodeString.isEmpty() || countryString.isEmpty()
+                || countyString.isEmpty()) {
             System.out.println();
             System.out.println("ERROR Address fields cannot be empty. ERROR");
             return false;
@@ -458,10 +459,16 @@ public class PayrollSystemMenu {
                     roleDate,
             };
 
-            if (db.ADD("employees", employeeDataToAdd)) {
-                System.out.println("Employee added successfully");
-            } else {
-                System.out.println("Error adding employee");
+            try {
+                if (db.ADD("employees", employeeDataToAdd)) {
+                    System.out.println("Employee added successfully");
+                    db.ADD("payslip");
+
+                } else {
+                    System.out.println("Error adding employee");
+                }
+            } catch (Exception e) {
+
             }
         }
     }
@@ -480,17 +487,17 @@ public class PayrollSystemMenu {
             if (parts.length == 1) {
                 return capitalizeFirstLetter(street);
             }
-            
+
             // Keep house number as is
             StringBuilder formatted = new StringBuilder(parts[0]);
-            
+
             // Capitalize each remaining word
             for (int i = 1; i < parts.length; i++) {
                 formatted.append(" ").append(capitalizeFirstLetter(parts[i]));
             }
-            
+
             return formatted.toString();
-            
+
         } catch (Exception e) {
             return capitalizeFirstLetter(street);
         }
@@ -565,10 +572,10 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("L)atest-Payslip  H)istoric-Payslips  G)o-Back");
         String command = in.nextLine().toUpperCase();
-        while(true) {
+        while (true) {
             if (command.equals("L")) {
                 String table = "payslip_" + employeeId;
-                HashMap<String, String> payslipData= db.LATEST_ROW(table);
+                HashMap<String, String> payslipData = db.LATEST_ROW(table);
                 if (payslipData != null && !payslipData.isEmpty()) {
                     System.out.println("--------------------------------------------------");
                     System.out.println("Payslip for: " + payslipData.get("EmployeeName"));
@@ -605,11 +612,11 @@ public class PayrollSystemMenu {
     }
 
     private void historicPayslip() {
-        while(true) {
+        while (true) {
             System.out.println("--------------------------------------------------");
             System.out.println("Input Date (YYYY-MM-DD) or G)o Back");
             String input = in.nextLine().toUpperCase();
-            
+
             if (input.equals("G")) {
                 break;
             }
@@ -619,7 +626,7 @@ public class PayrollSystemMenu {
                 System.out.println("Invalid date format. Please use YYYY-MM-DD");
                 continue;
             }
-            
+
             try {
                 HashMap<String, String> payslipData = db.GET_ROW("payslips", employeeId, input);
                 if (payslipData != null && !payslipData.isEmpty()) {
@@ -637,7 +644,7 @@ public class PayrollSystemMenu {
                 } else {
                     System.out.println("No payslip found for " + input);
                 }
-                
+
                 System.out.println("Press G to go back");
                 String input2 = in.nextLine().toUpperCase();
                 if (input2.equals("G")) {

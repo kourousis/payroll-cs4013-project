@@ -187,7 +187,8 @@ public class DBController {
             }
             reader.close();
 
-            if (!data.isEmpty()) return data;
+            if (!data.isEmpty())
+                return data;
             return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -248,31 +249,32 @@ public class DBController {
 
             newData[0] = String.valueOf(id);
             for (int i = 0; i < data.length; i++) {
-                newData[i+1] = data[i];
+                newData[i + 1] = data[i];
             }
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.newLine();
-            if (table.equals("payslip")) writer.newLine();
+            if (table.equals("payslip")) {
+                writer.newLine();
+                NEW_PAYSLIP(id);
+            }
             writer.write(String.join(",", newData));
             writer.close();
+
             return true;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public boolean NEW_PAYSLIP(Payslip ps) {
-        String path = CSV_FILE_PATH + "/payslips/" +  "payslip_" + ps.getId() + ".csv";
+    private boolean NEW_PAYSLIP(int id) {
+        String path = CSV_FILE_PATH + "/payslips/" + "payslip_" + id + ".csv";
         String header = "ID,Date,EmployeeName,GrossPay,USC,PRSI,IncomeTax,NetPay";
-        String[] data = {Integer.toString(ps.getId()), ps.getDate().toString(), ps.getEmployeeName(), Float.toString(ps.getGrossPay()),
-                Float.toString(ps.getUSC()), Float.toString(ps.getPRSI()), Float.toString(ps.getIncomeTax()), Float.toString(ps.getNetPay())};
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.write(header);
             writer.newLine();
-            writer.write(String.join(",", data));
             writer.close();
             return true;
         } catch (IOException e) {

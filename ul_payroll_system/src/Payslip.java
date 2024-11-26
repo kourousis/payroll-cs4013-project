@@ -22,6 +22,10 @@ public class Payslip {
         date = LocalDate.now();
     }
 
+    public Payslip() {
+        
+    }
+
     // Accessors
     public int getId() {return id;}
     public String getEmployeeName() {
