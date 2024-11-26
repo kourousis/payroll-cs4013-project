@@ -46,6 +46,7 @@ public class PayrollSystemMenu {
                 password = in.nextLine();
 
                 employeeId = authenticateAndReturnID(email, password);
+                System.out.println(employeeId);
 
                 if (employeeId > 0) {
                     loggedIn = true;
@@ -470,14 +471,19 @@ public class PayrollSystemMenu {
 
             try {
                 if (db.ADD("employees", employeeDataToAdd)) {
-                    if (db.ADD("payslip", new String[Integer.parseInt(Integer.toString(employeeId))])) {
+                    String latestRow = db.LATEST_ROW("employees").get("EmployeeID");
+                    if (latestRow == null) {
+                        System.out.println("Error adding employee");
+                        return;
+                    }
+                    if (db.NEW_PAYSLIP(Integer.parseInt(latestRow))) {
                         System.out.println("Employee added successfully");
                     }
                 } else {
                     System.out.println("Error adding employee");
                 }
             } catch (Exception e) {
-
+                System.out.println("Error adding employee: " + e);
             }
         }
     }
@@ -599,7 +605,7 @@ public class PayrollSystemMenu {
                     System.out.println("--------------------------------------------------");
                 } else {
                     System.out.println("No payslips found");
-                    continue;
+                    break;
                 }
 
                 System.out.println("G)o-Back");
