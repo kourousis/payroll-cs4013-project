@@ -238,6 +238,8 @@ public class DBController {
             path = CSV_FILE_PATH + table + ".csv";
         } else if (table.equals("payslip")) {
             path = CSV_FILE_PATH + "/payslips/" + "payslip_" + data[0] + ".csv";
+        } else if (table.equals("payclaim")) {
+            path = CSV_FILE_PATH + "/payclaims/" + "payclaim_" + data[0] + ".csv";
         } else {
             System.out.println("No table found");
             return false;
@@ -266,6 +268,21 @@ public class DBController {
     public boolean NEW_PAYSLIP(int id) {
         String path = CSV_FILE_PATH + "/payslips/" + "payslip_" + id + ".csv";
         String header = "ID,Date,EmployeeName,GrossPay,USC,PRSI,IncomeTax,Health,Union,NetPay";
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+            writer.write(header);
+            writer.newLine();
+            writer.close();
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean NEW_PAYCLAIM(int id) {
+        String path = CSV_FILE_PATH + "/payclaims/" + "payclaim_" + id + ".csv";
+        String header = "EmployeeId,Hours,Role,Date";
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));

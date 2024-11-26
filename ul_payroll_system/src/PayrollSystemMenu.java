@@ -1,9 +1,8 @@
+import java.time.DayOfWeek;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.HashMap;
 
 public class PayrollSystemMenu {
     private Scanner in;
@@ -477,7 +476,15 @@ public class PayrollSystemMenu {
                         return;
                     }
                     if (db.NEW_PAYSLIP(Integer.parseInt(latestRow))) {
-                        System.out.println("Employee added successfully");
+                       if (roletype.equals("PARTTIME")) {
+                           if (db.NEW_PAYCLAIM(Integer.parseInt(latestRow))) {
+                               System.out.println("Employee added successfully");
+                           }  else {
+                                 System.out.println("Error adding employee");
+                           }
+                       } else {
+                            System.out.println("Employee added successfully");
+                       }
                     }
                 } else {
                     System.out.println("Error adding employee");
@@ -533,7 +540,7 @@ public class PayrollSystemMenu {
             System.out.println("Country: " + row.get("Country"));
             System.out.println("Department: " + row.get("Department"));
             System.out.println("Salary: " + row.get("Salary"));
-            System.out.println("Hire Date: " + row.get("HireDate"));
+            System.out.println("Role Date: " + row.get("RoleDate"));
             System.out.println("--------------------------------------------------");
 
             while (true) {
@@ -550,7 +557,20 @@ public class PayrollSystemMenu {
         }
     }
 
+    private LocalDate getSecondFriday(LocalDate date) {
+        LocalDate firstFriday = date.with(TemporalAdjusters.firstInMonth(DayOfWeek.FRIDAY));
+        return firstFriday.plusWeeks(1);
+    }
+
     private void createPayclaim() {
+        LocalDate today = LocalDate.now();
+        LocalDate secondFriday = getSecondFriday(today);
+
+        if (today.isAfter(secondFriday)) {
+            System.out.println("Pay claim submission deadline has passed for this month.");
+            return;
+        }
+
         String[] data = new String[3];
         data[0] = Integer.toString(employeeId);
         data[2] = jobTitle;
@@ -558,7 +578,7 @@ public class PayrollSystemMenu {
         System.out.println("--------------------------------------------------");
         System.out.println("Input hours worked:");
         int input = in.nextInt();
-        in.nextLine(); // Consume the newline char
+        in.nextLine();
 
         if (input > 0 && input <= 24) {
             data[1] = Integer.toString(input);
