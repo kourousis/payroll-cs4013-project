@@ -43,7 +43,6 @@ public class PayrollSystemMenu {
                 password = in.nextLine();
 
                 employeeId = authenticateAndReturnID(email, password);
-                System.out.println("id: " + employeeId);
                 
                 if (employeeId > 0) {
                     loggedIn = true;
