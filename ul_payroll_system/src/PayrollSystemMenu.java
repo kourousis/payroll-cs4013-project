@@ -119,7 +119,74 @@ public class PayrollSystemMenu {
     }
 
     private void createPayslipPartTime(HashMap<String, String> row) {
+        // Check for pay claim
+        int id = Integer.parseInt(row.get("EmployeeID"));
+        Map<String, String> date = db.LATEST_ROW("payclaim_" + row.get("EmployeeID"));
 
+        if (date == null || date.isEmpty()) {
+            System.out.println("No pay claim found for employee " + row.get("Name"));
+            return;
+        }
+        if (date.get("Date") == null || date.get("Date").isEmpty()) {
+            System.out.println("No pay claim found for employee " + row.get("Name"));
+            return;
+        }
+
+        LocalDate dateClaimed = LocalDate.parse(date.get("Date"));
+        LocalDate today = LocalDate.now();
+
+        // Check if pay claim is for the current month
+        if (dateClaimed.getMonthValue() == today.getMonthValue()) {
+            String strHours = db.GET("payclaim_" + row.get("EmployeeID"), id, "Hours");
+            if (strHours == null || strHours.isEmpty()) {
+                System.out.println("No pay claim found for employee " + row.get("Name"));
+                return;
+            }
+            int hours = Integer.parseInt(strHours);
+
+            String salary = db.GET("employees", id, "Salary");
+            if (salary == null || salary.isEmpty()) {
+                System.out.println("No pay claim found for employee " + row.get("Name"));
+                return;
+            }
+
+            float gross = Float.parseFloat(salary) * hours;
+            TaxCalc calc = new TaxCalc();
+
+            String employeeId = row.get("EmployeeID");
+            String employeeName = row.get("Name");
+            String grossMonthlySalary = String.valueOf(gross);
+
+            String prsi = String.valueOf(calc.getPRSI(gross));
+            String usc = String.valueOf(calc.getUSC(gross));
+            String paye = String.valueOf(calc.getIncomeTax(gross));
+            String union = String.valueOf(calc.getUnion(gross));
+            String insurance = String.valueOf(calc.getInsure(gross));
+
+            String netpay = String.valueOf( Float.parseFloat(grossMonthlySalary) -
+                    (Float.parseFloat(prsi) + Float.parseFloat(usc) + Float.parseFloat(paye) +
+                            Float.parseFloat(union) + Float.parseFloat(insurance)));
+
+            String todayStr = today.toString();
+
+            String[] payslipInfo = {
+                    employeeId,
+                    todayStr,
+                    employeeName,
+                    grossMonthlySalary,
+                    usc,
+                    prsi,
+                    paye,
+                    insurance,
+                    union,
+                    netpay,
+            };
+
+            db.ADD("payslips", payslipInfo);
+        } else {
+            System.out.println("No pay claim found for employee " + row.get("Name"));
+            return;
+        }
     }
 
     private void HR() {
