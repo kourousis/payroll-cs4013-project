@@ -42,6 +42,7 @@ public class PayrollSystemMenu {
                 password = in.nextLine();
 
                 employeeId = authenticateAndReturnID(email, password);
+                System.out.println("id: " + employeeId);
                 
                 if (employeeId > 0) {
                     loggedIn = true;
@@ -200,33 +201,41 @@ public class PayrollSystemMenu {
     private int authenticateAndReturnID(String email, String password) {
         boolean emailFound = false;
         department = null;
-
         int id = 1;
-        while (true) {
-            if (Objects.equals(db.GET("employees", id, "Email"), "")
-                    || db.GET("employees", id, "Email") == null)
-                break;
-            if (db.GET("employees", id, "Email").equals(email)) {
-                emailFound = true;
 
+        while (true) {
+            String employeeEmail = db.GET("employees", id, "Email");
+            
+            // Break if we've reached the end of employees
+            if (employeeEmail == null || employeeEmail.equals("")) {
+                break;
+            }
+
+            // Check if this is the matching email
+            if (employeeEmail.equals(email)) {
+                emailFound = true;
+                
+                // Verify password and get user details
                 if (PasswordUtil.checkPassword(password, db.GET("employees", id, "Password"))) {
                     department = db.GET("employees", id, "Department");
                     String name = db.GET("employees", id, "Name");
                     firstName = name.split(" ")[0];
                     lastName = name.split(" ")[1];
+                    return id; // Return the correct ID immediately when found
                 } else {
-                    System.out.print("Invalid Password, please try again\n");
+                    System.out.println("Invalid Password, please try again");
                     return 0;
                 }
             }
             id++;
         }
 
-        if (!emailFound && department == null && firstName == null && lastName == null) {
+        if (!emailFound) {
             System.out.println("Invalid Email, please try again");
             return 0;
         }
-        return id;
+        
+        return 0;
     }
 
     private boolean sanitiseEmployeeInputData(String[] data) {
