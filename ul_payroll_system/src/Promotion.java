@@ -1,38 +1,64 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Promotion {
 
+    // Method to promote an employee and add to pendingPromo.csv
+    public void promoteEmployee(String EmployeeId, String newJobTitle) {
+        // Path for the employee CSV and pendingPromo CSV files
+        String employeeFilePath = "db/employees.csv";
+        String promoFilePath = "db/pendingPromo.csv";
 
-    // Promotion method for an employee and adds to pendingPromo.csv
-    public void promoteEmployee(String EmployeeId, String newJobTitle)
-    {
-        // Gives path for csv file
-        String filePath = "db/pendingPromo.csv";
+        boolean PendingState = false;
+        boolean AcceptanceState = false;
 
-        // Creates file if it doesnt exist
-        File file = new File(filePath);
-        try {
+        // Check if EmployeeId exists in the employee file
+        boolean foundEmployee = false;
 
-            // Check if the file exists, if not, create it and write headers
-            if (!file.exists()) {
-                file.createNewFile();
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                    writer.write("EmployeeId, newJobTitle\n"); // Adding headers to Promo csv file
+        // Read employee file to find the employee ID
+        try (BufferedReader reader = new BufferedReader(new FileReader(employeeFilePath))) {
+            String line;
+
+            // Skip the header
+            reader.readLine();
+
+            // Read through the employee CSV and match the EmployeeId
+            while ((line = reader.readLine()) != null) {
+                String[] employeeDetails = line.split(",");
+
+                // Check if EmployeeID matches
+                if (employeeDetails[0].trim().equals(EmployeeId)) {
+                    foundEmployee = true;
+                    break;
                 }
             }
 
-            // Append the new promotion details
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-                //writer.write(EmployeeId + ", " + newJobTitle + "\n"); // Adding the users info for csv file
+            if (foundEmployee == true) {
+                // Add promotion details to the pendingPromo CSV
+                File promoFile = new File(promoFilePath);
+                try {
+                    // If the file doesn't exist, create it and add headers
+                    if (!promoFile.exists()) {
+                        promoFile.createNewFile();
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter(promoFile))) {
+                            writer.write("EmployeeId, newJobTitle\n"); // Adding headers
+                        }
+                    }
+
+                    // Append the promotion details for the employee
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(promoFile, true))) {
+                        writer.write(EmployeeId + ", " + newJobTitle + "\n");
+                    }
+
+                    System.out.println("Promotion is Pending " + EmployeeId + " for new title " + newJobTitle);
+                    PendingState = true;
+                } catch (IOException e) {
+                    System.out.println("Error while writing to pendingPromo.csv");
+                }
+            } else {
+                System.out.println("Employee with ID " + EmployeeId + " not found.");
             }
-
-            //System.out.println("Promotion added to pendingPromo.csv for user " + EmployeeId + " with new title " + newJobTitle);
-
         } catch (IOException e) {
-            System.out.println("Error while writing to pendingPromo.csv");
+            System.out.println("Error while reading the employee file.");
         }
     }
 }
