@@ -32,6 +32,11 @@ public class PayrollSystemMenu {
     }
 
     public void run() {
+        LocalDate today = LocalDate.now();
+        if (today.getDayOfMonth() == 25) {
+            createPayslipEndOfMonth();
+        }
+
         System.out.println("--------------------------------------------------");
         System.out.println("Welcome to the UL Payroll System");
         System.out.println("Please Log-in");
@@ -66,6 +71,56 @@ public class PayrollSystemMenu {
                 loggedIn = false;
             }
         }
+    }
+
+    private void createPayslipEndOfMonth() {
+        ArrayList<HashMap<String, String>> employees_csv = db.GET_CSV("employees");
+
+        for (HashMap<String, String> row : employees_csv) {
+            String roleType = row.get("RoleType");
+
+            if (!(roleType.equalsIgnoreCase("PARTTIME"))) {
+                createPayslipFullTime(row);
+            } else {
+                createPayslipPartTime(row);
+            }
+        }
+    }
+
+    private void createPayslipFullTime(HashMap<String, String> row) {
+        TaxCalc calc = new TaxCalc();
+
+        String employeeId = row.get("EmployeeID");
+        String employeeName = row.get("Name");
+        float gross = Float.parseFloat(row.get("Salary"));
+        String grossMonthlySalary = String.valueOf(gross / 12);
+        
+        String prsi = String.valueOf(calc.getPRSI(gross));
+        String usc = String.valueOf(calc.getUSC(gross));
+        String paye = String.valueOf(calc.getIncomeTax(gross));
+        String union = String.valueOf(calc.getUnion(gross));
+        String insurance = String.valueOf(calc.getInsure(gross));
+        
+        String netpay = String.valueOf( Float.parseFloat(grossMonthlySalary) - Float.parseFloat(prsi) - Float.parseFloat(usc) - Float.parseFloat(paye) - Float.parseFloat(union) - Float.parseFloat(insurance));
+
+        String[] payslipInfo = {
+            employeeId,
+            //date,
+            employeeName,
+            grossMonthlySalary,
+            usc,
+            prsi,
+            paye,
+            insurance,
+            union,
+            netpay,
+        };
+
+        db.ADD("payslips", payslipInfo);
+    }
+
+    private void createPayslipPartTime(HashMap<String, String> row) {
+
     }
 
     private void HR() {
