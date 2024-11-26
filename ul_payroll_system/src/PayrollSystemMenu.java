@@ -20,10 +20,12 @@ public class PayrollSystemMenu {
     private boolean loggedIn = false;
 
     DBController db;
+    TaxCalc calc;
 
     public PayrollSystemMenu() {
         in = new Scanner(System.in);
         db = new DBController();
+        calc = new TaxCalc();
     }
 
     public String getDepartment() {
@@ -87,8 +89,6 @@ public class PayrollSystemMenu {
     }
 
     private void createPayslipFullTime(HashMap<String, String> row) {
-        TaxCalc calc = new TaxCalc();
-
         String employeeId = row.get("EmployeeID");
         String employeeName = row.get("Name");
         float gross = Float.parseFloat(row.get("Salary"));
@@ -151,7 +151,6 @@ public class PayrollSystemMenu {
             }
 
             float gross = Float.parseFloat(salary) * hours;
-            TaxCalc calc = new TaxCalc();
 
             String employeeId = row.get("EmployeeID");
             String employeeName = row.get("Name");
