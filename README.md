@@ -12,8 +12,11 @@
 
 ### Passwords:
 FULL-TIME: password
+
 HR: hrpassword
+
 ADMIN: adminpassword
+
 PART-TIME: partpassword
 
 ### Compile step:
