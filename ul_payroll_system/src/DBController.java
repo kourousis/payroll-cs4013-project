@@ -254,11 +254,6 @@ public class DBController {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.newLine();
-            if (table.equals("payslip")) {
-                writer.newLine();
-                // WHY???????
-                NEW_PAYSLIP(id);
-            }
             writer.write(String.join(",", newData));
             writer.close();
 
@@ -268,7 +263,7 @@ public class DBController {
         }
     }
 
-    private boolean NEW_PAYSLIP(int id) {
+    public boolean NEW_PAYSLIP(int id) {
         String path = CSV_FILE_PATH + "/payslips/" + "payslip_" + id + ".csv";
         String header = "ID,Date,EmployeeName,GrossPay,USC,PRSI,IncomeTax,Health,Union,NetPay";
 
