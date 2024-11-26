@@ -412,6 +412,19 @@ public class PayrollSystemMenu {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate date = LocalDate.now();
             String roleDate = date.format(dtf);
+
+            // Format fields that need capitalization
+            firstNameString = capitalizeFirstLetter(firstNameString);
+            lastNameString = capitalizeFirstLetter(lastNameString);
+            cityString = capitalizeFirstLetter(cityString);
+            countyString = capitalizeFirstLetter(countyString);
+            countryString = capitalizeFirstLetter(countryString);
+            departmentString = departmentString.toUpperCase();
+            postcodeString = postcodeString.toUpperCase();
+            jobtitle = jobtitle.toUpperCase();
+            roletype = roletype.toUpperCase();
+            streetString = formatStreetAddress(streetString);
+
             String name = firstNameString + " " + lastNameString;
             String hashedPassword = PasswordUtil.hashPassword(passwordString);
 
@@ -437,6 +450,36 @@ public class PayrollSystemMenu {
             } else {
                 System.out.println("Error adding employee");
             }
+        }
+    }
+
+    private String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.toLowerCase().substring(1);
+    }
+
+    private String formatStreetAddress(String street) {
+        try {
+            // Split into parts by spaces
+            String[] parts = street.split(" ");
+            if (parts.length == 1) {
+                return capitalizeFirstLetter(street);
+            }
+            
+            // Keep house number as is
+            StringBuilder formatted = new StringBuilder(parts[0]);
+            
+            // Capitalize each remaining word
+            for (int i = 1; i < parts.length; i++) {
+                formatted.append(" ").append(capitalizeFirstLetter(parts[i]));
+            }
+            
+            return formatted.toString();
+            
+        } catch (Exception e) {
+            return capitalizeFirstLetter(street);
         }
     }
 
