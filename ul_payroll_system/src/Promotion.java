@@ -2,14 +2,16 @@ import java.io.*;
 
 public class Promotion {
 
+    protected static boolean PendingState = false;
+    protected boolean AcceptanceState = false;
+
     // Method to promote an employee and add to pendingPromo.csv
     public void promoteEmployee(String EmployeeId, String newJobTitle) {
         // Path for the employee CSV and pendingPromo CSV files
         String employeeFilePath = "db/employees.csv";
         String promoFilePath = "db/pendingPromo.csv";
 
-        boolean PendingState = false;
-        boolean AcceptanceState = false;
+
 
         // Check if EmployeeId exists in the employee file
         boolean foundEmployee = false;
