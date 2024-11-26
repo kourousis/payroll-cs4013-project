@@ -14,6 +14,26 @@ public class DBController {
         tableFields.put("control_data", 3);
     }
 
+     // Method to count rows in a CSV file, excluding the header
+     public int getRowCount(String tableName) {
+        String filePath = CSV_FILE_PATH + tableName + ".csv";
+        int rowCount = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            // Skip the header row
+            br.readLine();
+
+            // Count remaining rows
+            while (br.readLine() != null) {
+                rowCount++;
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading CSV file: " + e.getMessage());
+        }
+
+        return rowCount;
+    }
+
     public String GET(String table, int id, String data) {
         if (!table.equals("employees") && !table.equals("control_data")) {
             System.out.println("No table found");
