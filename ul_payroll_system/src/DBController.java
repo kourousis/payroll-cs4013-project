@@ -256,6 +256,7 @@ public class DBController {
             writer.newLine();
             if (table.equals("payslip")) {
                 writer.newLine();
+                // WHY???????
                 NEW_PAYSLIP(id);
             }
             writer.write(String.join(",", newData));
