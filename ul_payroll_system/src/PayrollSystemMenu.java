@@ -89,6 +89,8 @@ public class PayrollSystemMenu {
     }
 
     private void createPayslipFullTime(HashMap<String, String> row) {
+        LocalDate date = LocalDate.now();
+
         String employeeId = row.get("EmployeeID");
         String employeeName = row.get("Name");
         float gross = Float.parseFloat(row.get("Salary"));
@@ -104,7 +106,7 @@ public class PayrollSystemMenu {
 
         String[] payslipInfo = {
             employeeId,
-            //date,
+            date,
             employeeName,
             grossMonthlySalary,
             usc,
