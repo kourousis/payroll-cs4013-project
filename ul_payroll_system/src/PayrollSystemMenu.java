@@ -37,6 +37,7 @@ public class PayrollSystemMenu {
         if (today.getDayOfMonth() == 25) {
             createPayslipEndOfMonth();
         }
+        SalaryUpdate salaryUpdate = new SalaryUpdate();
 
         System.out.println("--------------------------------------------------");
         System.out.println("Welcome to the UL Payroll System");
@@ -690,10 +691,10 @@ public class PayrollSystemMenu {
         LocalDate today = LocalDate.now();
         LocalDate secondFriday = getSecondFriday(today);
 
-//        if (today.isAfter(secondFriday)) {
-//            System.out.println("Pay claim submission deadline has passed for this month.");
-//            return;
-//        }
+        if (today.isAfter(secondFriday)) {
+            System.out.println("Pay claim submission deadline has passed for this month.");
+            return;
+        }
 
         String[] data = new String[4];
         data[0] = Integer.toString(employeeId);
