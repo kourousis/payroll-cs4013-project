@@ -1,8 +1,17 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DBTest {
     public static void main(String[] args) {
+        DBController db = new DBController();
+
+        ArrayList<HashMap<String, String>> employees_csv = db.GET_CSV("employees");
+
+        for (HashMap<String, String> row : employees_csv) {
+            System.out.println(row);
+            System.out.println();
+        }
         // DB tester
         //DBController db = new DBController();
 

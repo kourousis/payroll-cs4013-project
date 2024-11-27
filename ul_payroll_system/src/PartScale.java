@@ -8,42 +8,42 @@ public class PartScale extends SalaryScale{
         this.years = years;
         // Minimum wage: €12.70
         switch (jobTitle) {
-            case ("Lecture"):
+            case ("LECTURE"):
                 Map<Integer, Float> lecture = new HashMap<>();
                 lecture.put(1, 12.70f);
                 lecture.put(2, 15.40f);
                 lecture.put(3, 25.10f);
                 lecture.put(4, 30.80f);
                 return lecture.get(years);
-            case ("Tutorial"):
+            case ("TUTORIAL"):
                 Map<Integer, Float> tutorial = new HashMap<>();
                 tutorial.put(1, 12.70f);
                 tutorial.put(2, 15.40f);
                 tutorial.put(3, 25.10f);
                 tutorial.put(4, 30.80f);
                 return tutorial.get(years);
-            case ("Lab"):
+            case ("LAB"):
                 Map<Integer, Float> lab = new HashMap<>();
                 lab.put(1, 12.70f);
                 lab.put(2, 15.40f);
                 lab.put(3, 25.10f);
                 lab.put(4, 30.80f);
                 return lab.get(years);
-            case ("Demo"):
+            case ("DEMO"):
                 Map<Integer, Float> demo = new HashMap<>();
                 demo.put(1, 12.70f);
                 demo.put(2, 15.40f);
                 demo.put(3, 25.10f);
                 demo.put(4, 30.80f);
                 return demo.get(years);
-            case ("Exam-Invigilator"):
+            case ("EXAM-INVIGILATOR"):
                 Map<Integer, Float> invigilator = new HashMap<>();
                 invigilator.put(1, 12.70f);
                 invigilator.put(2, 15.40f);
                 invigilator.put(3, 25.10f);
                 invigilator.put(4, 30.80f);
                 return invigilator.get(years);
-            case ("Exam-Supervisor"):
+            case ("EXAM-SUPERVISOR"):
                 Map<Integer, Float> supervisor = new HashMap<>();
                 supervisor.put(1, 12.70f);
                 supervisor.put(2, 15.40f);

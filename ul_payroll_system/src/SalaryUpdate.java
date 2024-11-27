@@ -3,30 +3,57 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class SalaryUpdate {
-    public static void main(String[] args) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); //Changes String from CSV to LocalDate for use
-        DBController db = new DBController();
-        LocalDate date = LocalDate.parse(db.GET("employees", 2, "HireDate"), formatter);
 
-        LocalDate payBump = LocalDate.parse(db.GET("control_data", 2, "Data"), formatter);
-        //if(payBump )
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  //Changes String from CSV to LocalDate for use
+    DBController db = new DBController();
 
+    FullScale fullCalc= new FullScale();
+    PartScale partCalc = new PartScale();
+
+    public SalaryUpdate() {
+        updateSalaries();
+    }
+
+    private void updateSalaries() {
+        LocalDate payBump = LocalDate.parse(db.GET("control_data", 1, "Data"), formatter);
         LocalDate today = LocalDate.now();
-        LocalDate date2 = LocalDate.of(2024, 5, 20);
-        System.out.println("Date: " + today);
-        System.out.println("Date: " + date2);
-        System.out.println("Date: " + date);
-        System.out.println("Pay increase date: " + payBump);
 
-        if (today.isBefore(date2)) {
-            System.out.println("Date1 is before Date2");
-        } else if (today.isAfter(date2)) {
-            System.out.println("Date1 is after Date2");
+        int totalRows = db.getRowCount("employees");
+
+
+        if(payBump.isBefore(today) || payBump.isEqual(today)){
+            for (int i = 1; i <= totalRows; i++){
+                String roleType = db.GET("employees", i, "RoleType");
+                String department = db.GET("employees", i, "Department");
+                String jobTitle = db.GET("employees", i, "Jobtitle");
+
+                LocalDate roleDate = LocalDate.parse(db.GET("employees", i, "RoleDate"), formatter);
+                int years = (int) ChronoUnit.YEARS.between(roleDate, payBump);
+                years++;
+
+                if("FULLTIME".equalsIgnoreCase(roleType) || "ADMIN".equalsIgnoreCase(roleType)){
+
+                    years = years + 1;
+                    float newSalary = fullCalc.getSalaryData(department, jobTitle, years);
+                    db.UPDATE("employees", i, "Salary", String.valueOf(newSalary));
+                }
+                else if("PARTTIME".equalsIgnoreCase(roleType)){
+                    years++;
+                    if(years <= 4){
+                        float newSalary = partCalc.getSalaryData(department, jobTitle.toUpperCase(), years);
+                        db.UPDATE("employees", i, "Salary", String.valueOf(newSalary));
+                    }
+                }
+                else {
+                    db.UPDATE("employees", i, "Salary", "64409");
+                }
+            }
+            payBump = payBump.plusYears(1);
+            String dateString = payBump.format(formatter);
+            db.UPDATE("control_data", 1, "Data", dateString);
+            System.out.println("Salaries have been updated");
         } else {
-            System.out.println("Date1 is equal to Date2");
+            System.out.println("System is up to date");
         }
-
-        long daysBetween = ChronoUnit.DAYS.between(date, today);
-        System.out.println("Days since HireDate: " + daysBetween);
     }
 }

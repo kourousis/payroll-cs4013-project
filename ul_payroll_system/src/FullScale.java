@@ -10,13 +10,13 @@ public class FullScale extends SalaryScale{
             case "HR":
                 salaryData = getHRSalary();
                 break;
-            case "Admin":
+            case "ADMIN":
                 salaryData = getAdminSalary();
                 break;
-            case "Library":
+            case "LIBRARY":
                 salaryData = getLibrarySalary();
                 break;
-            case "Academic":
+            case "ACADEMIC":
                 salaryData = getAcademicSalary();
                 break;
             case "EPS":
@@ -25,28 +25,34 @@ public class FullScale extends SalaryScale{
             case "IT":
                 salaryData = getITSalary();
                 break;
-            case "Technical":
+            case "TECHNICAL":
                 salaryData = getTechnicalSalary();
                 break;
-            case "Service":
+            case "SERVICE":
                 salaryData = getServiceSalary();
                 break;
-            case "Teachers":
+            case "TEACHERS":
                 salaryData = getTeachersSalary();
                 break;
-            case "Clinical":
+            case "CLINICAL":
                 salaryData = getClinicalSalary();
                 break;
             case "ULAC":
                 salaryData = getULACSalary();
                 break;
-            case "Research":
+            case "RESEARCH":
                 salaryData = getResearchSalary();
                 break;
             default:
                 System.out.println("Invalid department");
         }
         if (salaryData != null) {
+            while (years > 0) {
+                if (salaryData.get(years) != null) {
+                    return salaryData.get(years);
+                }
+                years--;
+            }
             return salaryData.get(years);
         }
         System.out.println("No salary data found for " + inDepartment);
@@ -410,8 +416,8 @@ public class FullScale extends SalaryScale{
                 analystProgrammer2.put(5, 60116f);
                 analystProgrammer2.put(6, 61717f);
                 analystProgrammer2.put(7, 64375f);
-                analystProgrammer2.put(8, 66805f); // Long Service Increment -3 yrs
-                analystProgrammer2.put(9, 69293f); // Long Service Increment -6 yrs
+                analystProgrammer2.put(8, 66805f);
+                analystProgrammer2.put(9, 69293f);
                 return analystProgrammer2;
             case "ANALYST_PROGRAMMER_1":
                 Map<Integer, Float> analystProgrammer1 = new HashMap<>();
@@ -423,8 +429,8 @@ public class FullScale extends SalaryScale{
                 analystProgrammer1.put(6, 50543f);
                 analystProgrammer1.put(7, 52039f);
                 analystProgrammer1.put(8, 53562f);
-                analystProgrammer1.put(9, 56116f); // Long Service Increment -3 yrs
-                analystProgrammer1.put(10, 58164f); // Long Service Increment -6 yrs
+                analystProgrammer1.put(9, 56116f);
+                analystProgrammer1.put(10, 58164f);
                 return analystProgrammer1;
             case "SENIOR_COMPUTER_OPERATOR":
                 Map<Integer, Float> seniorComputerOperator = new HashMap<>();
