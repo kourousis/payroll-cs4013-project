@@ -8,10 +8,12 @@ public class DBController {
     private static final String CSV_FILE_PATH = new File("").getAbsolutePath() + "/ul_payroll_system/db/";
     private Map<String, Integer> tableFields = new HashMap<>();
 
+
     public DBController() {
         tableFields.put("employees", 15);
         tableFields.put("payslips", 8);
         tableFields.put("control_data", 3);
+        tableFields.put("pendingPromo", 3);
     }
 
     public String GET(String table, int id, String data) {
@@ -237,6 +239,8 @@ public class DBController {
             path = CSV_FILE_PATH + table + ".csv";
         } else if (table.equals("payslip")) {
             path = CSV_FILE_PATH + "/payslips/" + "payslip_" + data[0] + ".csv";
+        } else if (table.equals("pendingPromo")) {
+            path = CSV_FILE_PATH + table + ".csv";
         } else {
             System.out.println("No table found");
             return false;
