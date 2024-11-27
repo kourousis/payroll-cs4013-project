@@ -356,12 +356,30 @@ public class DBController {
                 }
             }
 
-            // Return the defaultRow value if table is empty
+            // Terinary operator to return latest if exists else return default
             return hasData ? latestRow : defaultRow;
 
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
             return null;
         }
+    }
+
+    public int getRowCount(String tableName) {
+        String filePath = CSV_FILE_PATH + tableName + ".csv";
+        int rowCount = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            // Skip the header row
+            br.readLine();
+
+            while (br.readLine() != null) {
+                rowCount++;
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading CSV file: " + e.getMessage());
+        }
+
+        return rowCount;
     }
 }
