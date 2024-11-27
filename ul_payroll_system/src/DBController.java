@@ -14,8 +14,7 @@ public class DBController {
         tableFields.put("control_data", 3);
     }
     
-    //ADDED
-    //Method to count rows in a CSV file, excluding the header
+
     public int getRowCount(String tableName) {
         String filePath = CSV_FILE_PATH + tableName + ".csv";
         int rowCount = 0;
@@ -24,7 +23,6 @@ public class DBController {
             // Skip the header row
             br.readLine();
 
-            // Count remaining rows
             while (br.readLine() != null) {
                 rowCount++;
             }
