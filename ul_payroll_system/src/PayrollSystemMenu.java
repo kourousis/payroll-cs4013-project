@@ -106,7 +106,7 @@ public class PayrollSystemMenu {
 
         String[] payslipInfo = {
             employeeId,
-            date,
+            date.toString(),
             employeeName,
             grossMonthlySalary,
             usc,
