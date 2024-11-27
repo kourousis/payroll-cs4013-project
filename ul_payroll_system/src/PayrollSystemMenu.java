@@ -350,6 +350,7 @@ public class PayrollSystemMenu {
                     String name = db.GET("employees", id, "Name");
                     firstName = name.split(" ")[0];
                     lastName = name.split(" ")[1];
+                    jobTitle = db.GET("employees", id, "Jobtitle");
                     roleType = db.GET("employees", id, "RoleType");
                     return id; // Return the correct ID immediately when found
                 } else {
@@ -689,14 +690,15 @@ public class PayrollSystemMenu {
         LocalDate today = LocalDate.now();
         LocalDate secondFriday = getSecondFriday(today);
 
-        if (today.isAfter(secondFriday)) {
-            System.out.println("Pay claim submission deadline has passed for this month.");
-            return;
-        }
+//        if (today.isAfter(secondFriday)) {
+//            System.out.println("Pay claim submission deadline has passed for this month.");
+//            return;
+//        }
 
-        String[] data = new String[3];
+        String[] data = new String[4];
         data[0] = Integer.toString(employeeId);
         data[2] = jobTitle;
+        data[3] = LocalDate.now().toString();
 
         System.out.println("--------------------------------------------------");
         System.out.println("Input hours worked:");
@@ -713,9 +715,12 @@ public class PayrollSystemMenu {
             String command = in.nextLine().toUpperCase();
 
             if (command.equals("Y")) {
-                String table = "payclaim_" + employeeId;
-                db.ADD(table, data);
-                System.out.println("Payclaim submitted successfully");
+                if (data[0] != null && data[1] != null && data[2] != null) {
+                    db.ADD("payclaims", data);
+                    System.out.println("Payclaim submitted successfully");
+                } else {
+                    System.out.println("Error submitting payclaim");
+                }
             } else if (command.equals("N")) {
                 System.out.println("Payclaim cancelled");
             } else {
