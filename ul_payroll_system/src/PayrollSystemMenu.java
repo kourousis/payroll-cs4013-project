@@ -819,4 +819,233 @@ public class PayrollSystemMenu {
             }
         }
     }
+
+    public HashMap<String, List<String>> createJobInfo() {
+        HashMap<String, List<String>> departmentJobTitles = new HashMap<>();
+
+        // HR Department
+        departmentJobTitles.put("HR", List.of("HR_OFFICER"));
+
+        // Admin Department
+        departmentJobTitles.put("Admin", List.of(
+                "ADMIN_ASSISTANT",
+                "SENIOR_ADMIN_ASSISTANT",
+                "ADMINISTRATOR",
+                "SENIOR_ADMINISTRATIVE_OFFICER_III",
+                "SENIOR_ADMINISTRATIVE_OFFICER_II",
+                "SENIOR_ADMINISTRATIVE_OFFICER_I",
+                "SENIOR_EXECUTIVE_ADMINISTRATOR",
+                "EXECUTIVE_ADMINISTRATOR",
+                "SENIOR_ADMINISTRATOR"));
+
+        // Library Department
+        departmentJobTitles.put("Library", List.of(
+                "LIBRARY_ASSISTANT",
+                "SENIOR_LIBRARY_ASSISTANT",
+                "LIBRARY_MANAGER",
+                "SUB_LIBRARIAN",
+                "ASSISTANT_LIBRARIAN_2",
+                "ASSISTANT_LIBRARIAN_1",
+                "LIBRARY_ATTENDANT"));
+
+        // Academic Department
+        departmentJobTitles.put("Academic", List.of(
+                "ACADEMIC_COORDINATOR",
+                "SENIOR_ACADEMIC_COORDINATOR",
+                "ACADEMIC_DIRECTOR",
+                "FULL_PROFESSOR",
+                "PROFESSOR",
+                "ASSOCIATE_PROFESSOR_A",
+                "ASSOCIATE_PROFESSOR_B",
+                "ASSISTANT_PROFESSOR",
+                "TEACHING_ASSISTANT"));
+
+        // EPS Department
+        departmentJobTitles.put("EPS", List.of(
+                "EPS_OFFICER",
+                "SENIOR_EPS_OFFICER",
+                "EPS_COORDINATOR",
+                "EPS_PORTFOLIO_MANAGER",
+                "EPS_CATEGORY_MANAGER",
+                "EPS_CATEGORY_SPECIALIST_HIGHER",
+                "EPS_CATEGORY_SPECIALIST"));
+
+        // IT Department
+        departmentJobTitles.put("IT", List.of(
+                "IT_SUPPORT",
+                "SENIOR_IT_SUPPORT",
+                "IT_MANAGER",
+                "ANALYST_PROGRAMMER_3",
+                "ANALYST_PROGRAMMER_2",
+                "ANALYST_PROGRAMMER_1",
+                "SENIOR_COMPUTER_OPERATOR",
+                "COMPUTER_OPERATOR",
+                "PRINT_OPERATOR_2",
+                "PRINT_OPERATOR_1",
+                "COMPUTER_LAB_ATTENDANT",
+                "TEMPORARY_COMPUTER_ASSISTANT"));
+
+        // Technical Department
+        departmentJobTitles.put("Technical", List.of(
+                "CHIEF_TECHNICAL_OFFICER",
+                "TECHNICAL_OFFICER",
+                "SENIOR_TECHNICAL_OFFICER",
+                "SENIOR_LAB_ATTENDANT",
+                "LABORATORY_ATTENDANT"));
+
+        // Service Department
+        departmentJobTitles.put("Service", List.of(
+                "SEN_PORTER_ATTENDANT",
+                "PORTER_ATTENDANT",
+                "GROUNDS_SUPERVISOR",
+                "GROUNDSWORKPERSON",
+                "SENIOR_AIDE",
+                "MACHINE_ATTENDANT",
+                "SERVICE_STAFF",
+                "SERVICE_STAFF_SHIFT",
+                "PLANT_MAINTENANCE_AIDE",
+                "GROUNDS_FOREPERSON"));
+
+        // Teachers Department
+        departmentJobTitles.put("Teachers", List.of(
+                "TEACHING_FELLOW",
+                "UNIVERSITY_TEACHER",
+                "ASSOCIATE_TEACHER"));
+
+        // Clinical Department
+        departmentJobTitles.put("Clinical", List.of(
+                "TRSRGF",
+                "CLINICAL_TUTOR",
+                "CLINICAL_FELLOW"));
+
+        // ULAC Department
+        departmentJobTitles.put("ULAC", List.of(
+                "ASSISTANT_SENIOR_INSTRUCTOR",
+                "LEAD_INSTRUCTOR",
+                "MULTI_ACTIVITY_INSTRUCTOR_GRADE_1",
+                "MULTI_ACTIVITY_INSTRUCTOR_GRADE_2",
+                "ASSISTANT_INSTRUCTOR",
+                "CO_OP_STUDENTS"));
+
+        // Research Department
+        departmentJobTitles.put("Research", List.of(
+                "RESEARCH_ASSISTANT",
+                "POST_DOC_RESEARCHER",
+                "RESEARCH_FELLOW",
+                "SENIOR_RESEARCH_FELLOW"));
+
+        return departmentJobTitles;
+    }
+
+    public void promoteEmployee(String employeeIdStr, String newJobTitle) {
+        DBController db = new DBController();
+        HashMap<String, List<String>> departmentJobTitles = createJobInfo();
+
+        int employeeId = Integer.parseInt(employeeIdStr);
+
+        // Fetch employee data from the database (employees.csv)
+        HashMap<String, String> employeeData = db.GET_ROW("employees", employeeId, "EmployeeID");
+
+        // Check if employee exists
+        if (employeeData == null || employeeData.isEmpty()) {
+            System.out.println("No employee found with ID " + employeeIdStr);
+            return;
+        }
+
+        // Extract department from employee data
+        String department = employeeData.get("Department");
+        if (department == null || department.isEmpty()) {
+            System.out.println("No department found for employee ID " + employeeIdStr);
+            return;
+        }
+
+        // Fetch the list of valid job titles for the department
+        List<String> validJobTitles = departmentJobTitles.getOrDefault(department, null);
+        if (validJobTitles == null) {
+            System.out.println("No valid job titles found for department " + department);
+            return;
+        }
+
+        // Check if the new job title exists in the department's job titles
+        if (!validJobTitles.contains(newJobTitle)) {
+            System.out.println("Can't promote to different department or invalid job title.");
+            return;
+        }
+
+        // Check if the employee already has a pending promotion
+        String dbCheck2 = db.GET("pendingPromo", employeeId, "EmployeeID");
+        if (dbCheck2 == null || dbCheck2.isEmpty()) {
+            // Add promotion details to the pendingPromo CSV if not found
+            if (db.ADD("pendingPromo", new String[]{employeeIdStr, newJobTitle, "false"})) {
+                System.out.println("Promotion request sent for employee ID " + employeeIdStr);
+            } else {
+                System.out.println("Adding promotion failed for employee ID " + employeeIdStr);
+            }
+        } else {
+            // If a pending promotion already exists
+            System.out.println("Pending promo found for employee ID " + employeeIdStr);
+        }
+    }
+
+    public void PromotionPending(String employeeIdStr) {
+        DBController db = new DBController();
+
+        int employeeId = Integer.parseInt(employeeIdStr);
+
+        // Check if there is a pending promotion request in pendingPromo.csv
+        HashMap<String, String> pendingPromotionData = db.GET_ROW("pendingPromo", employeeId, "EmployeeID");
+        if (pendingPromotionData == null || pendingPromotionData.isEmpty()) {
+            System.out.println("No pending promotion for employee ID " + employeeIdStr);
+            return; // No pending promotion for this employee
+        }
+
+        // Ensure that the "Jobtitle" key exists in the map
+        if (!pendingPromotionData.containsKey("Jobtitle")) {
+            System.out.println("Error: 'Jobtitle' field not found in pending promotion data.");
+            return; // Exit if the key doesn't exist
+        }
+
+        // The new job title will be assumed to be in the "Jobtitle" field of the pendingPromotion data
+        String newJobTitle = pendingPromotionData.get("Jobtitle");
+
+        System.out.println("Do you accept the promotion? (y/n)");
+        String userInput = in.nextLine().toLowerCase();
+
+        if (userInput.equals("y")) {
+            System.out.println("You have accepted the promotion!");
+
+            // Update the employee's job title in the employee.csv
+            String dbCheck = db.UPDATE("employees", employeeId, "Jobtitle", newJobTitle);
+            if (dbCheck != null && !dbCheck.isEmpty()) {
+                System.out.println("Job title updated to " + newJobTitle + " in employee.csv.");
+            } else {
+                System.out.println("Failed to update job title in employee.csv.");
+            }
+
+            // Remove the pending promotion from the pendingPromo.csv
+            String dbCheck2 = db.UPDATE("pendingPromo", employeeId, "EmployeeID", "");
+            if (dbCheck2 != null && !dbCheck2.isEmpty()) {
+                System.out.println("Promotion data removed from pendingPromo.csv.");
+            } else {
+                System.out.println("Failed to remove promotion data from pendingPromo.csv.");
+            }
+            System.out.println("Promotion data removed from pendingPromo.csv.");
+
+        } else if (userInput.equals("n")) {
+            // Reject the promotion
+            System.out.println("You have rejected the promotion.");
+
+            // Remove the pending promotion from the pendingPromo.csv
+            String dbCheck2 = db.UPDATE("pendingPromo", employeeId, "EmployeeID", "");
+            if (dbCheck2 != null && !dbCheck2.isEmpty()) {
+                System.out.println("Promotion data removed from pendingPromo.csv.");
+            } else {
+                System.out.println("Failed to remove promotion data from pendingPromo.csv.");
+            }
+
+            System.out.println("Promotion data removed from pendingPromo.csv.");
+        } else {
+            System.out.println("Invalid input. Please enter 'y' or 'n'.");
+        }
+    }
 }
