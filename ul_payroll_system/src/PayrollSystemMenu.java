@@ -386,6 +386,8 @@ public class PayrollSystemMenu {
         String jobtitle = data[12];
         String roleType = data[13].toUpperCase();
 
+        HashMap<String, List<String>> joblist = createJobInfo();
+
         // Employee Personal Information Validation
 
         // Validate if fields contain commas
@@ -400,7 +402,7 @@ public class PayrollSystemMenu {
         // Validate first name and last name (only letters)
         if (!firstNameString.matches("[A-Za-z]+") || !lastNameString.matches("[A-Za-z]+")) {
             System.out.println();
-            System.out.println("ERROR First and last names must contain only letters.");
+            System.out.println("ERROR First and last names must contain only letters. ERROR");
             return false;
         }
 
@@ -471,6 +473,20 @@ public class PayrollSystemMenu {
                 !roleType.equals("ADMIN") && !roleType.equals("HR")) {
             System.out.println();
             System.out.println("ERROR Role type cannot be empty. ERROR");
+            return false;
+        }
+
+        // Validate Department
+        if (joblist.get(departmentString).equals(null)) {
+            System.out.println();
+            System.out.println("ERROR Please enter a valid department ERROR");
+            return false;
+        }
+
+        //Validate JobTitle
+        if (!joblist.get(departmentString).contains(jobtitle)) {
+            System.out.println();
+            System.out.println("ERROR Please enter a valid Job Title ERROR");
             return false;
         }
 
