@@ -19,6 +19,7 @@ public class PayrollSystemMenu {
     private boolean running = true;
     private boolean loggedIn = false;
 
+    SalaryUpdate salaryUpdate;
     DBController db;
     TaxCalc calc;
 
@@ -26,6 +27,7 @@ public class PayrollSystemMenu {
         in = new Scanner(System.in);
         db = new DBController();
         calc = new TaxCalc();
+        salaryUpdate = new SalaryUpdate();
     }
 
     public String getDepartment() {
@@ -37,7 +39,8 @@ public class PayrollSystemMenu {
         if (today.getDayOfMonth() == 25) {
             createPayslipEndOfMonth();
         }
-        SalaryUpdate salaryUpdate = new SalaryUpdate();
+        
+        salaryUpdate.updateSalaries();
 
         System.out.println("--------------------------------------------------");
         System.out.println("Welcome to the UL Payroll System");

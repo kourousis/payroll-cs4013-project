@@ -10,11 +10,7 @@ public class SalaryUpdate {
     FullScale fullCalc= new FullScale();
     PartScale partCalc = new PartScale();
 
-    public SalaryUpdate() {
-        updateSalaries();
-    }
-
-    private void updateSalaries() {
+    public void updateSalaries() {
         LocalDate payBump = LocalDate.parse(db.GET("control_data", 1, "Data"), formatter);
         LocalDate today = LocalDate.now();
 
