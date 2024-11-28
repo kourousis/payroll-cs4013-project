@@ -11,10 +11,10 @@ public abstract class Staff {
     /**
      * Param constructor to create a Staff object
      * 
-     * @param hireDate
-     * @param name
-     * @param phone
-     * @param email
+     * @param hireDate staff's hire date
+     * @param name     staff's name
+     * @param phone    staff's phone
+     * @param email    staff's email
      * @param address  The address of the staff member represented as an object
      */
     public Staff(Date hireDate, String name, String phone, String email, Address address) {
@@ -28,7 +28,8 @@ public abstract class Staff {
     /**
      * Accessor method to get the Staff object as a string in a readable format
      * 
-     * @return Concatenates the name, phone, email, postcode and address into a
+     * @return A string containing the name, phone, email, postcode and address into
+     *         a
      *         readable address
      */
     public String toString() {
@@ -36,10 +37,20 @@ public abstract class Staff {
                 + "\nAddress: " + address;
     }
 
+    /**
+     * Method to set the Staff's id
+     * 
+     * @param id Staff's id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Accessor method to retrieve the Staff's id
+     * 
+     * @return Staff's id
+     */
     public int getId() {
         return id;
     }

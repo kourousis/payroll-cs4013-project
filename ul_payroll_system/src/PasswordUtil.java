@@ -5,6 +5,11 @@ import java.nio.charset.StandardCharsets;
 public class PasswordUtil {
     private static final String SALT = "UL"; //salt prefix
     
+    /**
+     * 
+     * @param plainTextPassword
+     * @return
+     */
     public static String hashPassword(String plainTextPassword) {
         try {
             String saltedPassword = SALT + plainTextPassword;
