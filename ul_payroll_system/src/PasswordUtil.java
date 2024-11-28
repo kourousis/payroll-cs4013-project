@@ -6,9 +6,11 @@ public class PasswordUtil {
     private static final String SALT = "UL"; //salt prefix
     
     /**
+     * Method used to hash a plain text string (password in this case), 
+     * to a SHA-256 hash in order to store in the csv database
      * 
-     * @param plainTextPassword
-     * @return
+     * @param plainTextPassword plain text password
+     * @return SHA-256 of the plain text password
      */
     public static String hashPassword(String plainTextPassword) {
         try {
@@ -32,6 +34,13 @@ public class PasswordUtil {
         }
     }
 
+    /**
+     * Method used to compare a plain text string to a hash
+     * 
+     * @param plainTextPassword the password in plaintext
+     * @param storedHash the hash of the corresponding plaintext password that is stored on the csv database
+     * @return whether the plaintext and hashed passwword match
+     */
     public static boolean checkPassword(String plainTextPassword, String storedHash) {
         // Hash the input password and compare it with the stored hash
         String hashedInput = hashPassword(plainTextPassword);

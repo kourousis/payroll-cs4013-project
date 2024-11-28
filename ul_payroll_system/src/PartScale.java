@@ -1,7 +1,14 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class PartScale extends SalaryScale{
+public class PartScale extends SalaryScale {
+    /**
+     * Method
+     * @param department
+     * @param jobTitle
+     * @param years
+     * @return
+     */
     @Override
     public float getSalaryData(String department, String jobTitle, int years) {
         this.jobTitle = jobTitle;

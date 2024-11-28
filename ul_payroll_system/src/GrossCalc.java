@@ -5,6 +5,13 @@ public class GrossCalc {
     private int hours;
     private SalaryScale salaryScale;
 
+    /**
+     * Constructor used to create GrossCalc object
+     * 
+     * @param person
+     * @param yearinput
+     * @param hours
+     */
     public GrossCalc(Staff person, int yearinput, int hours)
     {
         if (person instanceof FullTimeStaff) {
@@ -18,7 +25,12 @@ public class GrossCalc {
         this.years = yearinput;
     }
 
-    //calculate gross based on years worked and job title
+    /**
+     * Calculates the gross income for an emplyee based on department and job title
+     * 
+     * @param department employees department
+     * @param jobTitle employees job title
+     */
     public void calculateGrossIncome(String department, String jobTitle) {
         // Gets salary map for department and job title
         float salary = 0;
