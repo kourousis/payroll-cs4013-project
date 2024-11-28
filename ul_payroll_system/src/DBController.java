@@ -12,10 +12,11 @@ public class DBController {
         tableFields.put("employees", 15);
         tableFields.put("payslips", 10);
         tableFields.put("control_data", 3);
+        tableFields.put("pendingPromo", 3);
     }
 
     public String GET(String table, int id, String data) {
-        if (!table.equals("employees") && !table.equals("control_data")) {
+        if (!table.equals("employees") && !table.equals("control_data") && !table.equals("pendingPromo")) {
             System.out.println("No table found");
             return null;
         }
@@ -51,7 +52,7 @@ public class DBController {
     }
 
     public String UPDATE(String table, int id, String field, String newValue) {
-        if (!table.equals("employees") && !table.equals("control_data")) {
+        if (!table.equals("employees") && !table.equals("control_data") && !table.equals("pendingPromo")) {
             System.out.println("No table found");
             return null;
         }
@@ -118,6 +119,8 @@ public class DBController {
             path = CSV_FILE_PATH + table + ".csv";
         } else if (table.equals("payslips")) {
             path = CSV_FILE_PATH + "/payslips/" + "payslip_" + id + ".csv";
+        } else if (table.equals("pendingPromo")) {
+            path = CSV_FILE_PATH + table + ".csv";
         } else {
             System.out.println("No table found");
             return null;
@@ -137,7 +140,7 @@ public class DBController {
                 }
                 int currentId = Integer.parseInt(values[0]); // EmployeeID is always first column
 
-                if (table.equals("employees")) {
+                if (table.equals("employees") || table.equals("pendingPromo")) {
                     if (currentId == id) {
                         HashMap<String, String> row = new HashMap<>();
                         for (int i = 0; i < columns.length; i++) {
@@ -231,6 +234,19 @@ public class DBController {
 
         if (table.startsWith("payclaim")) {
             path = CSV_FILE_PATH + "/payclaims/payclaims_" + data[0] + ".csv";
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+                writer.newLine();
+                writer.write(String.join(",", data));
+                writer.close();
+                return true;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (table.equals("pendingPromo")) {
+            path = CSV_FILE_PATH + table + ".csv";
             try {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
                 writer.newLine();
@@ -381,5 +397,57 @@ public class DBController {
         }
 
         return rowCount;
+    }
+
+    public boolean DELETE_ROW(String table, int id) {
+        String path;
+        if (!table.equals("pendingPromo")) {
+            System.out.println("No table found");
+            return false;
+        }
+        path = CSV_FILE_PATH + table + ".csv";
+        ArrayList<String> lines = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            // Get header + col names
+            String header = reader.readLine();
+            lines.add(header); // Keep header
+
+            // Read through the file to find the matching ID
+            String line;
+            boolean found = false;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                if (values[0].isEmpty()) {
+                    continue; // Skip lines with empty ID field
+                }
+                int currentId = Integer.parseInt(values[0]); // EmployeeID is always first column
+
+                if (currentId != id) {
+                    lines.add(line); // Keep non-matching rows
+                } else {
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                System.out.println("Record not found");
+                return false;
+            }
+
+            // Write back all lines except deleted row
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+            for (int i = 0; i < lines.size(); i++) {
+                writer.write(lines.get(i));
+                if (i < lines.size() - 1) {
+                    writer.newLine();
+                }
+            }
+            writer.close();
+            return true;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

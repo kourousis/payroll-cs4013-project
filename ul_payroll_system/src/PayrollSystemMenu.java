@@ -207,7 +207,7 @@ public class PayrollSystemMenu {
 
             switch (command) {
                 case "A":
-                    // Call promote method
+                    promoteEmployee();
                     break;
                 case "B":
                     viewPayslip();
@@ -265,7 +265,7 @@ public class PayrollSystemMenu {
             System.out.println("--------------------------------------------------");
             System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
             System.out.println("--------------------------------------------------");
-            System.out.println("A)Accept Promotion  B)User-Profile  C)View-Payslips  L)og-Out");
+            System.out.println("A)Check Promotion  B)User-Profile  C)View-Payslips  L)og-Out");
 
             String command = in.nextLine().toUpperCase();
 
@@ -276,7 +276,7 @@ public class PayrollSystemMenu {
 
             switch (command) {
                 case "A":
-                    // Accept Promotion
+                    acceptPromotion();
                     break;
                 case "B":
                     viewProfile();
@@ -827,7 +827,7 @@ public class PayrollSystemMenu {
         departmentJobTitles.put("HR", List.of("HR_OFFICER"));
 
         // Admin Department
-        departmentJobTitles.put("Admin", List.of(
+        departmentJobTitles.put("ADMIN", List.of(
                 "ADMIN_ASSISTANT",
                 "SENIOR_ADMIN_ASSISTANT",
                 "ADMINISTRATOR",
@@ -839,7 +839,7 @@ public class PayrollSystemMenu {
                 "SENIOR_ADMINISTRATOR"));
 
         // Library Department
-        departmentJobTitles.put("Library", List.of(
+        departmentJobTitles.put("LIBRARY", List.of(
                 "LIBRARY_ASSISTANT",
                 "SENIOR_LIBRARY_ASSISTANT",
                 "LIBRARY_MANAGER",
@@ -849,7 +849,7 @@ public class PayrollSystemMenu {
                 "LIBRARY_ATTENDANT"));
 
         // Academic Department
-        departmentJobTitles.put("Academic", List.of(
+        departmentJobTitles.put("ACADEMIC", List.of(
                 "ACADEMIC_COORDINATOR",
                 "SENIOR_ACADEMIC_COORDINATOR",
                 "ACADEMIC_DIRECTOR",
@@ -886,7 +886,7 @@ public class PayrollSystemMenu {
                 "TEMPORARY_COMPUTER_ASSISTANT"));
 
         // Technical Department
-        departmentJobTitles.put("Technical", List.of(
+        departmentJobTitles.put("TECHNICAL", List.of(
                 "CHIEF_TECHNICAL_OFFICER",
                 "TECHNICAL_OFFICER",
                 "SENIOR_TECHNICAL_OFFICER",
@@ -894,7 +894,7 @@ public class PayrollSystemMenu {
                 "LABORATORY_ATTENDANT"));
 
         // Service Department
-        departmentJobTitles.put("Service", List.of(
+        departmentJobTitles.put("SERVICE", List.of(
                 "SEN_PORTER_ATTENDANT",
                 "PORTER_ATTENDANT",
                 "GROUNDS_SUPERVISOR",
@@ -907,13 +907,13 @@ public class PayrollSystemMenu {
                 "GROUNDS_FOREPERSON"));
 
         // Teachers Department
-        departmentJobTitles.put("Teachers", List.of(
+        departmentJobTitles.put("TEACHERS", List.of(
                 "TEACHING_FELLOW",
                 "UNIVERSITY_TEACHER",
                 "ASSOCIATE_TEACHER"));
 
         // Clinical Department
-        departmentJobTitles.put("Clinical", List.of(
+        departmentJobTitles.put("CLINICAL", List.of(
                 "TRSRGF",
                 "CLINICAL_TUTOR",
                 "CLINICAL_FELLOW"));
@@ -928,7 +928,7 @@ public class PayrollSystemMenu {
                 "CO_OP_STUDENTS"));
 
         // Research Department
-        departmentJobTitles.put("Research", List.of(
+        departmentJobTitles.put("RESEARCH", List.of(
                 "RESEARCH_ASSISTANT",
                 "POST_DOC_RESEARCHER",
                 "RESEARCH_FELLOW",
@@ -937,115 +937,134 @@ public class PayrollSystemMenu {
         return departmentJobTitles;
     }
 
-    private void promoteEmployee(String employeeIdStr, String newJobTitle) {
+    private void promoteEmployee() {
         DBController db = new DBController();
         HashMap<String, List<String>> departmentJobTitles = createJobInfo();
 
-        int employeeId = Integer.parseInt(employeeIdStr);
+        System.out.println("--------------------------------------------------");
+        System.out.println("Enter Employee ID to promote: ");
+        String inputId = in.nextLine().trim();
 
-        // Fetch employee data from the database (employees.csv)
-        HashMap<String, String> employeeData = db.GET_ROW("employees", employeeId, "EmployeeID");
+        if (inputId.isEmpty()) {
+            System.out.println("Error: Employee ID cannot be empty");
+            return;
+        }
 
-        // Check if employee exists
+        // Fetch employee data from the database
+        HashMap<String, String> employeeData = db.GET_ROW("employees", Integer.parseInt(inputId), "EmployeeID");
+
+        // Validate employee exists
         if (employeeData == null || employeeData.isEmpty()) {
-            System.out.println("No employee found with ID " + employeeIdStr);
+            System.out.println("Error: No employee found with ID: " + inputId);
             return;
         }
 
-        // Extract department from employee data
         String department = employeeData.get("Department");
+        String currentJobTitle = employeeData.get("Jobtitle");
+
+        // Validate department exists
         if (department == null || department.isEmpty()) {
-            System.out.println("No department found for employee ID " + employeeIdStr);
+            System.out.println("Error: No department found for employee");
             return;
         }
 
-        // Fetch the list of valid job titles for the department
+        System.out.println("Enter new job title for promotion: ");
+        String newJobTitle = in.nextLine().trim().toUpperCase();
+
+        if (newJobTitle.isEmpty()) {
+            System.out.println("Error: Job title cannot be empty");
+            return;
+        }
+
         List<String> validJobTitles = departmentJobTitles.getOrDefault(department, null);
-        if (validJobTitles == null) {
-            System.out.println("No valid job titles found for department " + department);
+        if (validJobTitles == null || !validJobTitles.contains(currentJobTitle)) {
+            System.out.println("Error: Invalid current job title for department: " + department);
             return;
         }
 
-        // Check if the new job title exists in the department's job titles
         if (!validJobTitles.contains(newJobTitle)) {
-            System.out.println("Can't promote to different department or invalid job title.");
+            System.out.println("Error: Invalid new job title for department: " + department);
             return;
         }
 
-        // Check if the employee already has a pending promotion
-        String dbCheck2 = db.GET("pendingPromo", employeeId, "EmployeeID");
-        if (dbCheck2 == null || dbCheck2.isEmpty()) {
-            // Add promotion details to the pendingPromo CSV if not found
-            if (db.ADD("pendingPromo", new String[]{employeeIdStr, newJobTitle, "false"})) {
-                System.out.println("Promotion request sent for employee ID " + employeeIdStr);
-            } else {
-                System.out.println("Adding promotion failed for employee ID " + employeeIdStr);
-            }
+        // Check for existing promotion
+        String pendingPromotion = db.GET("pendingPromo", Integer.parseInt(inputId), "EmployeeID");
+        if (pendingPromotion != null && !pendingPromotion.isEmpty()) {
+            System.out.println("Error: Employee already has a pending promotion request");
+            return;
+        }
+
+        // Add promotion request
+        if (db.ADD("pendingPromo", new String[]{inputId, newJobTitle, "false"})) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("Success: Promotion request submitted");
+            System.out.println("Employee ID: " + inputId);
+            System.out.println("New Position: " + newJobTitle);
+            System.out.println("--------------------------------------------------");
         } else {
-            // If a pending promotion already exists
-            System.out.println("Pending promo found for employee ID " + employeeIdStr);
+            System.out.println("Error: Failed to submit promotion request");
         }
     }
 
-    private void PromotionPending(String employeeIdStr) {
+    private void acceptPromotion() {
         DBController db = new DBController();
 
-        int employeeId = Integer.parseInt(employeeIdStr);
-
-        // Check if there is a pending promotion request in pendingPromo.csv
-        HashMap<String, String> pendingPromotionData = db.GET_ROW("pendingPromo", employeeId, "EmployeeID");
+        // Check for pending promotion
+        HashMap<String, String> pendingPromotionData = db.GET_ROW("pendingPromo", employeeId, "");
         if (pendingPromotionData == null || pendingPromotionData.isEmpty()) {
-            System.out.println("No pending promotion for employee ID " + employeeIdStr);
-            return; // No pending promotion for this employee
+            System.out.println("--------------------------------------------------");
+            System.out.println("No pending promotions found.");
+            System.out.println("--------------------------------------------------");
+            return;
         }
 
-        // Ensure that the "Jobtitle" key exists in the map
-        if (!pendingPromotionData.containsKey("Jobtitle")) {
-            System.out.println("Error: 'Jobtitle' field not found in pending promotion data.");
-            return; // Exit if the key doesn't exist
+        String newJobTitle = pendingPromotionData.get("newJobTitle");
+        if (newJobTitle == null || newJobTitle.isEmpty()) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("Error: Invalid promotion data found");
+            System.out.println("--------------------------------------------------");
+            return;
         }
 
-        // The new job title will be assumed to be in the "Jobtitle" field of the pendingPromotion data
-        String newJobTitle = pendingPromotionData.get("Jobtitle");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Pending Promotion Details:");
+        System.out.println("New Position: " + newJobTitle);
+        System.out.println("--------------------------------------------------");
+        System.out.println("Do you accept this promotion? (Y/N)");
 
-        System.out.println("Do you accept the promotion? (y/n)");
-        String userInput = in.nextLine().toLowerCase();
+        String userInput = in.nextLine().toUpperCase();
+        while (!userInput.equals("Y") && !userInput.equals("N")) {
+            System.out.println("Invalid input. Please enter Y or N:");
+            userInput = in.nextLine().toUpperCase();
+        }
 
-        if (userInput.equals("y")) {
-            System.out.println("You have accepted the promotion!");
+        boolean accepted = userInput.equals("Y");
+        boolean success = false;
 
-            // Update the employee's job title in the employee.csv
+        if (accepted) {
             String dbCheck = db.UPDATE("employees", employeeId, "Jobtitle", newJobTitle);
-            if (dbCheck != null && !dbCheck.isEmpty()) {
-                System.out.println("Job title updated to " + newJobTitle + " in employee.csv.");
+            success = dbCheck != null && !dbCheck.isEmpty();
+
+            if (success) {
+                System.out.println("--------------------------------------------------");
+                System.out.println("Congratulations! Your new position is: " + newJobTitle);
             } else {
-                System.out.println("Failed to update job title in employee.csv.");
+                System.out.println("--------------------------------------------------");
+                System.out.println("Error: Failed to update job title");
             }
-
-            // Remove the pending promotion from the pendingPromo.csv
-            String dbCheck2 = db.UPDATE("pendingPromo", employeeId, "EmployeeID", "");
-            if (dbCheck2 != null && !dbCheck2.isEmpty()) {
-                System.out.println("Promotion data removed from pendingPromo.csv.");
-            } else {
-                System.out.println("Failed to remove promotion data from pendingPromo.csv.");
-            }
-            System.out.println("Promotion data removed from pendingPromo.csv.");
-
-        } else if (userInput.equals("n")) {
-            // Reject the promotion
-            System.out.println("You have rejected the promotion.");
-
-            // Remove the pending promotion from the pendingPromo.csv
-            String dbCheck2 = db.UPDATE("pendingPromo", employeeId, "EmployeeID", "");
-            if (dbCheck2 != null && !dbCheck2.isEmpty()) {
-                System.out.println("Promotion data removed from pendingPromo.csv.");
-            } else {
-                System.out.println("Failed to remove promotion data from pendingPromo.csv.");
-            }
-
-            System.out.println("Promotion data removed from pendingPromo.csv.");
-        } else {
-            System.out.println("Invalid input. Please enter 'y' or 'n'.");
         }
+
+        // Remove pending promotion regardless of acceptance
+        if (db.DELETE_ROW("pendingPromo", employeeId)) {
+            System.out.println("Pending promotion data removed");
+        } else {
+            System.out.println("Warning: Failed to remove pending promotion data");
+        }
+
+        if (!accepted) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("Promotion declined");
+        }
+        System.out.println("--------------------------------------------------");
     }
 }
