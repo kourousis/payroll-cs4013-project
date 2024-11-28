@@ -1,6 +1,6 @@
-## CS4013 Software Dev Project
+# CS4013 Software Dev Project
 
-#### Authors:
+## Authors:
 
 **23388986**: Sam Smith
 
@@ -12,16 +12,32 @@
 
 ## How to use this program
 ### Passwords:
-FULL-TIME: password
+**FULL-TIME**: 
 
-HR: hrpassword
+email: john.smith@ul.ie
 
-ADMIN: adminpassword
+password: password
 
-PART-TIME: partpassword
+**HR**: 
+
+email: jane.smith@ul.ie
+
+password: hrpassword
+
+**ADMIN**: 
+
+email: john.doe@ul.ie
+
+password: adminpassword
+
+**PART-TIME**: 
+
+email: jane.doe@ul.ie
+
+password: partpassword
 
 ## Valid departments & job titles for adding a new user:
-##### Full Time:
+### Full Time:
 **HR**:
 - HR_OFFICER
 
@@ -122,7 +138,8 @@ PART-TIME: partpassword
 - RESEARCH_FELLOW
 - SENIOR_RESEARCH_FELLOW
 
-##### Part Time:
+
+### Part Time:
 **LECTURE**:
 - LECTURE
 
@@ -146,4 +163,4 @@ PART-TIME: partpassword
 - Only full-time users can be promoted.
 
 ## Notes:
-- Maximum number of hours for part-time is 23 hours.
+- Maximum number of hours for part-time pay claims is 23 hours.
