@@ -820,7 +820,7 @@ public class PayrollSystemMenu {
         }
     }
 
-    public HashMap<String, List<String>> createJobInfo() {
+    private HashMap<String, List<String>> createJobInfo() {
         HashMap<String, List<String>> departmentJobTitles = new HashMap<>();
 
         // HR Department
@@ -937,7 +937,7 @@ public class PayrollSystemMenu {
         return departmentJobTitles;
     }
 
-    public void promoteEmployee(String employeeIdStr, String newJobTitle) {
+    private void promoteEmployee(String employeeIdStr, String newJobTitle) {
         DBController db = new DBController();
         HashMap<String, List<String>> departmentJobTitles = createJobInfo();
 
@@ -987,7 +987,7 @@ public class PayrollSystemMenu {
         }
     }
 
-    public void PromotionPending(String employeeIdStr) {
+    private void PromotionPending(String employeeIdStr) {
         DBController db = new DBController();
 
         int employeeId = Integer.parseInt(employeeIdStr);
