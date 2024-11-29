@@ -8,6 +8,7 @@ public class PayrollSystemMenu {
     private Scanner in;
     private String firstName;
     private String lastName;
+    private String department;
     private String jobTitle;
     private String roleType;
     private String email;
