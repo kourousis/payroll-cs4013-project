@@ -30,10 +30,6 @@ public class PayrollSystemMenu {
         salaryUpdate = new SalaryUpdate();
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
     public void run() {
         LocalDate today = LocalDate.now();
         if (today.getDayOfMonth() == 25) {
