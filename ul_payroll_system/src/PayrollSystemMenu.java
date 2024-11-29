@@ -56,7 +56,7 @@ public class PayrollSystemMenu {
                 password = in.nextLine();
 
                 employeeId = authenticateAndReturnID(email, password);
-                System.out.println(employeeId);
+                // System.out.println(employeeId); // DEBUG
 
                 if (employeeId > 0) {
                     loggedIn = true;

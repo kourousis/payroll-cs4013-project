@@ -26,7 +26,7 @@ public class DBController {
      */
     public String GET(String table, int id, String data) {
         if (!table.equals("employees") && !table.equals("control_data") && !table.equals("pendingPromo")) {
-            System.out.println("No table found");
+            //System.out.println("No table found");
             return null;
         }
 
@@ -73,7 +73,7 @@ public class DBController {
      */
     public String UPDATE(String table, int id, String field, String newValue) {
         if (!table.equals("employees") && !table.equals("control_data") && !table.equals("pendingPromo")) {
-            System.out.println("No table found");
+            //System.out.println("No table found");
             return null;
         }
 
@@ -191,7 +191,7 @@ public class DBController {
                     }
                 }
             }
-            System.out.println("Record not found");
+            //System.out.println("Record not found");
             return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -313,7 +313,7 @@ public class DBController {
         }
 
         if (data.length + 1 != tableFields.get(table)) {
-            System.out.println("\nDB ERROR Incorrect number of fields DB ERROR");
+            //System.out.println("\nDB ERROR Incorrect number of fields DB ERROR");
             return false;
         }
 
@@ -322,7 +322,7 @@ public class DBController {
         } else if (table.equals("payslip")) {
             path = CSV_FILE_PATH + "/payslips/payslip_" + data[0] + ".csv";
         } else {
-            System.out.println("No table found");
+            //System.out.println("No table found");
             return false;
         }
 
