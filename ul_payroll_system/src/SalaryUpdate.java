@@ -5,11 +5,8 @@ import java.time.temporal.ChronoUnit;
 public class SalaryUpdate {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Changes String from CSV to LocalDate for
-                                                                             // use
     DBController db = new DBController();
-
-    FullScale fullCalc = new FullScale();
-    PartScale partCalc = new PartScale();
+    SalaryScale scale;
 
     /**
      * Updates the salaries of all employees based on their role type, department,
@@ -35,14 +32,15 @@ public class SalaryUpdate {
                 years++;
 
                 if ("FULLTIME".equalsIgnoreCase(roleType) || "ADMIN".equalsIgnoreCase(roleType)) {
-
+                    scale = new FullScale();
                     years = years + 1;
-                    float newSalary = fullCalc.getSalaryData(department, jobTitle, years);
+                    float newSalary = scale.getSalaryData(department, jobTitle, years);
                     db.UPDATE("employees", i, "Salary", String.valueOf(newSalary));
                 } else if ("PARTTIME".equalsIgnoreCase(roleType)) {
+                    scale = new PartScale();
                     years++;
                     if (years <= 4) {
-                        float newSalary = partCalc.getSalaryData(department, jobTitle.toUpperCase(), years);
+                        float newSalary = scale.getSalaryData(department, jobTitle.toUpperCase(), years);
                         db.UPDATE("employees", i, "Salary", String.valueOf(newSalary));
                     }
                 } else {

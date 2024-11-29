@@ -894,6 +894,9 @@ public class PayrollSystemMenu {
     private HashMap<String, List<String>> createJobInfo() {
         HashMap<String, List<String>> departmentJobTitles = new HashMap<>();
 
+        // President Department
+        departmentJobTitles.put("PRESIDENT", List.of("PRESIDENT", "VICE_PRESIDENT"));
+
         // HR Department
         departmentJobTitles.put("HR", List.of("HR_OFFICER"));
 
