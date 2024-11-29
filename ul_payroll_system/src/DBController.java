@@ -460,7 +460,7 @@ public class DBController {
      * @param tableName specified table in the csv database
      * @return Number of rows in the given csv file
      */
-    public int GETROWCOUNT(String tableName) {
+    public int GET_ROW_COUNT(String tableName) {
         String filePath = CSV_FILE_PATH + tableName + ".csv";
         int rowCount = 0;
 

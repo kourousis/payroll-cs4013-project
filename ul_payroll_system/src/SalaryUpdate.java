@@ -22,7 +22,7 @@ public class SalaryUpdate {
         LocalDate payBump = LocalDate.parse(db.GET("control_data", 1, "Data"), formatter);
         LocalDate today = LocalDate.now();
 
-        int totalRows = db.GETROWCOUNT("employees");
+        int totalRows = db.GET_ROW_COUNT("employees");
 
         if (payBump.isBefore(today) || payBump.isEqual(today)) {
             for (int i = 1; i <= totalRows; i++) {
