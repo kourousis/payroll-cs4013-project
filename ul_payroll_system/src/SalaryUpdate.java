@@ -11,6 +11,13 @@ public class SalaryUpdate {
     FullScale fullCalc = new FullScale();
     PartScale partCalc = new PartScale();
 
+    /**
+     * Updates the salaries of all employees based on their role type, department,
+     * job title, and years of service.
+     * 
+     * If the salary update date has not yet arrived, the method outputs that the
+     * system is up to date.
+     */
     public void updateSalaries() {
         LocalDate payBump = LocalDate.parse(db.GET("control_data", 1, "Data"), formatter);
         LocalDate today = LocalDate.now();
