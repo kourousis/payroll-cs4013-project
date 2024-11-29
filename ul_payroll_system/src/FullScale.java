@@ -52,6 +52,9 @@ public class FullScale extends SalaryScale {
             case "RESEARCH":
                 salaryData = getResearchSalary();
                 break;
+            case "PRESIDENT":
+                salaryData = getPresidentSalary();
+                break;
             default:
                 System.out.println("Invalid department");
         }
@@ -68,6 +71,22 @@ public class FullScale extends SalaryScale {
 
         System.out.println("No salary data found for " + inDepartment);
         return 0f;
+    }
+
+    private Map<Integer, Float> getPresidentSalary() {
+        switch (jobTitle) {
+            case "PRESIDENT":
+                Map<Integer, Float> president = new HashMap<>();
+                president.put(1, 240716f);
+                return president;
+            case "VICE_PRESIDENT":
+                Map<Integer, Float> vp = new HashMap<>();
+                vp.put(1, 184171f);
+                return vp;
+            default:
+                System.out.println("Invalid job title");
+                return null;
+        }
     }
 
     /**
