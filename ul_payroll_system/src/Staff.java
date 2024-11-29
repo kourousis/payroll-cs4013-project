@@ -36,22 +36,4 @@ public abstract class Staff {
         return "Hire Date: " + hireDate.toString() + "\nName: " + name + "\nPhone: " + phone + "\nEmail: " + email
                 + "\nAddress: " + address;
     }
-
-    /**
-     * Method to set the Staff's id
-     * 
-     * @param id Staff's id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Accessor method to retrieve the Staff's id
-     * 
-     * @return Staff's id
-     */
-    public int getId() {
-        return id;
-    }
 }
