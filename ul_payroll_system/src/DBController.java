@@ -15,6 +15,15 @@ public class DBController {
         tableFields.put("pendingPromo", 3);
     }
 
+    /**
+     * Retrive a single entry from a CSV database row.
+     * 
+     * @param table specified csv table in the csv database
+     * @param id    row id
+     * @param data  entry in the database, for example "Name" in employees.csv
+     * @return For example, GET("employees", 1, "Name") returns the name of the
+     *         employee "John Doe"
+     */
     public String GET(String table, int id, String data) {
         if (!table.equals("employees") && !table.equals("control_data") && !table.equals("pendingPromo")) {
             System.out.println("No table found");
@@ -51,6 +60,17 @@ public class DBController {
         }
     }
 
+    /**
+     * Update a fied value in the csv database with a new value
+     * 
+     * @param table    specified table in the csv database
+     * @param id       the id of the row
+     * @param field    entry in the database, for example "Name" in employees.csv
+     * @param newValue the value to replace field with
+     * @return For example, UPDATE("employees", 1, "Name", "Johnathan Doe") updates
+     *         the name of the
+     *         employee "John Doe" to "Johnathan Doe"
+     */
     public String UPDATE(String table, int id, String field, String newValue) {
         if (!table.equals("employees") && !table.equals("control_data") && !table.equals("pendingPromo")) {
             System.out.println("No table found");
@@ -113,6 +133,16 @@ public class DBController {
         }
     }
 
+    /**
+     * Returns a whole row from a specified table in hashmap form
+     * 
+     * @param table specified table in the csv database
+     * @param id    the id of the row
+     * @param date  date associated with record only used for payslip retrieval
+     * @return A HashMap<String, String> where the keys are column names and
+     *         the values are the corresponding data.
+     *         Returns null if the record is not found.
+     */
     public HashMap<String, String> GET_ROW(String table, int id, String date) {
         String path;
         if (table.equals("employees")) {
@@ -136,9 +166,11 @@ public class DBController {
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values[0].isEmpty()) {
-                    continue; // Skip lines with empty ID field
+                    // Skip lines with empty ID field
+                    continue;
                 }
-                int currentId = Integer.parseInt(values[0]); // EmployeeID is always first column
+                // EmployeeID is always first column
+                int currentId = Integer.parseInt(values[0]);
 
                 if (table.equals("employees") || table.equals("pendingPromo")) {
                     if (currentId == id) {
@@ -166,6 +198,13 @@ public class DBController {
         }
     }
 
+    /**
+     * Retrives a specific column from a csv file in the database
+     * 
+     * @param table  specified table in the csv database
+     * @param column the column of the csv that is requested
+     * @return ArrayList of all data under the specified column
+     */
     public ArrayList<String> GET_COL(String table, String column) {
         if (!tableFields.containsKey(table)) {
             System.out.println("No table found");
@@ -198,6 +237,14 @@ public class DBController {
         }
     }
 
+    /**
+     * Returns entire csv table in the form of an Arraylist of Hashmaps. Each
+     * hashmap represents a row in the csv
+     * 
+     * @param table specified table in the csv database
+     * @return ArrayList<HashMap<String, String>> of the entire csv file, where each
+     *         HasMap<String, String> represents a row in key:value pair
+     */
     public ArrayList<HashMap<String, String>> GET_CSV(String table) {
         if (!table.equals("employees") && !table.equals("payclaim")) {
             System.out.println("No table found");
@@ -229,6 +276,13 @@ public class DBController {
         }
     }
 
+    /**
+     * Method used to add entries to a csv file
+     * 
+     * @param table specified table in the csv database
+     * @param data  data for all columns to add to a row
+     * @return If that data has been added successfully to the csv
+     */
     public boolean ADD(String table, String[] data) {
         String path = "";
 
@@ -290,6 +344,12 @@ public class DBController {
         }
     }
 
+    /**
+     * Database method to create a new payslip and add it to the csv database
+     * 
+     * @param id payslip's id
+     * @return If the payslip has been added successfully to the csv
+     */
     public boolean NEW_PAYSLIP(int id) {
         String path = CSV_FILE_PATH + "/payslips/" + "payslip_" + id + ".csv";
         String header = "ID,Date,EmployeeName,GrossPay,USC,PRSI,IncomeTax,Health,Union,NetPay";
@@ -305,6 +365,12 @@ public class DBController {
         }
     }
 
+    /**
+     * Database method to create a new payclaim and add it to the csv database
+     * 
+     * @param id payclaim's id
+     * @return If the payclaim has been added successfully to the csv
+     */
     public boolean NEW_PAYCLAIM(int id) {
         String path = CSV_FILE_PATH + "/payclaims/" + "payclaim_" + id + ".csv";
         String header = "EmployeeId,Hours,Role,Date";
@@ -320,6 +386,13 @@ public class DBController {
         }
     }
 
+    /**
+     * Database method to retrive the last row of a csv file
+     * 
+     * @param table specified table in the csv database
+     * @return A hashmap of the latest row added to the database in the form of a
+     *         key:value pair
+     */
     public HashMap<String, String> LATEST_ROW(String table) {
         String path;
         if (table.equals("employees")) {
@@ -381,6 +454,12 @@ public class DBController {
         }
     }
 
+    /**
+     * Database method to get the number of rows in a given csv file
+     * 
+     * @param tableName specified table in the csv database
+     * @return Number of rows in the given csv file
+     */
     public int getRowCount(String tableName) {
         String filePath = CSV_FILE_PATH + tableName + ".csv";
         int rowCount = 0;
@@ -399,6 +478,13 @@ public class DBController {
         return rowCount;
     }
 
+    /**
+     * Database method to delete a specified row in a csv file
+     * 
+     * @param table specified table in the csv database
+     * @param id    row id
+     * @return If the row has been deleted successfully
+     */
     public boolean DELETE_ROW(String table, int id) {
         String path;
         if (!table.equals("pendingPromo")) {
@@ -411,7 +497,8 @@ public class DBController {
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             // Get header + col names
             String header = reader.readLine();
-            lines.add(header); // Keep header
+            // Keep header
+            lines.add(header);
 
             // Read through the file to find the matching ID
             String line;
@@ -419,12 +506,14 @@ public class DBController {
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values[0].isEmpty()) {
-                    continue; // Skip lines with empty ID field
+                    // Skip lines with empty ID field
+                    continue;
                 }
                 int currentId = Integer.parseInt(values[0]); // EmployeeID is always first column
 
                 if (currentId != id) {
-                    lines.add(line); // Keep non-matching rows
+                    // Keep non-matching rows
+                    lines.add(line);
                 } else {
                     found = true;
                 }

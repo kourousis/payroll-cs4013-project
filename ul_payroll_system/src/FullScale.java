@@ -1,10 +1,19 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class FullScale extends SalaryScale{
+public class FullScale extends SalaryScale {
+    /**
+     * Return salary data given an employee's department, job title and years worked
+     * 
+     * @param inDepartment employee's department
+     * @param inJobTitle   employee's job title
+     * @param years        number of years worked
+     * @return a salary value of the employee
+     */
     public float getSalaryData(String inDepartment, String inJobTitle, int years) {
         this.jobTitle = inJobTitle;
         this.years = years;
+
         Map<Integer, Float> salaryData = new HashMap<>();
         switch (inDepartment) {
             case "HR":
@@ -46,6 +55,7 @@ public class FullScale extends SalaryScale{
             default:
                 System.out.println("Invalid department");
         }
+
         if (salaryData != null) {
             while (years > 0) {
                 if (salaryData.get(years) != null) {
@@ -55,14 +65,25 @@ public class FullScale extends SalaryScale{
             }
             return salaryData.get(years);
         }
+
         System.out.println("No salary data found for " + inDepartment);
         return 0f;
     }
 
+    /**
+     * Method used to return a HR employee's salary
+     * 
+     * @return float amount of HR employee's salary
+     */
     private Map<Integer, Float> getHRSalary() {
         return Map.of(1, 64409f);
     }
 
+    /**
+     * Method used to return an Admins salary given their job title
+     * 
+     * @return A map of salary amount to years for a given Admin job title
+     */
     private Map<Integer, Float> getAdminSalary() {
         switch (jobTitle) {
             case "SENIOR_ADMINISTRATIVE_OFFICER_III":
@@ -171,6 +192,11 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return an Librarians salary given their job title
+     * 
+     * @return A map of salary amount to years for a given Librarian job title
+     */
     private Map<Integer, Float> getLibrarySalary() {
         switch (jobTitle) {
             case "SUB_LIBRARIAN":
@@ -275,6 +301,12 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return an Academic Staff's salary given their job title
+     * 
+     * @return A map of salary amount to years for a given Academic Staff's job
+     *         title
+     */
     private Map<Integer, Float> getAcademicSalary() {
         switch (jobTitle) {
             case "FULL_PROFESSOR":
@@ -343,6 +375,11 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return an EPS' salary given their job title
+     * 
+     * @return A map of salary amount to years for a given EPS' job title
+     */
     private Map<Integer, Float> getEPSSalary() {
         switch (jobTitle) {
             case "EPS_PORTFOLIO_MANAGER":
@@ -393,6 +430,11 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return an IT Staff's salary given their job title
+     * 
+     * @return A map of salary amount to years for a given IT Staff's job title
+     */
     private Map<Integer, Float> getITSalary() {
         switch (jobTitle) {
             case "ANALYST_PROGRAMMER_3":
@@ -513,6 +555,11 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return an Technician's salary given their job title
+     * 
+     * @return A map of salary amount to years for a given Technician's job title
+     */
     private Map<Integer, Float> getTechnicalSalary() {
         switch (jobTitle) {
             case "CHIEF_TECHNICAL_OFFICER":
@@ -572,6 +619,12 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return a Servie worker's salary given their job title
+     * 
+     * @return A map of salary amount to years for a given Service worker's job
+     *         title
+     */
     private Map<Integer, Float> getServiceSalary() {
         switch (jobTitle) {
             case "SEN_PORTER_ATTENDANT":
@@ -732,6 +785,11 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return an Techedr's salary given their job title
+     * 
+     * @return A map of salary amount to years for a given Teacher's job title
+     */
     private Map<Integer, Float> getTeachersSalary() {
         switch (jobTitle) {
             case "TEACHING_FELLOW":
@@ -778,6 +836,11 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return an Clinician's salary given their job title
+     * 
+     * @return A map of salary amount to years for a given Clinician's job title
+     */
     private Map<Integer, Float> getClinicalSalary() {
         switch (jobTitle) {
             case "TRSRGF":
@@ -817,6 +880,11 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return an ULAC's salary given their job title
+     * 
+     * @return A map of salary amount to years for a given ULAC's job title
+     */
     private Map<Integer, Float> getULACSalary() {
         switch (jobTitle) {
             case "ASSISTANT_SENIOR_INSTRUCTOR":
@@ -852,6 +920,11 @@ public class FullScale extends SalaryScale{
         }
     }
 
+    /**
+     * Method used to return a Researcher's salary given their job title
+     * 
+     * @return A map of salary amount to years for a given Researcher's job title
+     */
     private Map<Integer, Float> getResearchSalary() {
         switch (jobTitle) {
             case "RESEARCH_ASSISTANT":

@@ -39,7 +39,7 @@ public class PayrollSystemMenu {
         if (today.getDayOfMonth() == 25) {
             createPayslipEndOfMonth();
         }
-        
+
         salaryUpdate.updateSalaries();
 
         System.out.println("--------------------------------------------------");
@@ -99,26 +99,28 @@ public class PayrollSystemMenu {
         String employeeName = row.get("Name");
         float gross = Float.parseFloat(row.get("Salary"));
         String grossMonthlySalary = String.valueOf(gross / 12);
-        
+
         String prsi = String.valueOf(calc.getPRSI(gross));
         String usc = String.valueOf(calc.getUSC(gross));
         String paye = String.valueOf(calc.getIncomeTax(gross));
         String union = String.valueOf(calc.getUnion(gross));
         String insurance = String.valueOf(calc.getInsure(gross));
-        
-        String netpay = String.valueOf( Float.parseFloat(grossMonthlySalary) - Float.parseFloat(prsi) - Float.parseFloat(usc) - Float.parseFloat(paye) - Float.parseFloat(union) - Float.parseFloat(insurance));
+
+        String netpay = String
+                .valueOf(Float.parseFloat(grossMonthlySalary) - Float.parseFloat(prsi) - Float.parseFloat(usc)
+                        - Float.parseFloat(paye) - Float.parseFloat(union) - Float.parseFloat(insurance));
 
         String[] payslipInfo = {
-            employeeId,
-            date.toString(),
-            employeeName,
-            grossMonthlySalary,
-            usc,
-            prsi,
-            paye,
-            insurance,
-            union,
-            netpay,
+                employeeId,
+                date.toString(),
+                employeeName,
+                grossMonthlySalary,
+                usc,
+                prsi,
+                paye,
+                insurance,
+                union,
+                netpay,
         };
 
         db.ADD("payslips", payslipInfo);
@@ -168,7 +170,7 @@ public class PayrollSystemMenu {
             String union = String.valueOf(calc.getUnion(gross));
             String insurance = String.valueOf(calc.getInsure(gross));
 
-            String netpay = String.valueOf( Float.parseFloat(grossMonthlySalary) -
+            String netpay = String.valueOf(Float.parseFloat(grossMonthlySalary) -
                     (Float.parseFloat(prsi) + Float.parseFloat(usc) + Float.parseFloat(paye) +
                             Float.parseFloat(union) + Float.parseFloat(insurance)));
 
@@ -486,7 +488,7 @@ public class PayrollSystemMenu {
             return false;
         }
 
-        //Validate JobTitle
+        // Validate JobTitle
         if (!joblist.get(departmentString).contains(jobtitle)) {
             System.out.println();
             System.out.println("ERROR Please enter a valid Job Title ERROR");
@@ -620,15 +622,15 @@ public class PayrollSystemMenu {
                         return;
                     }
                     if (db.NEW_PAYSLIP(Integer.parseInt(latestRow))) {
-                       if (roletype.equals("PARTTIME")) {
-                           if (db.NEW_PAYCLAIM(Integer.parseInt(latestRow))) {
-                               System.out.println("Employee added successfully");
-                           }  else {
-                                 System.out.println("Error adding employee");
-                           }
-                       } else {
+                        if (roletype.equals("PARTTIME")) {
+                            if (db.NEW_PAYCLAIM(Integer.parseInt(latestRow))) {
+                                System.out.println("Employee added successfully");
+                            } else {
+                                System.out.println("Error adding employee");
+                            }
+                        } else {
                             System.out.println("Employee added successfully");
-                       }
+                        }
                     }
                 } else {
                     System.out.println("Error adding employee");
@@ -1014,7 +1016,7 @@ public class PayrollSystemMenu {
         }
 
         // Add promotion request
-        if (db.ADD("pendingPromo", new String[]{inputId, newJobTitle, "false"})) {
+        if (db.ADD("pendingPromo", new String[] { inputId, newJobTitle, "false" })) {
             System.out.println("--------------------------------------------------");
             System.out.println("Success: Promotion request submitted");
             System.out.println("Employee ID: " + inputId);

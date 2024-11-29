@@ -4,10 +4,11 @@ import java.time.temporal.ChronoUnit;
 
 public class SalaryUpdate {
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  //Changes String from CSV to LocalDate for use
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Changes String from CSV to LocalDate for
+                                                                             // use
     DBController db = new DBController();
 
-    FullScale fullCalc= new FullScale();
+    FullScale fullCalc = new FullScale();
     PartScale partCalc = new PartScale();
 
     public void updateSalaries() {
@@ -16,9 +17,8 @@ public class SalaryUpdate {
 
         int totalRows = db.getRowCount("employees");
 
-
-        if(payBump.isBefore(today) || payBump.isEqual(today)){
-            for (int i = 1; i <= totalRows; i++){
+        if (payBump.isBefore(today) || payBump.isEqual(today)) {
+            for (int i = 1; i <= totalRows; i++) {
                 String roleType = db.GET("employees", i, "RoleType");
                 String department = db.GET("employees", i, "Department");
                 String jobTitle = db.GET("employees", i, "Jobtitle");
@@ -27,20 +27,18 @@ public class SalaryUpdate {
                 int years = (int) ChronoUnit.YEARS.between(roleDate, payBump);
                 years++;
 
-                if("FULLTIME".equalsIgnoreCase(roleType) || "ADMIN".equalsIgnoreCase(roleType)){
+                if ("FULLTIME".equalsIgnoreCase(roleType) || "ADMIN".equalsIgnoreCase(roleType)) {
 
                     years = years + 1;
                     float newSalary = fullCalc.getSalaryData(department, jobTitle, years);
                     db.UPDATE("employees", i, "Salary", String.valueOf(newSalary));
-                }
-                else if("PARTTIME".equalsIgnoreCase(roleType)){
+                } else if ("PARTTIME".equalsIgnoreCase(roleType)) {
                     years++;
-                    if(years <= 4){
+                    if (years <= 4) {
                         float newSalary = partCalc.getSalaryData(department, jobTitle.toUpperCase(), years);
                         db.UPDATE("employees", i, "Salary", String.valueOf(newSalary));
                     }
-                }
-                else {
+                } else {
                     db.UPDATE("employees", i, "Salary", "64409");
                 }
             }

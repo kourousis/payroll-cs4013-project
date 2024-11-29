@@ -15,15 +15,15 @@ public class Payslip {
     /**
      * Constructor to create a new payslip
      * 
-     * @param id Payslip id
+     * @param id       Payslip id
      * @param grossPay Gross pay
-     * @param usc USC paid
-     * @param prsi PRSI paid
-     * @param income Income tax (PAYE) paid
-     * @param health Insurance fees paid
-     * @param union Union fees paid
-     * @param netPay Net pay (Gross pay after all deductions)
-     * @param name Employee's name
+     * @param usc      USC paid
+     * @param prsi     PRSI paid
+     * @param income   Income tax (PAYE) paid
+     * @param health   Insurance fees paid
+     * @param union    Union fees paid
+     * @param netPay   Net pay (Gross pay after all deductions)
+     * @param name     Employee's name
      */
     public Payslip(int id, float grossPay, float usc, float prsi, float income, float health, float union, float netPay,
             String name) {

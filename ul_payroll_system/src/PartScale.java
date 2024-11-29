@@ -4,6 +4,7 @@ import java.util.Map;
 public class PartScale extends SalaryScale {
     /**
      * Method
+     * 
      * @param department
      * @param jobTitle
      * @param years

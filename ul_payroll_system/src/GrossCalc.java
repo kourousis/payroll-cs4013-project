@@ -12,8 +12,7 @@ public class GrossCalc {
      * @param yearinput
      * @param hours
      */
-    public GrossCalc(Staff person, int yearinput, int hours)
-    {
+    public GrossCalc(Staff person, int yearinput, int hours) {
         if (person instanceof FullTimeStaff) {
             salaryScale = new FullScale();
         } else if (person instanceof PartTimeStaff) {
@@ -29,19 +28,19 @@ public class GrossCalc {
      * Calculates the gross income for an emplyee based on department and job title
      * 
      * @param department employees department
-     * @param jobTitle employees job title
+     * @param jobTitle   employees job title
      */
     public void calculateGrossIncome(String department, String jobTitle) {
         // Gets salary map for department and job title
         float salary = 0;
         if (department.equals("President")) {
-                if (jobTitle.equals("PRESIDENT")) {
-                    salary = 240716f;
-                } else if (jobTitle.equals("VICE-PRESIDENT")) {
-                    salary =  184171f;
-                } else {
-                    System.out.println("Invalid Title");
-                }
+            if (jobTitle.equals("PRESIDENT")) {
+                salary = 240716f;
+            } else if (jobTitle.equals("VICE-PRESIDENT")) {
+                salary = 184171f;
+            } else {
+                System.out.println("Invalid Title");
+            }
         } else {
             salary = salaryScale.getSalaryData(department, jobTitle, years);
             if (salaryScale instanceof PartScale) {
