@@ -333,6 +333,19 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Returns and employee's id from the employees.csv database and authenticates
+     * the login details are correct
+     * 
+     * It authenticates the login details are correct by looping through the csv
+     * database in order to match the email and hashed password to what is stored on
+     * the csv
+     * 
+     * @param email    employees email
+     * @param password employees password
+     * @return returns the employee's id else returns 0 if login details could not
+     *         be authenticated
+     */
     private int authenticateAndReturnID(String email, String password) {
         boolean emailFound = false;
         department = null;
@@ -375,6 +388,13 @@ public class PayrollSystemMenu {
         return 0;
     }
 
+    /**
+     * Ensures data entered while creating a new employee to add to the database are
+     * correct and sanitised
+     * 
+     * @param data array of data needed to create a new employee
+     * @return If the details are sanitised correctly
+     */
     private boolean sanitiseEmployeeInputData(String[] data) {
         String firstNameString = data[0];
         String lastNameString = data[1];
@@ -641,6 +661,12 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Capitalise the first letter of a string
+     * 
+     * @param input the string that needs the first letter to be capitalised
+     * @return the string output with capitalised first letter
+     */
     private String capitalizeFirstLetter(String input) {
         if (input == null || input.isEmpty()) {
             return input;
@@ -648,6 +674,19 @@ public class PayrollSystemMenu {
         return input.substring(0, 1).toUpperCase() + input.toLowerCase().substring(1);
     }
 
+    /**
+     * Method used to format the street address
+     * 
+     * First slipts street into parts by spaces
+     * 
+     * Keeps the house number intact and capitalises the first letter of each
+     * subsequent word
+     * 
+     * Example, 8 james street -> 8 James Street
+     * 
+     * @param street street address input
+     * @return formatted street address
+     */
     private String formatStreetAddress(String street) {
         try {
             // Split into parts by spaces
@@ -703,6 +742,12 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * returns the date of the 2nd friday of the month
+     * 
+     * @param date date object
+     * @return returns a date object of the 2nd friday of the month
+     */
     private LocalDate getSecondFriday(LocalDate date) {
         LocalDate firstFriday = date.with(TemporalAdjusters.firstInMonth(DayOfWeek.FRIDAY));
         return firstFriday.plusWeeks(1);
@@ -841,6 +886,11 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Method to create a hashmap of <String, List> of all job titles
+     * 
+     * @return HashMap<String, List<String>> of all job titles in the university
+     */
     private HashMap<String, List<String>> createJobInfo() {
         HashMap<String, List<String>> departmentJobTitles = new HashMap<>();
 
