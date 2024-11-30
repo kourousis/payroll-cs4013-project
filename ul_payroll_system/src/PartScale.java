@@ -3,12 +3,12 @@ import java.util.Map;
 
 public class PartScale extends SalaryScale {
     /**
-     * Method
+     * Method to retrieve salary data for part time positions
      * 
-     * @param department
-     * @param jobTitle
-     * @param years
-     * @return
+     * @param department employees department
+     * @param jobTitle   employees job title
+     * @param years      years of serivce
+     * @return float of the salary
      */
     @Override
     public float getSalaryData(String department, String jobTitle, int years) {
