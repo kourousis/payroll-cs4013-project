@@ -475,7 +475,7 @@ public class PayrollSystemMenu {
         // Validate postcode (only letters and numbers, 5-7 characters)
         if (!postcodeString.matches("[A-Za-z0-9]+") || postcodeString.length() < 5 || postcodeString.length() > 7) {
             System.out.println();
-            System.out.println("ERROR Postcode must contain only letters and numbers. ERROR");
+            System.out.println("ERROR Postcode must contain only letters and numbers and be between 6 characters ERROR");
             return false;
         }
 
