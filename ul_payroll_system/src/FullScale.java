@@ -73,6 +73,11 @@ public class FullScale extends SalaryScale {
         return 0f;
     }
 
+    /**
+     * Get the presidents and vice presidents salary
+     * 
+     * @return Map<Integer, Float> of salary:jobTitle mapping
+     */
     private Map<Integer, Float> getPresidentSalary() {
         switch (jobTitle) {
             case "PRESIDENT":
