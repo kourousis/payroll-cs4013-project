@@ -14,11 +14,15 @@
 ### Passwords:
 **FULL-TIME**: 
 
+ID: 1
+
 email: john.smith@ul.ie
 
 password: password
 
 **HR**: 
+
+ID: 2
 
 email: jane.smith@ul.ie
 
@@ -26,15 +30,21 @@ password: hrpassword
 
 **ADMIN**: 
 
+ID: 3
+
 email: john.doe@ul.ie
 
 password: adminpassword
 
 **PART-TIME**: 
 
+ID: 4
+
 email: jane.doe@ul.ie
 
 password: partpassword
+
+**Note**: You can find any other relevant data in employee.csv.
 
 ## Valid departments & job titles for adding a new user:
 ### Full Time:
