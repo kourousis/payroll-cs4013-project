@@ -502,7 +502,7 @@ public class PayrollSystemMenu {
         }
 
         // Validate Department
-        if (joblist.get(departmentString).equals(null)) {
+        if (joblist.get(departmentString) == null) {
             System.out.println();
             System.out.println("ERROR Please enter a valid department ERROR");
             return false;
