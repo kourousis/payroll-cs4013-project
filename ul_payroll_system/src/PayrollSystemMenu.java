@@ -778,8 +778,9 @@ public class PayrollSystemMenu {
             System.out.println("Postcode: " + row.get("Postcode"));
             System.out.println("Country: " + row.get("Country"));
             System.out.println("Department: " + row.get("Department"));
+            System.out.println("Job Title: " + row.get("Jobtitle"));
             System.out.println("Salary: " + row.get("Salary"));
-            System.out.println("Role Date: " + row.get("RoleDate"));
+            System.out.println("Date in Role: " + row.get("RoleDate"));
             System.out.println("--------------------------------------------------");
 
             while (true) {
@@ -974,7 +975,7 @@ public class PayrollSystemMenu {
         departmentJobTitles.put("PRESIDENT", List.of("PRESIDENT", "VICE_PRESIDENT"));
 
         // HR Department
-        departmentJobTitles.put("HR", List.of("HR_OFFICER"));
+        departmentJobTitles.put("HR", List.of("HR"));
 
         // Admin Department
         departmentJobTitles.put("ADMIN", List.of(
