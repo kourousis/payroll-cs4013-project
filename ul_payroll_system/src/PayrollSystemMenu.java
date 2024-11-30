@@ -34,6 +34,9 @@ public class PayrollSystemMenu {
         salaryUpdate = new SalaryUpdate();
     }
 
+    /**
+     * Run Function that activates payslip
+     */
     public void run() {
         LocalDate today = LocalDate.now();
         if (today.getDayOfMonth() == 25) {
@@ -78,6 +81,10 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Method to create a payslip on the 25th of the month for each full time
+     * employee and any parttime employee that has submitted a payclaim
+     */
     private void createPayslipEndOfMonth() {
         ArrayList<HashMap<String, String>> employees_csv = db.GET_CSV("employees");
 
@@ -92,6 +99,13 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Method to create a payslip for full tme employees. Calculates gross pay, net
+     * pay and any relevant deduction which then puts all the values into a payslip.
+     * 
+     * @param row the employees row in the employee.csv database which was retrieved
+     *            from the createPayslipEndOfMonth() method
+     */
     private void createPayslipFullTime(HashMap<String, String> row) {
         LocalDate date = LocalDate.now();
 
@@ -126,6 +140,14 @@ public class PayrollSystemMenu {
         db.ADD("payslips", payslipInfo);
     }
 
+    /**
+     * Method to create a payslip for part time employees. Calculates gross pay, net
+     * pay and any relevant deduction which then puts all the values into a payslip
+     * provided a payclaim has been submitted by the employee.
+     * 
+     * @param row the employees row in the employee.csv database which was retrieved
+     *            from the createPayslipEndOfMonth() method
+     */
     private void createPayslipPartTime(HashMap<String, String> row) {
         // Check for pay claim
         int id = Integer.parseInt(row.get("EmployeeID"));
@@ -196,6 +218,9 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Method called to activate HR related methods for the Payroll System CLI
+     */
     private void HR() {
         while (loggedIn && running) {
             System.out.println("--------------------------------------------------");
@@ -230,6 +255,9 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Method called to activate Admin related methods for the Payroll System CLI
+     */
     private void Admin() {
         while (loggedIn && running) {
             System.out.println("--------------------------------------------------");
@@ -265,6 +293,10 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Method called to activate Full Time Employee related methods for the Payroll
+     * System CLI
+     */
     private void fullTime() {
         while (loggedIn && running) {
             System.out.println("--------------------------------------------------");
@@ -299,6 +331,10 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Method called to activate Part Time Employee related methods for the Payroll
+     * System CLI
+     */
     private void partTime() {
         while (loggedIn && running) {
             System.out.println("--------------------------------------------------");
@@ -475,7 +511,8 @@ public class PayrollSystemMenu {
         // Validate postcode (only letters and numbers, 5-7 characters)
         if (!postcodeString.matches("[A-Za-z0-9]+") || postcodeString.length() < 5 || postcodeString.length() > 7) {
             System.out.println();
-            System.out.println("ERROR Postcode must contain only letters and numbers and be between 6 characters ERROR");
+            System.out
+                    .println("ERROR Postcode must contain only letters and numbers and be between 6 characters ERROR");
             return false;
         }
 
@@ -518,6 +555,13 @@ public class PayrollSystemMenu {
         return true;
     }
 
+    /**
+     * Admin function used to add a user to the Payroll system (and to the
+     * employees.csv file)
+     * 
+     * Additionaly all inputs are sanitised in order to ensure data is accurate and
+     * formatted
+     */
     private void addUser() {
         System.out.println("--------------------------------------------------");
         System.out.println("Adding New Employee to Payroll");
@@ -710,6 +754,10 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Method used to view the currently logged in employee's user details and
+     * personal information
+     */
     private void viewProfile() {
         Map<String, String> row;
         try {
@@ -753,6 +801,12 @@ public class PayrollSystemMenu {
         return firstFriday.plusWeeks(1);
     }
 
+    /**
+     * Part time employee function used to create a new payclaim
+     * 
+     * Inputs are collected and subsequently sanitised to make sure they are in the
+     * correct format
+     */
     private void createPayclaim() {
         LocalDate today = LocalDate.now();
         LocalDate secondFriday = getSecondFriday(today);
@@ -798,6 +852,12 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Employee function used to graphically dispaly a payslip
+     * 
+     * User has the option to pick between the latest payslip or view any historic
+     * payslip by entering a valid date
+     */
     private void viewPayslip() {
         System.out.println("--------------------------------------------------");
         System.out.println("L)atest-Payslip  H)istoric-Payslips  G)o-Back");
@@ -841,6 +901,12 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Employees can view historic payslips by entering in a valid date
+     * 
+     * If the date is invalid and the system can't find a payslip for that date, an
+     * error is thrown and the employee can try again
+     */
     private void historicPayslip() {
         while (true) {
             System.out.println("--------------------------------------------------");
@@ -1011,6 +1077,15 @@ public class PayrollSystemMenu {
         return departmentJobTitles;
     }
 
+    /**
+     * HR function used to create a promotion for an employee
+     * 
+     * HR Employees must enter a correct employee id else an error is thrown
+     * 
+     * Inputs are sanitised ensuring they meet standards as to not break the system
+     * 
+     * After a successful run a promotion is created for said employee
+     */
     private void promoteEmployee() {
         DBController db = new DBController();
         HashMap<String, List<String>> departmentJobTitles = createJobInfo();
@@ -1080,6 +1155,11 @@ public class PayrollSystemMenu {
         }
     }
 
+    /**
+     * Employee function used to accept promotions given by HR
+     * 
+     * Employees must accept a promotion in order to recieve it
+     */
     private void acceptPromotion() {
         DBController db = new DBController();
 
