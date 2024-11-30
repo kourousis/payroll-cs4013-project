@@ -826,7 +826,7 @@ public class PayrollSystemMenu {
         int input = in.nextInt();
         in.nextLine();
 
-        if (input > 0 && input <= 39) {
+        if (input > 0 && input <= 156) {
             data[1] = Integer.toString(input);
 
             System.out.println("--------------------------------------------------");
