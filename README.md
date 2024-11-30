@@ -49,7 +49,11 @@ password: partpassword
 ## Valid departments & job titles for adding a new user:
 ### Full Time:
 **HR**:
-- HR_OFFICER
+- HR
+
+**PRESIDENT**:
+- PRESIDENT
+- VICE_PRESIDENT
 
 **ADMIN**:
 - ADMIN_ASSISTANT
@@ -173,4 +177,4 @@ password: partpassword
 - Only full-time users can be promoted.
 
 ## Notes:
-- Maximum number of hours for part-time pay claims is 23 hours.
+- Maximum number of hours for part-time pay claims is 156 hours(39 hour week).
