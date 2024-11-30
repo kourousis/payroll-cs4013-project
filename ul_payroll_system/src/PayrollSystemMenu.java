@@ -449,11 +449,12 @@ public class PayrollSystemMenu {
         String postcodeString = data[8];
         String countryString = data[9];
         String salaryString = data[10];
-        String departmentString = data[11];
-        String jobtitle = data[12];
+        String departmentString = data[11].toUpperCase();
+        String jobtitle = data[12].toUpperCase();
         String roleType = data[13].toUpperCase();
 
-        HashMap<String, List<String>> joblist = createJobInfo();
+        HashMap<String, List<String>> fullJoblist = createJobInfo();
+        HashMap<String, List<String>> partJoblist = createPartInfo();
 
         // Employee Personal Information Validation
 
@@ -517,8 +518,7 @@ public class PayrollSystemMenu {
         // Validate postcode (only letters and numbers, 5-7 characters)
         if (!postcodeString.matches("[A-Za-z0-9]+") || postcodeString.length() < 5 || postcodeString.length() > 7) {
             System.out.println();
-            System.out
-                    .println("ERROR Postcode must contain only letters and numbers and be between 6 characters ERROR");
+            System.out.println("ERROR Postcode must contain only letters and numbers and be between 6 characters ERROR");
             return false;
         }
 
@@ -536,27 +536,47 @@ public class PayrollSystemMenu {
             return false;
         }
 
-        // Validate role type (is one of the following: FULLTIME, PARTTIME, ADMIN, HR)
+        if (departmentString.isEmpty()) {
+            System.out.println("\nERROR Department cannot be empty. ERROR");
+            return false;
+        }
+
+        if (jobtitle.isEmpty()) {
+            System.out.println("\nERROR Job title cannot be empty. ERROR");
+            return false;
+        }
+        
+        // Validate role type (FULLTIME, PARTTIME, ADMIN, HR)
         if (!roleType.equals("FULLTIME") && !roleType.equals("PARTTIME") &&
                 !roleType.equals("ADMIN") && !roleType.equals("HR")) {
-            System.out.println();
-            System.out.println("ERROR Role type cannot be empty. ERROR");
+            System.out.println("\nERROR Invalid role type. ERROR");
             return false;
         }
 
-        // Validate Department
-        if (joblist.get(departmentString) == null) {
-            System.out.println();
-            System.out.println("ERROR Please enter a valid department ERROR");
-            return false;
+        // Validate department exists for role type
+        if (roleType.equals("PARTTIME")) {
+            if (!partJoblist.containsKey(departmentString) || partJoblist.get(departmentString) == null) {
+                System.out.println("\nERROR Please enter a valid Department ERROR");
+                return false;
+            }
+            // Validate job title exists in department for part time
+            if (!partJoblist.get(departmentString).contains(jobtitle)) {
+                System.out.println("\nERROR Please enter a valid Job Title ERROR");
+                return false;
+            }
+        } else {
+            // For FULLTIME, ADMIN, and HR
+            if (!fullJoblist.containsKey(departmentString) || fullJoblist.get(departmentString) == null) {
+                System.out.println("\nERROR Please enter a valid Department ERROR");
+                return false;
+            }
+            // Validate job title exists in department for full time
+            if (!fullJoblist.get(departmentString).contains(jobtitle)) {
+                System.out.println("\nERROR Please enter a valid Job Title ERROR");
+                return false;
+            }
         }
 
-        // Validate JobTitle
-        if (!joblist.get(departmentString).contains(jobtitle)) {
-            System.out.println();
-            System.out.println("ERROR Please enter a valid Job Title ERROR");
-            return false;
-        }
 
         return true;
     }
@@ -1084,6 +1104,19 @@ public class PayrollSystemMenu {
                 "POST_DOC_RESEARCHER",
                 "RESEARCH_FELLOW",
                 "SENIOR_RESEARCH_FELLOW"));
+
+        return departmentJobTitles;
+    }
+
+    private HashMap<String, List<String>> createPartInfo() {
+        HashMap<String, List<String>> departmentJobTitles = new HashMap<>();
+
+        departmentJobTitles.put("LECTURE", List.of("LECTURE"));
+        departmentJobTitles.put("TUTORIAL", List.of("TUTORIAL"));
+        departmentJobTitles.put("LAB", List.of("LAB"));
+        departmentJobTitles.put("DEMO", List.of("DEMO"));
+        departmentJobTitles.put("EXAM-INVIGILATOR", List.of("EXAM-INVIGILATOR"));
+        departmentJobTitles.put("EXAM-SUPERVISOR", List.of("EXAM-SUPERVISOR"));
 
         return departmentJobTitles;
     }
