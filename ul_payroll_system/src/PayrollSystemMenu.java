@@ -807,6 +807,10 @@ public class PayrollSystemMenu {
                 String table = "payslip_" + employeeId;
                 HashMap<String, String> payslipData = db.LATEST_ROW(table);
                 if (payslipData != null && !payslipData.isEmpty()) {
+                    if (payslipData.get("GrossPay").equals("0")) {
+                        System.out.println("No payslips found");
+                        break;
+                    }
                     System.out.println("--------------------------------------------------");
                     System.out.println("Payslip for: " + payslipData.get("EmployeeName"));
                     System.out.println("Date: " + payslipData.get("Date"));
