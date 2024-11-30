@@ -10,7 +10,7 @@ public class DBController {
 
     public DBController() {
         tableFields.put("employees", 15);
-        tableFields.put("payslips", 10);
+        tableFields.put("payslip", 10);
         tableFields.put("control_data", 3);
         tableFields.put("pendingPromo", 3);
     }
@@ -312,24 +312,32 @@ public class DBController {
             }
         }
 
+        if (table.equals("payslip")) {
+            path = CSV_FILE_PATH + "/payslips/payslip_" + data[0] + ".csv";
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+                writer.newLine();
+                writer.write(String.join(",", data));
+                writer.close();
+                return true;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         if (data.length + 1 != tableFields.get(table)) {
-            //System.out.println("\nDB ERROR Incorrect number of fields DB ERROR");
             return false;
         }
 
         if (table.equals("employees")) {
             path = CSV_FILE_PATH + table + ".csv";
-        } else if (table.equals("payslip")) {
-            path = CSV_FILE_PATH + "/payslips/payslip_" + data[0] + ".csv";
         } else {
-            //System.out.println("No table found");
             return false;
         }
 
         try {
             int id = Integer.parseInt(LATEST_ROW(table).get("EmployeeID")) + 1;
             String[] newData = new String[tableFields.get(table)];
-
             newData[0] = String.valueOf(id);
             System.arraycopy(data, 0, newData, 1, data.length);
 
@@ -337,7 +345,6 @@ public class DBController {
             writer.newLine();
             writer.write(String.join(",", newData));
             writer.close();
-
             return true;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -402,7 +409,7 @@ public class DBController {
         } else if (table.startsWith("payclaims_")) {
             path = CSV_FILE_PATH + "/payclaims/" + table + ".csv";
         } else {
-            System.out.println("Invalid table name");
+            // System.out.println("Invalid table name");
             return null;
         }
 

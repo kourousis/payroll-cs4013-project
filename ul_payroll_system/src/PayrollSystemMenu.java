@@ -39,7 +39,8 @@ public class PayrollSystemMenu {
      */
     public void run() {
         LocalDate today = LocalDate.now();
-        if (today.getDayOfMonth() == 25) {
+        // today = LocalDate.of(2024, 12, 25); // Debug
+        if (today.getDayOfMonth() == 25) {  
             createPayslipEndOfMonth();
         }
 
@@ -92,8 +93,10 @@ public class PayrollSystemMenu {
             String roleType = row.get("RoleType");
 
             if (!(roleType.equalsIgnoreCase("PARTTIME"))) {
+                //System.out.println("Creating payslip for " + row.get("Name"));
                 createPayslipFullTime(row);
             } else {
+                //System.out.println("Creating payslip for " + row.get("Name"));
                 createPayslipPartTime(row);
             }
         }
@@ -108,36 +111,40 @@ public class PayrollSystemMenu {
      */
     private void createPayslipFullTime(HashMap<String, String> row) {
         LocalDate date = LocalDate.now();
+        // date = LocalDate.of(2024, 12, 25); // Debug
 
         String employeeId = row.get("EmployeeID");
         String employeeName = row.get("Name");
         float gross = Float.parseFloat(row.get("Salary"));
-        String grossMonthlySalary = String.valueOf(gross / 12);
 
-        String prsi = String.valueOf(calc.getPRSI(gross));
-        String usc = String.valueOf(calc.getUSC(gross));
-        String paye = String.valueOf(calc.getIncomeTax(gross));
-        String union = String.valueOf(calc.getUnion(gross));
-        String insurance = String.valueOf(calc.getInsure(gross));
-
-        String netpay = String
-                .valueOf(Float.parseFloat(grossMonthlySalary) - Float.parseFloat(prsi) - Float.parseFloat(usc)
-                        - Float.parseFloat(paye) - Float.parseFloat(union) - Float.parseFloat(insurance));
+        float grossMonthly = gross / 12;
+        float prsiMonthly = calc.getPRSI(gross) / 12;
+        float uscMonthly = calc.getUSC(gross) / 12;
+        float payeMonthly = calc.getIncomeTax(gross) / 12;
+        float unionMonthly = calc.getUnion(gross) / 12;
+        float insuranceMonthly = calc.getInsure(gross) / 12;
+        
+        float netpay = grossMonthly - prsiMonthly - uscMonthly - 
+                    payeMonthly - unionMonthly - insuranceMonthly;
+        
+        if (netpay < 0) {
+            throw new IllegalStateException("Net pay cannot be negative");
+        }
 
         String[] payslipInfo = {
-                employeeId,
-                date.toString(),
-                employeeName,
-                grossMonthlySalary,
-                usc,
-                prsi,
-                paye,
-                insurance,
-                union,
-                netpay,
+            employeeId,
+            date.toString(),
+            employeeName,
+            String.format("%.2f", grossMonthly),
+            String.format("%.2f", uscMonthly), 
+            String.format("%.2f", prsiMonthly),
+            String.format("%.2f", payeMonthly),
+            String.format("%.2f", insuranceMonthly),
+            String.format("%.2f", unionMonthly),
+            String.format("%.2f", netpay)
         };
 
-        db.ADD("payslips", payslipInfo);
+        db.ADD("payslip", payslipInfo);
     }
 
     /**
@@ -180,38 +187,38 @@ public class PayrollSystemMenu {
                 return;
             }
 
-            float gross = Float.parseFloat(salary) * hours;
-
             String employeeId = row.get("EmployeeID");
             String employeeName = row.get("Name");
-            String grossMonthlySalary = String.valueOf(gross);
+            float gross = Float.parseFloat(row.get("Salary"));
 
-            String prsi = String.valueOf(calc.getPRSI(gross));
-            String usc = String.valueOf(calc.getUSC(gross));
-            String paye = String.valueOf(calc.getIncomeTax(gross));
-            String union = String.valueOf(calc.getUnion(gross));
-            String insurance = String.valueOf(calc.getInsure(gross));
-
-            String netpay = String.valueOf(Float.parseFloat(grossMonthlySalary) -
-                    (Float.parseFloat(prsi) + Float.parseFloat(usc) + Float.parseFloat(paye) +
-                            Float.parseFloat(union) + Float.parseFloat(insurance)));
-
-            String todayStr = today.toString();
+            float grossMonthly = gross / 12;
+            float prsiMonthly = calc.getPRSI(gross) / 12;
+            float uscMonthly = calc.getUSC(gross) / 12;
+            float payeMonthly = calc.getIncomeTax(gross) / 12;
+            float unionMonthly = calc.getUnion(gross) / 12;
+            float insuranceMonthly = calc.getInsure(gross) / 12;
+            
+            float netpay = grossMonthly - prsiMonthly - uscMonthly - 
+                        payeMonthly - unionMonthly - insuranceMonthly;
+            
+            if (netpay < 0) {
+                throw new IllegalStateException("Net pay cannot be negative");
+            }
 
             String[] payslipInfo = {
-                    employeeId,
-                    todayStr,
-                    employeeName,
-                    grossMonthlySalary,
-                    usc,
-                    prsi,
-                    paye,
-                    insurance,
-                    union,
-                    netpay,
+                employeeId,
+                date.toString(),
+                employeeName,
+                String.format("%.2f", grossMonthly),
+                String.format("%.2f", uscMonthly), 
+                String.format("%.2f", prsiMonthly),
+                String.format("%.2f", payeMonthly),
+                String.format("%.2f", insuranceMonthly),
+                String.format("%.2f", unionMonthly),
+                String.format("%.2f", netpay)
             };
 
-            db.ADD("payslips", payslipInfo);
+            db.ADD("payslip", payslipInfo);
         } else {
             System.out.println("No pay claim found for employee " + row.get("Name"));
             return;
@@ -303,7 +310,6 @@ public class PayrollSystemMenu {
             System.out.println("Logged in as: " + firstName + " " + lastName + " (" + roleType + ")");
             System.out.println("--------------------------------------------------");
             System.out.println("A)Check Promotion  B)User-Profile  C)View-Payslips  L)og-Out");
-
             String command = in.nextLine().toUpperCase();
 
             if (command == null || command.isEmpty()) {
