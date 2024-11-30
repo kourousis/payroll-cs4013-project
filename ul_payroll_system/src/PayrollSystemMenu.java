@@ -141,7 +141,7 @@ public class PayrollSystemMenu {
     }
 
     /**
-     * Method to create a payslip for part time employees. Calculates gross pay, net
+     * Method to create a payslip for part-time employees. Calculates gross pay, net
      * pay and any relevant deduction which then puts all the values into a payslip
      * provided a payclaim has been submitted by the employee.
      * 
@@ -559,7 +559,7 @@ public class PayrollSystemMenu {
      * Admin function used to add a user to the Payroll system (and to the
      * employees.csv file)
      * 
-     * Additionaly all inputs are sanitised in order to ensure data is accurate and
+     * Additionally all inputs are sanitised in order to ensure data is accurate and
      * formatted
      */
     private void addUser() {
@@ -721,7 +721,7 @@ public class PayrollSystemMenu {
     /**
      * Method used to format the street address
      * 
-     * First slipts street into parts by spaces
+     * First splits street into parts by spaces
      * 
      * Keeps the house number intact and capitalises the first letter of each
      * subsequent word
@@ -802,7 +802,7 @@ public class PayrollSystemMenu {
     }
 
     /**
-     * Part time employee function used to create a new payclaim
+     * Part-time employee function used to create a new payclaim
      * 
      * Inputs are collected and subsequently sanitised to make sure they are in the
      * correct format
@@ -853,7 +853,7 @@ public class PayrollSystemMenu {
     }
 
     /**
-     * Employee function used to graphically dispaly a payslip
+     * Employee function used to graphically display a payslip
      * 
      * User has the option to pick between the latest payslip or view any historic
      * payslip by entering a valid date
@@ -906,7 +906,7 @@ public class PayrollSystemMenu {
     }
 
     /**
-     * Employees can view historic payslips by entering in a valid date
+     * Employees can view historic payslips by entering a valid date
      * 
      * If the date is invalid and the system can't find a payslip for that date, an
      * error is thrown and the employee can try again
@@ -1162,7 +1162,7 @@ public class PayrollSystemMenu {
     /**
      * Employee function used to accept promotions given by HR
      * 
-     * Employees must accept a promotion in order to recieve it
+     * Employees must accept a promotion in order to receive it
      */
     private void acceptPromotion() {
         DBController db = new DBController();
