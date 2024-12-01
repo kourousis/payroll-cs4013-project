@@ -3,7 +3,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
- * The SalaryUpdate class updates employees' salaries based on their role type, department, job title, and years of service when the scheduled salary update date arrives.
+ * The SalaryUpdate class updates employees' salaries based on their role type,
+ * department, job title, and years of service when the scheduled salary update
+ * date arrives.
  */
 public class SalaryUpdate {
     /**
@@ -22,7 +24,8 @@ public class SalaryUpdate {
     /**
      * Default constructor to initialise a SalaryUpdate object
      */
-    public SalaryUpdate() {}
+    public SalaryUpdate() {
+    }
 
     /**
      * Updates the salaries of all employees based on their role type, department,
