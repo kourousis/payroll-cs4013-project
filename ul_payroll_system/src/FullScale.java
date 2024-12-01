@@ -3,6 +3,11 @@ import java.util.Map;
 
 public class FullScale extends SalaryScale {
     /**
+     * Default constructor to initialise a FullScale object
+     */
+    public FullScale() {}
+
+    /**
      * Return salary data given an employee's department, job title and years worked
      * 
      * @param inDepartment employee's department

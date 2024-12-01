@@ -3,7 +3,17 @@ import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
 
 public class PasswordUtil {
+    /**
+     * Constant variable used as a salt for password hashing
+     * Salting is the act of adding an assortment of characters to a password before
+     * hashing
+     */
     private static final String SALT = "UL"; // salt prefix
+
+    /**
+     * Default constructor to initliase the PasswordUtil class
+     */
+    public PasswordUtil() {}
 
     /**
      * Method used to hash a plain text string (password in this case),

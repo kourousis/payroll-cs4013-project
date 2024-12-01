@@ -3,10 +3,23 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class SalaryUpdate {
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Changes String from CSV to LocalDate for
+    /**
+     * A formatter used to format dates in order YYYY-MM-DD
+     */
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    /**
+     * Initialise DBController
+     */
     DBController db = new DBController();
+    /**
+     * SalaryScale classD
+     */
     SalaryScale scale;
+
+    /**
+     * Default constructor to initialise a SalaryUpdate object
+     */
+    public SalaryUpdate() {}
 
     /**
      * Updates the salaries of all employees based on their role type, department,

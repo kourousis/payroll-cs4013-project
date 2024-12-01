@@ -9,24 +9,69 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class PayrollSystemMenu {
+    /**
+     * Scanner variable
+     */
     private Scanner in;
+    /**
+     * Employee's first name
+     */
     private String firstName;
+    /**
+     * Employee's last name
+     */
     private String lastName;
+    /**
+     * Employee's department
+     */
     private String department;
+    /**
+     * Employee's job title
+     */
     private String jobTitle;
+    /**
+     * Employee's role type
+     */
     private String roleType;
+    /**
+     * Employee's email
+     */
     private String email;
+    /**
+     * Employee's password
+     */
     private String password;
-
+    /**
+     * Employee's ID in the database
+     */
     private int employeeId;
-
+    /**
+     * Boolean value to represent if the program is running
+     */
     private boolean running = true;
+    /**
+     * Boolean value to represent if the employee is logged into the system
+     */
     private boolean loggedIn = false;
 
+    /**
+     * salaryUpdate class
+     */
     SalaryUpdate salaryUpdate;
+    /**
+     * DBController class
+     */
     DBController db;
+    /**
+     * TaxCalc class
+     */
     TaxCalc calc;
 
+    /**
+     * Default constructor to initialise PayrollSystemMenu
+     * The constructor initialises the Scanner, DBController, TaxCalc and
+     * SalaryUpdate classes
+     */
     public PayrollSystemMenu() {
         in = new Scanner(System.in);
         db = new DBController();
@@ -35,12 +80,12 @@ public class PayrollSystemMenu {
     }
 
     /**
-     * Run Function that activates payslip
+     * Run Function that activates software
      */
     public void run() {
         LocalDate today = LocalDate.now();
         // today = LocalDate.of(2024, 12, 25); // Debug
-        if (today.getDayOfMonth() == 25) {  
+        if (today.getDayOfMonth() == 25) {
             createPayslipEndOfMonth();
         }
 
@@ -93,10 +138,10 @@ public class PayrollSystemMenu {
             String roleType = row.get("RoleType");
 
             if (!(roleType.equalsIgnoreCase("PARTTIME"))) {
-                //System.out.println("Creating payslip for " + row.get("Name"));
+                // System.out.println("Creating payslip for " + row.get("Name"));
                 createPayslipFullTime(row);
             } else {
-                //System.out.println("Creating payslip for " + row.get("Name"));
+                // System.out.println("Creating payslip for " + row.get("Name"));
                 createPayslipPartTime(row);
             }
         }
@@ -123,25 +168,25 @@ public class PayrollSystemMenu {
         float payeMonthly = calc.getIncomeTax(gross) / 12;
         float unionMonthly = calc.getUnion(gross) / 12;
         float insuranceMonthly = calc.getInsure(gross) / 12;
-        
-        float netpay = grossMonthly - prsiMonthly - uscMonthly - 
-                    payeMonthly - unionMonthly - insuranceMonthly;
-        
+
+        float netpay = grossMonthly - prsiMonthly - uscMonthly -
+                payeMonthly - unionMonthly - insuranceMonthly;
+
         if (netpay < 0) {
             throw new IllegalStateException("Net pay cannot be negative");
         }
 
         String[] payslipInfo = {
-            employeeId,
-            date.toString(),
-            employeeName,
-            String.format("%.2f", grossMonthly),
-            String.format("%.2f", uscMonthly), 
-            String.format("%.2f", prsiMonthly),
-            String.format("%.2f", payeMonthly),
-            String.format("%.2f", insuranceMonthly),
-            String.format("%.2f", unionMonthly),
-            String.format("%.2f", netpay)
+                employeeId,
+                date.toString(),
+                employeeName,
+                String.format("%.2f", grossMonthly),
+                String.format("%.2f", uscMonthly),
+                String.format("%.2f", prsiMonthly),
+                String.format("%.2f", payeMonthly),
+                String.format("%.2f", insuranceMonthly),
+                String.format("%.2f", unionMonthly),
+                String.format("%.2f", netpay)
         };
 
         db.ADD("payslip", payslipInfo);
@@ -197,25 +242,25 @@ public class PayrollSystemMenu {
             float payeMonthly = calc.getIncomeTax(gross) / 12;
             float unionMonthly = calc.getUnion(gross) / 12;
             float insuranceMonthly = calc.getInsure(gross) / 12;
-            
-            float netpay = grossMonthly - prsiMonthly - uscMonthly - 
-                        payeMonthly - unionMonthly - insuranceMonthly;
-            
+
+            float netpay = grossMonthly - prsiMonthly - uscMonthly -
+                    payeMonthly - unionMonthly - insuranceMonthly;
+
             if (netpay < 0) {
                 throw new IllegalStateException("Net pay cannot be negative");
             }
 
             String[] payslipInfo = {
-                employeeId,
-                date.toString(),
-                employeeName,
-                String.format("%.2f", grossMonthly),
-                String.format("%.2f", uscMonthly), 
-                String.format("%.2f", prsiMonthly),
-                String.format("%.2f", payeMonthly),
-                String.format("%.2f", insuranceMonthly),
-                String.format("%.2f", unionMonthly),
-                String.format("%.2f", netpay)
+                    employeeId,
+                    date.toString(),
+                    employeeName,
+                    String.format("%.2f", grossMonthly),
+                    String.format("%.2f", uscMonthly),
+                    String.format("%.2f", prsiMonthly),
+                    String.format("%.2f", payeMonthly),
+                    String.format("%.2f", insuranceMonthly),
+                    String.format("%.2f", unionMonthly),
+                    String.format("%.2f", netpay)
             };
 
             db.ADD("payslip", payslipInfo);
@@ -518,7 +563,8 @@ public class PayrollSystemMenu {
         // Validate postcode (only letters and numbers, 5-7 characters)
         if (!postcodeString.matches("[A-Za-z0-9]+") || postcodeString.length() < 5 || postcodeString.length() > 7) {
             System.out.println();
-            System.out.println("ERROR Postcode must contain only letters and numbers and be between 6 characters ERROR");
+            System.out
+                    .println("ERROR Postcode must contain only letters and numbers and be between 6 characters ERROR");
             return false;
         }
 
@@ -545,7 +591,7 @@ public class PayrollSystemMenu {
             System.out.println("\nERROR Job title cannot be empty. ERROR");
             return false;
         }
-        
+
         // Validate role type (FULLTIME, PARTTIME, ADMIN, HR)
         if (!roleType.equals("FULLTIME") && !roleType.equals("PARTTIME") &&
                 !roleType.equals("ADMIN") && !roleType.equals("HR")) {
@@ -576,7 +622,6 @@ public class PayrollSystemMenu {
                 return false;
             }
         }
-
 
         return true;
     }
@@ -1108,6 +1153,12 @@ public class PayrollSystemMenu {
         return departmentJobTitles;
     }
 
+    
+    /** 
+     * Creates and returns a mapping of part-time departments to their corresponding job titles.
+     * 
+     * @return HashMap<String, List<String>> mapping department names to lists of job titles
+     */
     private HashMap<String, List<String>> createPartInfo() {
         HashMap<String, List<String>> departmentJobTitles = new HashMap<>();
 

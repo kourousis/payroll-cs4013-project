@@ -3,6 +3,11 @@ import java.util.Map;
 
 public class PartScale extends SalaryScale {
     /**
+     * Default constructor to initialise a PartScale object
+     */
+    public PartScale() {}
+    
+    /**
      * Method to retrieve salary data for part time positions
      * 
      * @param department employees department

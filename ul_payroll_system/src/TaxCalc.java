@@ -1,4 +1,8 @@
 public class TaxCalc {
+    /**
+     * Default constructor to initialise a TaxCalc object
+     */
+    public TaxCalc() {}
 
     /**
      * Method used to calculate the yearly PRSI given the gross salary
@@ -90,5 +94,4 @@ public class TaxCalc {
 
         return total;
     }
-
 }

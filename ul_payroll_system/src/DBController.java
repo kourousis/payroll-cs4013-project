@@ -5,9 +5,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DBController {
+    /**
+     * filepath to the csv database files
+     */
     private static final String CSV_FILE_PATH = new File("").getAbsolutePath() + "/ul_payroll_system/db/";
+    /**
+     * A map that stores the number of fields (columns) for each table in the
+     * database.
+     */
     private Map<String, Integer> tableFields = new HashMap<>();
 
+    /**
+     * Default constructor for DBController
+     * Initilises the table fields
+     */
     public DBController() {
         tableFields.put("employees", 15);
         tableFields.put("payslip", 10);
@@ -26,7 +37,7 @@ public class DBController {
      */
     public String GET(String table, int id, String data) {
         if (!table.equals("employees") && !table.equals("control_data") && !table.equals("pendingPromo")) {
-            //System.out.println("No table found");
+            // System.out.println("No table found");
             return null;
         }
 
@@ -73,7 +84,7 @@ public class DBController {
      */
     public String UPDATE(String table, int id, String field, String newValue) {
         if (!table.equals("employees") && !table.equals("control_data") && !table.equals("pendingPromo")) {
-            //System.out.println("No table found");
+            // System.out.println("No table found");
             return null;
         }
 
@@ -191,7 +202,7 @@ public class DBController {
                     }
                 }
             }
-            //System.out.println("Record not found");
+            // System.out.println("Record not found");
             return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
