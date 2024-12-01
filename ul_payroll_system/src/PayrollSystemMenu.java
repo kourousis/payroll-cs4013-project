@@ -8,6 +8,11 @@ import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * The PayrollSystemMenu class provides a command-line interface for managing
+ * payroll operations, including creating payslips, updating salaries, and
+ * handling employee information.
+ */
 public class PayrollSystemMenu {
     /**
      * Scanner variable
@@ -1153,11 +1158,12 @@ public class PayrollSystemMenu {
         return departmentJobTitles;
     }
 
-    
-    /** 
-     * Creates and returns a mapping of part-time departments to their corresponding job titles.
+    /**
+     * Creates and returns a mapping of part-time departments to their corresponding
+     * job titles.
      * 
-     * @return HashMap<String, List<String>> mapping department names to lists of job titles
+     * @return HashMap<String, List<String>> mapping department names to lists of
+     *         job titles
      */
     private HashMap<String, List<String>> createPartInfo() {
         HashMap<String, List<String>> departmentJobTitles = new HashMap<>();

@@ -1,12 +1,17 @@
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The PartScale class calculates the salary for part-time positions based on
+ * the employee's job title and years of service.
+ */
 public class PartScale extends SalaryScale {
     /**
      * Default constructor to initialise a PartScale object
      */
-    public PartScale() {}
-    
+    public PartScale() {
+    }
+
     /**
      * Method to retrieve salary data for part time positions
      * 

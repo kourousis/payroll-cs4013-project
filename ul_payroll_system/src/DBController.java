@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * DBController object used to interact with the csv databse files
+ */
 public class DBController {
     /**
      * filepath to the csv database files
@@ -16,7 +19,7 @@ public class DBController {
     private Map<String, Integer> tableFields = new HashMap<>();
 
     /**
-     * Default constructor for DBController
+     * Default constructor for DBController.
      * Initilises the table fields
      */
     public DBController() {
@@ -150,7 +153,7 @@ public class DBController {
      * @param table specified table in the csv database
      * @param id    the id of the row
      * @param date  date associated with record only used for payslip retrieval
-     * @return A HashMap<String, String> where the keys are column names and
+     * @return A {@code HashMap<String, String>} where the keys are column names and
      *         the values are the corresponding data.
      *         Returns null if the record is not found.
      */
@@ -253,8 +256,8 @@ public class DBController {
      * hashmap represents a row in the csv
      * 
      * @param table specified table in the csv database
-     * @return ArrayList<HashMap<String, String>> of the entire csv file, where each
-     *         HasMap<String, String> represents a row in key:value pair
+     * @return {@code ArrayList<HashMap<String, String>> } of the entire csv file, where each
+     *         {@code HasMap<String, String> } represents a row in key:value pair
      */
     public ArrayList<HashMap<String, String>> GET_CSV(String table) {
         if (!table.equals("employees") && !table.equals("payclaim")) {

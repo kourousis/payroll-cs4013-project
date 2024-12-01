@@ -2,6 +2,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The PasswordUtil class provides functionality to hash plain text passwords
+ * using SHA-256 with a salt, for secure storage in the database.
+ */
 public class PasswordUtil {
     /**
      * Constant variable used as a salt for password hashing
@@ -13,7 +17,8 @@ public class PasswordUtil {
     /**
      * Default constructor to initliase the PasswordUtil class
      */
-    public PasswordUtil() {}
+    public PasswordUtil() {
+    }
 
     /**
      * Method used to hash a plain text string (password in this case),

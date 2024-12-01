@@ -1,11 +1,16 @@
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The FullScale class calculates the salary for full-time positions based on
+ * the employee's department, job title, and years of service.
+ */
 public class FullScale extends SalaryScale {
     /**
      * Default constructor to initialise a FullScale object
      */
-    public FullScale() {}
+    public FullScale() {
+    }
 
     /**
      * Return salary data given an employee's department, job title and years worked

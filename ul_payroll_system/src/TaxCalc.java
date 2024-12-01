@@ -1,3 +1,6 @@
+/**
+ * The TaxCalc class calculates yearly tax deductions such as PRSI and USC based on an employee's gross salary.
+ */
 public class TaxCalc {
     /**
      * Default constructor to initialise a TaxCalc object
