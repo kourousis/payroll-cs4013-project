@@ -5,7 +5,9 @@ public abstract class SalaryScale {
     /**
      * Default constructor for SalaryScale object
      */
-    public SalaryScale() {}
+    public SalaryScale() {
+    }
+
     /**
      * Employee's salary
      */
